@@ -1,0 +1,240 @@
+[
+  {
+    "category": "Web Browsers",
+    "name": "Mozilla Firefox",
+    "id": "Mozilla.Firefox",
+    "description": "Fast, private, and open-source web browser",
+    "default": true
+  },
+  {
+    "category": "Web Browsers",
+    "name": "Google Chrome",
+    "id": "Google.Chrome",
+    "description": "Fast and secure web browser by Google",
+    "default": true
+  },
+  {
+    "category": "Web Browsers",
+    "name": "Brave Browser",
+    "id": "Brave.Brave",
+    "description": "Privacy-focused browser with built-in ad blocker",
+    "default": false
+  },
+  {
+    "category": "Media & Audio",
+    "name": "VLC Media Player",
+    "id": "VideoLAN.VLC",
+    "description": "Open-source multimedia player that plays most codecs",
+    "default": true
+  },
+  {
+    "category": "Media & Audio",
+    "name": "FxSound",
+    "id": "FxSound.FxSound",
+    "description": "Audio booster and equalizer for Windows",
+    "default": true
+  },
+  {
+    "category": "Media & Audio",
+    "name": "Spotify",
+    "id": "Spotify.Spotify",
+    "description": "Digital music and podcast streaming service",
+    "default": false
+  },
+  {
+    "category": "Media & Audio",
+    "name": "OBS Studio",
+    "id": "OBSProject.OBSStudio",
+    "description": "Free and open source software for video recording and live streaming",
+    "default": true
+  },
+  {
+    "category": "Productivity & Documents",
+    "name": "PDFgear",
+    "id": "PDFgear.PDFgear",
+    "description": "All-in-one free PDF reader, editor, and converter with AI",
+    "default": true
+  },
+  {
+    "category": "Productivity & Documents",
+    "name": "Notepad++",
+    "id": "Notepad++.Notepad++",
+    "description": "Lightweight text and source code editor",
+    "default": false
+  },
+  {
+    "category": "Productivity & Documents",
+    "name": "7-Zip",
+    "id": "7zip.7zip",
+    "description": "High-compression file archiver utility",
+    "default": true
+  },
+  {
+    "category": "Productivity & Documents",
+    "name": "Obsidian",
+    "id": "Obsidian.Obsidian",
+    "description": "Private and flexible Markdown note-taking and knowledge base",
+    "default": true
+  },
+  {
+    "category": "Communication & Social",
+    "name": "Discord",
+    "id": "Discord.Discord",
+    "description": "Voice, video, and text communication service",
+    "default": true
+  },
+  {
+    "category": "Communication & Social",
+    "name": "WhatsApp",
+    "id": "9NKSQGP7F2NH",
+    "description": "Official WhatsApp desktop messaging app",
+    "default": true
+  },
+  {
+    "category": "Communication & Social",
+    "name": "Telegram Desktop",
+    "id": "Telegram.TelegramDesktop",
+    "description": "Fast and secure desktop messaging app",
+    "default": false
+  },
+  {
+    "category": "File Sharing & Remote Access",
+    "name": "Quick Share (Google)",
+    "id": "Google.QuickShare",
+    "description": "Wireless file sharing between Windows and Android devices",
+    "default": true
+  },
+  {
+    "category": "File Sharing & Remote Access",
+    "name": "LocalSend",
+    "id": "LocalSend.LocalSend",
+    "description": "Open-source cross-platform local network file sharing",
+    "default": true
+  },
+  {
+    "category": "File Sharing & Remote Access",
+    "name": "RustDesk",
+    "id": "RustDesk.RustDesk",
+    "description": "Open-source virtual / remote desktop software",
+    "default": true
+  },
+  {
+    "category": "File Sharing & Remote Access",
+    "name": "Tailscale",
+    "id": "Tailscale.Tailscale",
+    "description": "Zero config VPN for secure mesh network connectivity",
+    "default": true
+  },
+  {
+    "category": "Developer Tools",
+    "name": "Visual Studio Code",
+    "id": "Microsoft.VisualStudioCode",
+    "description": "Code editor redefined and optimized for building modern apps",
+    "default": true
+  },
+  {
+    "category": "Developer Tools",
+    "name": "Windows Terminal",
+    "id": "Microsoft.WindowsTerminal",
+    "description": "Modern, fast, and powerful tabbed terminal for command-line tools",
+    "default": true
+  },
+  {
+    "category": "Developer Tools",
+    "name": "PowerShell",
+    "id": "Microsoft.PowerShell",
+    "description": "Modern cross-platform PowerShell 7 command-line shell and scripting language",
+    "default": true
+  },
+  {
+    "category": "Developer Tools",
+    "name": "Starship",
+    "id": "Starship.Starship",
+    "description": "Fast, minimal, and customizable prompt for any shell",
+    "default": true
+  },
+  {
+    "category": "Developer Tools",
+    "name": "Node.js (LTS)",
+    "id": "OpenJS.NodeJS.LTS",
+    "description": "Asynchronous event-driven JavaScript runtime environment",
+    "default": true
+  },
+  {
+    "category": "Developer Tools",
+    "name": "Git",
+    "id": "Git.Git",
+    "description": "Distributed version control system",
+    "default": false
+  },
+  {
+    "category": "Developer Tools",
+    "name": "Arduino IDE",
+    "id": "ArduinoSA.IDE.stable",
+    "description": "Open-source IDE for Arduino microcontroller programming",
+    "default": true
+  },
+  {
+    "category": "Gaming & Peripherals",
+    "name": "Steam",
+    "id": "Valve.Steam",
+    "description": "Ultimate digital distribution platform for PC gaming",
+    "default": true
+  },
+  {
+    "category": "Gaming & Peripherals",
+    "name": "NVIDIA App",
+    "id": "XP8CLZL93F5Z4P",
+    "description": "Unified GPU control center, driver updates, and game optimization",
+    "default": true
+  },
+  {
+    "category": "Gaming & Peripherals",
+    "name": "DS4Windows",
+    "id": "Ryochan7.DS4Windows",
+    "description": "PlayStation DualShock & DualSense controller mapper for Windows",
+    "default": true
+  },
+  {
+    "category": "System & Customization",
+    "name": "UniGetUI",
+    "id": "Devolutions.UniGetUI",
+    "description": "Intuitive GUI for Winget, Scoop, Chocolatey & Pip package managers",
+    "default": true
+  },
+  {
+    "category": "System & Customization",
+    "name": "Bulk Crap Uninstaller",
+    "id": "Klocman.BulkCrapUninstaller",
+    "description": "Free and powerful program uninstaller that removes leftovers and bloatware",
+    "default": true
+  },
+  {
+    "category": "System & Customization",
+    "name": "Winaero Tweaker",
+    "id": "winaero.tweaker",
+    "description": "All-in-one Windows customization and tweaking tool",
+    "default": true
+  },
+  {
+    "category": "System & Customization",
+    "name": "Windhawk",
+    "id": "RamenSoftware.Windhawk",
+    "description": "The customization marketplace for Windows programs",
+    "default": true
+  },
+  {
+    "category": "System & Customization",
+    "name": "Wise Disk Cleaner",
+    "id": "WiseCleaner.WiseDiskCleaner",
+    "description": "Disk cleanup and defragmentation tool to free up space",
+    "default": true
+  },
+  {
+    "category": "System & Customization",
+    "name": "Microsoft PowerToys",
+    "id": "Microsoft.PowerToys",
+    "description": "Set of system utilities for Windows power users",
+    "default": false
+  }
+]

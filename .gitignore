@@ -1,0 +1,36 @@
+# Python Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+ENV.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Installer Execution Logs
+logs/
+*.log
+
+# Windows thumbnail and system caches
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE & Text Editor Configuration
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
