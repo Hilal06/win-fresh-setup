@@ -15,21 +15,24 @@ if (-not $wingetCmd) {
     Write-Host "[!] Winget is not detected. Please make sure App Installer is updated from Microsoft Store." -ForegroundColor Yellow
 }
 
+$originalLocation = Get-Location
 $tempFolder = Join-Path $env:TEMP "win-fresh-setup"
 $zipPath = Join-Path $env:TEMP "win-fresh-setup.zip"
 
-if (Test-Path $tempFolder) {
-    Remove-Item -Path $tempFolder -Recurse -Force -ErrorAction SilentlyContinue
-}
-
-Write-Host "[*] Downloading latest win-fresh-setup from GitHub..." -ForegroundColor Cyan
-$repoUrl = "https://github.com/Hilal06/win-fresh-setup/archive/refs/heads/main.zip"
-
 try {
+    if (Test-Path $tempFolder) {
+        Remove-Item -Path $tempFolder -Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    Write-Host "[*] Downloading latest win-fresh-setup from GitHub..." -ForegroundColor Cyan
+    $repoUrl = "https://github.com/Hilal06/win-fresh-setup/archive/refs/heads/main.zip"
+
     Invoke-WebRequest -Uri $repoUrl -OutFile $zipPath -UseBasicParsing
     Write-Host "[*] Extracting setup files..." -ForegroundColor Cyan
     Expand-Archive -Path $zipPath -DestinationPath $tempFolder -Force
-    Remove-Item -Path $zipPath -Force
+    if (Test-Path $zipPath) {
+        Remove-Item -Path $zipPath -Force -ErrorAction SilentlyContinue
+    }
 
     $extractedDir = Join-Path $tempFolder "win-fresh-setup-main"
     if (Test-Path $extractedDir) {
@@ -39,8 +42,26 @@ try {
     }
 
     Write-Host "[✓] Setup ready. Launching installer..." -ForegroundColor Green
+    Write-Host ""
     & .\run.ps1
 }
 catch {
-    Write-Host "[X] Failed to download or execute setup: $_" -ForegroundColor Red
+    Write-Host "[X] Error during setup execution: $_" -ForegroundColor Red
+}
+finally {
+    # Move out of the temp folder so file handles are released
+    Set-Location $originalLocation
+    
+    # Clean up temporary downloaded archive and directory
+    if (Test-Path $zipPath) {
+        Remove-Item -Path $zipPath -Force -ErrorAction SilentlyContinue
+    }
+    if (Test-Path $tempFolder) {
+        Write-Host ""
+        Write-Host "[*] Cleaning up temporary setup files in $tempFolder..." -ForegroundColor Cyan
+        # Brief pause to ensure all process handles released
+        Start-Sleep -Milliseconds 500
+        Remove-Item -Path $tempFolder -Recurse -Force -ErrorAction SilentlyContinue
+        Write-Host "[✓] Cleanup complete. No leftover files remained on your system!" -ForegroundColor Green
+    }
 }
