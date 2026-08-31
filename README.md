@@ -1,11 +1,27 @@
 # win-fresh-setup 🚀
 
-An interactive Terminal User Interface (TUI) and automated package installer to batch-install software on fresh Windows 11 & 10 setups using **Winget (Windows Package Manager)**.
+[![CI Validation](https://github.com/Hilal06/win-fresh-setup/actions/workflows/ci.yml/badge.svg)](https://github.com/Hilal06/win-fresh-setup/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+An interactive Terminal User Interface (TUI) and automated package installer to batch-install software and apply system optimizations on fresh Windows 11 & 10 setups using **Winget (Windows Package Manager)**.
+
+---
+
+## ⚡ Quick 1-Line Online Bootstrap (No Git Required)
+
+Open PowerShell as Administrator and run:
+```powershell
+irm https://raw.githubusercontent.com/Hilal06/win-fresh-setup/main/bootstrap.ps1 | iex
+```
+This automatically downloads the repository, prepares the Python virtual environment, and launches the interactive installer immediately.
 
 ---
 
 ## ✨ Features
 
+- **⚡ 1-Line Web Bootstrap**: Run a single PowerShell command on a completely fresh Windows install without manually downloading files or installing Git first.
+- **🎯 Curated Preset Profiles**: Instant 1-click profiles for **Developer**, **Gamer**, **Content Creator**, **Minimalist**, and **Power User**.
+- **🛠️ Windows 10/11 System Tweaks**: Apply safe registry-level tweaks (Dark Mode, Show File Extensions, Enable 'End Task' in Taskbar, Disable Bing Search, etc.).
 - **🎨 Interactive TUI Checkboxes**: Check / uncheck applications using keyboard navigation.
   - `Space`: Toggle selected / unselected
   - `a`: Select / Deselect All
@@ -61,7 +77,7 @@ An interactive Terminal User Interface (TUI) and automated package installer to 
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Run Locally
 
 ### Method 1: Double-Click `run.bat` (Recommended)
 Simply double-click [run.bat](file:///D:/Workspace/Script/run.bat). It will:
@@ -102,23 +118,17 @@ You can open and edit `apps.json` directly. Each entry follows this format:
   "default": true
 }
 ```
-* **`category`**: The category name used for grouping in the TUI.
-* **`name`**: Display name.
-* **`id`**: Exact Winget Package ID (find via `winget search <app_name>`).
-* **`description`**: Optional short note.
-* **`default`**: `true` if pre-checked by default, `false` otherwise.
 
 ### Option B: Add App directly from TUI
 Select **`➕ Add New App to apps.json`** in the main menu to interactively add any package.
 
 ---
 
-## 🔍 Finding Winget Package IDs
-In your PowerShell or Command Prompt, run:
+## 🧪 Automated Testing
+Run the built-in test suite:
 ```powershell
-winget search "App Name"
+.\.venv\Scripts\python.exe test_installer.py
 ```
-Copy the value from the **`Id`** column into `apps.json`.
 
 ---
 

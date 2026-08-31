@@ -1,0 +1,72 @@
+{
+  "developer": {
+    "name": "💻 Developer Pack",
+    "description": "Essential coding, terminal, shell, and developer tooling",
+    "app_ids": [
+      "Microsoft.VisualStudioCode",
+      "Microsoft.WindowsTerminal",
+      "Microsoft.PowerShell",
+      "Starship.Starship",
+      "OpenJS.NodeJS.LTS",
+      "Git.Git",
+      "ArduinoSA.IDE.stable",
+      "7zip.7zip",
+      "Obsidian.Obsidian"
+    ]
+  },
+  "gamer": {
+    "name": "🎮 Gamer Pack",
+    "description": "Gaming launchers, graphics tuning, controllers & voice chat",
+    "app_ids": [
+      "Valve.Steam",
+      "Discord.Discord",
+      "XP8CLZL93F5Z4P",
+      "Ryochan7.DS4Windows",
+      "Spotify.Spotify",
+      "VideoLAN.VLC",
+      "7zip.7zip"
+    ]
+  },
+  "creator": {
+    "name": "🎬 Content Creator & Media",
+    "description": "Streaming, recording, notes, audio enhancement & multimedia",
+    "app_ids": [
+      "OBSProject.OBSStudio",
+      "Obsidian.Obsidian",
+      "VideoLAN.VLC",
+      "FxSound.FxSound",
+      "Spotify.Spotify",
+      "7zip.7zip",
+      "Discord.Discord"
+    ]
+  },
+  "minimalist": {
+    "name": "⚡ Minimalist & Essentials",
+    "description": "Lightweight daily driver: browser, archive, PDF & local file sharing",
+    "app_ids": [
+      "Mozilla.Firefox",
+      "7zip.7zip",
+      "PDFgear.PDFgear",
+      "LocalSend.LocalSend",
+      "Google.QuickShare",
+      "Notepad++.Notepad++"
+    ]
+  },
+  "power_user": {
+    "name": "🛠️ Power User & System Tuning",
+    "description": "Advanced customization, deep clean, package management & terminal utilities",
+    "app_ids": [
+      "Microsoft.WindowsTerminal",
+      "Microsoft.PowerShell",
+      "Klocman.BulkCrapUninstaller",
+      "winaero.tweaker",
+      "Devolutions.UniGetUI",
+      "RamenSoftware.Windhawk",
+      "WiseCleaner.WiseDiskCleaner",
+      "Microsoft.PowerToys",
+      "7zip.7zip",
+      "Tailscale.Tailscale",
+      "RustDesk.RustDesk"
+    ]
+  }
+}

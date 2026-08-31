@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 """
-Windows 11 Winget Automation & TUI App Installer
+win-fresh-setup - Windows 11 & 10 Automated Package & System Setup TUI
 Author: Hilal06
+Repository: https://github.com/Hilal06/win-fresh-setup
 
 Features:
 - Interactive TUI multi-select with search and categories (via questionary & rich)
-- Fully customizable external apps.json configuration
-- Live installation progress and error detection
-- Summary table and persistent installation logging
+- Curated Persona Presets (Developer, Gamer, Creator, Minimalist, Power User)
+- Windows System & Explorer Tweaks (Dark Mode, End Task, File Extensions, etc.)
+- Pre-scan already installed applications to prevent redundant installations
+- Administrator privileges detection
+- Custom profile Save & Load system
+- One-Click 'Update All Apps' via Winget
+- Retry queue for failed installations
+- Persistent installation logging
 """
 
 import sys
@@ -15,8 +21,9 @@ import os
 import json
 import subprocess
 import shutil
+import ctypes
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
 
 # Ensure UTF-8 output on Windows consoles
 if hasattr(sys.stdout, "reconfigure"):
@@ -31,16 +38,22 @@ try:
     from rich.panel import Panel
     from rich.table import Table
     from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
-    from rich.prompt import Confirm
     from rich import print as rprint
 except ImportError:
     print("[!] Missing required packages. Please install requirements:")
     print("    pip install -r requirements.txt")
     sys.exit(1)
 
+import tweaks
+
 CONSOLE = Console()
-APPS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "apps.json")
-LOGS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+APPS_FILE = os.path.join(BASE_DIR, "apps.json")
+PRESETS_FILE = os.path.join(BASE_DIR, "presets.json")
+PROFILES_FILE = os.path.join(BASE_DIR, "custom_profiles.json")
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+
+_INSTALLED_CACHE: Optional[Set[str]] = None
 
 # Custom styling for questionary
 CUSTOM_STYLE = Style([
@@ -56,22 +69,60 @@ CUSTOM_STYLE = Style([
     ('disabled', 'fg:#858585 italic')
 ])
 
+def is_admin() -> bool:
+    """Check if the script is running with elevated Administrator privileges."""
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin() != 0
+    except Exception:
+        return False
+
 def ensure_dirs():
     if not os.path.exists(LOGS_DIR):
         os.makedirs(LOGS_DIR, exist_ok=True)
 
 def print_banner():
     CONSOLE.clear()
+    admin_status = "[bold green][🛡️ Administrator][/bold green]" if is_admin() else "[dim yellow][👤 Standard User][/dim yellow]"
     banner_text = (
-        "[bold cyan]Windows 11 Winget App Installer[/bold cyan]\n"
-        "[dim]Automated Package Installer & Management TUI[/dim]\n"
-        "[italic magenta]Developed by Hilal06[/italic magenta]"
+        f"[bold cyan]win-fresh-setup[/bold cyan] {admin_status}\n"
+        f"[dim]Windows 11 & 10 Automated Package & System Setup TUI[/dim]\n"
+        f"[italic magenta]Developed by Hilal06[/italic magenta]"
     )
     CONSOLE.print(Panel(banner_text, border_style="cyan", expand=False))
 
 def check_winget() -> bool:
     """Check if winget CLI is accessible."""
     return shutil.which("winget") is not None
+
+def scan_installed_apps(force_refresh: bool = False) -> Set[str]:
+    """Scan machine using winget list to detect already installed packages."""
+    global _INSTALLED_CACHE
+    if _INSTALLED_CACHE is not None and not force_refresh:
+        return _INSTALLED_CACHE
+
+    installed = set()
+    try:
+        res = subprocess.run(
+            ["winget", "list", "--accept-source-agreements"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=25
+        )
+        if res.returncode == 0:
+            for line in res.stdout.splitlines():
+                parts = line.split()
+                for part in parts:
+                    clean = part.strip().lower()
+                    if clean:
+                        installed.add(clean)
+    except Exception as e:
+        CONSOLE.print(f"[dim yellow][!] Note: Quick installed scan skipped ({e})[/dim yellow]")
+    
+    _INSTALLED_CACHE = installed
+    return installed
 
 def load_apps() -> List[Dict[str, Any]]:
     """Load application list from apps.json."""
@@ -80,8 +131,7 @@ def load_apps() -> List[Dict[str, Any]]:
         return []
     try:
         with open(APPS_FILE, "r", encoding="utf-8") as f:
-            apps = json.load(f)
-            return apps
+            return json.load(f)
     except Exception as e:
         CONSOLE.print(f"[bold red][!] Error parsing {APPS_FILE}:[/bold red] {e}")
         return []
@@ -96,50 +146,50 @@ def save_apps(apps: List[Dict[str, Any]]) -> bool:
         CONSOLE.print(f"[bold red][!] Error saving apps.json:[/bold red] {e}")
         return False
 
-def add_new_app_interactive(apps: List[Dict[str, Any]]):
-    """Prompt user to add a new app directly to apps.json."""
-    print_banner()
-    CONSOLE.print("[bold yellow]=== Add New Application ===[/bold yellow]\n")
+def load_presets() -> Dict[str, Any]:
+    """Load preset bundles from presets.json."""
+    if not os.path.exists(PRESETS_FILE):
+        return {}
+    try:
+        with open(PRESETS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
-    name = questionary.text("App Display Name (e.g. VLC Media Player):").ask()
-    if not name:
-        return
+def load_custom_profiles() -> Dict[str, Any]:
+    """Load custom saved profiles."""
+    if not os.path.exists(PROFILES_FILE):
+        return {}
+    try:
+        with open(PROFILES_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
-    app_id = questionary.text("Winget Package ID (e.g. VideoLAN.VLC):").ask()
-    if not app_id:
-        return
+def save_custom_profiles(profiles: Dict[str, Any]) -> bool:
+    """Save custom profiles."""
+    try:
+        with open(PROFILES_FILE, "w", encoding="utf-8") as f:
+            json.dump(profiles, f, indent=2, ensure_ascii=False)
+        return True
+    except Exception:
+        return False
 
-    # Offer existing categories or custom
-    existing_categories = sorted(list(set(app.get("category", "Other") for app in apps)))
-    category_choices = existing_categories + ["[+ Add New Category]"]
-    chosen_cat = questionary.select("Select Category:", choices=category_choices, style=CUSTOM_STYLE).ask()
+def is_app_installed(app: Dict[str, Any], installed_set: Set[str]) -> bool:
+    """Check if app ID is found in installed set."""
+    app_id = app.get("id", "").lower()
+    return app_id in installed_set
 
-    if chosen_cat == "[+ Add New Category]":
-        category = questionary.text("Enter New Category Name:").ask()
-        if not category:
-            category = "Other"
-    else:
-        category = chosen_cat
+def build_choices(
+    apps: List[Dict[str, Any]],
+    filter_cat: Optional[str] = None,
+    target_ids: Optional[Set[str]] = None,
+    installed_set: Optional[Set[str]] = None
+) -> List[Any]:
+    """Construct Questionary choice list grouped with category separators and installed badges."""
+    if installed_set is None:
+        installed_set = set()
 
-    description = questionary.text("Description / Notes (optional):").ask() or ""
-    default_checked = questionary.confirm("Check by default in TUI?", default=True).ask()
-
-    new_entry = {
-        "category": category,
-        "name": name,
-        "id": app_id,
-        "description": description,
-        "default": bool(default_checked)
-    }
-
-    apps.append(new_entry)
-    if save_apps(apps):
-        CONSOLE.print(f"[bold green][✓] Added '{name}' ({app_id}) to apps.json![/bold green]")
-    questionary.press_any_key_to_continue().ask()
-
-def build_choices(apps: List[Dict[str, Any]], filter_cat: Optional[str] = None) -> List[Any]:
-    """Construct Questionary choice list grouped with category separators."""
-    # Group by category
     categorized: Dict[str, List[Dict[str, Any]]] = {}
     for app in apps:
         cat = app.get("category", "General")
@@ -151,14 +201,24 @@ def build_choices(apps: List[Dict[str, Any]], filter_cat: Optional[str] = None) 
     for cat_name in sorted(categorized.keys()):
         choices.append(Separator(f"── {cat_name.upper()} ──"))
         for app in categorized[cat_name]:
-            display_title = f"{app['name']} [dim]({app['id']})[/dim]"
+            app_id = app.get("id", "")
+            installed = is_app_installed(app, installed_set)
+            
+            badge = " [Installed]" if installed else ""
+            display_title = f"{app['name']}{badge} [dim]({app_id})[/dim]"
             if app.get("description"):
                 display_title += f" - {app['description']}"
-            
+
+            # Checked state logic:
+            if target_ids is not None:
+                is_checked = app_id in target_ids
+            else:
+                is_checked = False if installed else app.get("default", False)
+
             choices.append(Choice(
                 title=display_title,
                 value=app,
-                checked=app.get("default", False)
+                checked=is_checked
             ))
     return choices
 
@@ -203,14 +263,8 @@ def run_winget_install(app: Dict[str, Any], log_file_path: str) -> Dict[str, Any
                     output_lines.append(line.strip())
 
             returncode = process.poll()
-
             output_text = "\n".join(output_lines)
 
-            # Analyze return code and output
-            # Winget exit codes:
-            # 0: Success
-            # -1978335189 / 0x8A15002B: Already installed
-            # -1978335212: No package found
             if returncode == 0:
                 if "Successfully installed" in output_text or "Installation completed" in output_text:
                     return {"status": "SUCCESS", "message": "Installed successfully"}
@@ -230,7 +284,7 @@ def run_winget_install(app: Dict[str, Any], log_file_path: str) -> Dict[str, Any
             return {"status": "FAILED", "message": str(e)}
 
 def execute_installation(selected_apps: List[Dict[str, Any]]):
-    """Run sequential installation of selected packages with live rich progress."""
+    """Run sequential installation of selected packages with live rich progress and retry queue."""
     if not selected_apps:
         CONSOLE.print("[bold yellow]No applications selected.[/bold yellow]")
         questionary.press_any_key_to_continue().ask()
@@ -241,7 +295,6 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
     log_file_path = os.path.join(LOGS_DIR, f"winget_install_{timestamp}.log")
 
     print_banner()
-    # Review selection table
     table = Table(title=f"Ready to Install ({len(selected_apps)} Apps)", show_header=True, header_style="bold magenta")
     table.add_column("#", style="dim", width=4)
     table.add_column("Category", style="cyan", width=22)
@@ -278,7 +331,6 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
             res["app"] = app
             results.append(res)
 
-            # Live notification per app
             if res["status"] == "SUCCESS":
                 CONSOLE.print(f"  [bold green][✓] {app['name']}[/bold green] - Installed successfully")
             elif res["status"] == "ALREADY_INSTALLED":
@@ -290,7 +342,6 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
 
             progress.advance(overall_task)
 
-    # Final Summary Table
     CONSOLE.print("\n")
     summary_table = Table(title="Installation Summary Report", show_header=True, header_style="bold cyan")
     summary_table.add_column("App Name", style="bold white", width=25)
@@ -300,7 +351,7 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
 
     success_cnt = 0
     already_cnt = 0
-    failed_cnt = 0
+    failed_apps = []
 
     for r in results:
         app = r["app"]
@@ -313,19 +364,201 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
             already_cnt += 1
         else:
             status_str = "[red]✗ Failed[/red]"
-            failed_cnt += 1
+            failed_apps.append(app)
 
         summary_table.add_row(app["name"], app["id"], status_str, r["message"])
 
     CONSOLE.print(summary_table)
-
     CONSOLE.print(
         f"\n[bold]Results:[/bold] "
         f"[green]{success_cnt} Installed[/green] | "
         f"[yellow]{already_cnt} Already Present[/yellow] | "
-        f"[red]{failed_cnt} Failed[/red]"
+        f"[red]{len(failed_apps)} Failed[/red]"
     )
     CONSOLE.print(f"[dim]Full logs saved to: {log_file_path}[/dim]\n")
+
+    # Retry Queue for Failed Installations
+    if failed_apps:
+        retry = questionary.confirm(f"⚠️ {len(failed_apps)} app(s) failed. Would you like to retry them now?", default=True).ask()
+        if retry:
+            execute_installation(failed_apps)
+            return
+
+    # Invalidate cache so newly installed apps update in UI
+    scan_installed_apps(force_refresh=True)
+    questionary.press_any_key_to_continue().ask()
+
+def handle_presets_menu(apps: List[Dict[str, Any]], installed_set: Set[str]):
+    """Handle selecting and running curated Persona Presets."""
+    presets = load_presets()
+    if not presets:
+        CONSOLE.print("[bold red]No presets found in presets.json[/bold red]")
+        questionary.press_any_key_to_continue().ask()
+        return
+
+    preset_choices = []
+    for key, pdata in presets.items():
+        preset_choices.append(Choice(
+            title=f"{pdata['name']} - [dim]{pdata['description']}[/dim]",
+            value=key
+        ))
+    preset_choices.append(Choice("← Back", value="back"))
+
+    chosen_key = questionary.select("Select Persona Preset:", choices=preset_choices, style=CUSTOM_STYLE).ask()
+    if chosen_key == "back" or chosen_key is None:
+        return
+
+    preset = presets[chosen_key]
+    target_ids = set(preset.get("app_ids", []))
+
+    choices = build_choices(apps, target_ids=target_ids, installed_set=installed_set)
+    selected = questionary.checkbox(
+        f"Review & Confirm [{preset['name']}]:",
+        choices=choices,
+        instruction="(Space: toggle, Enter: confirm, Ctrl+C: cancel)",
+        style=CUSTOM_STYLE
+    ).ask()
+
+    if selected is not None:
+        execute_installation(selected)
+
+def handle_custom_profiles_menu(apps: List[Dict[str, Any]], installed_set: Set[str]):
+    """Handle saving and loading custom user profiles."""
+    profiles = load_custom_profiles()
+    sub_choices = [
+        Choice("💾 Save New Profile from Checkbox Selection", value="save"),
+        Choice("📂 Load & Install Existing Profile", value="load"),
+        Choice("← Back", value="back")
+    ]
+
+    action = questionary.select("Custom Profiles:", choices=sub_choices, style=CUSTOM_STYLE).ask()
+    if action == "save":
+        pname = questionary.text("Enter Profile Name (e.g. Work Laptop, Gaming Rig):").ask()
+        if not pname:
+            return
+        
+        choices = build_choices(apps, installed_set=installed_set)
+        selected = questionary.checkbox(
+            f"Select applications to include in profile '{pname}':",
+            choices=choices,
+            style=CUSTOM_STYLE
+        ).ask()
+
+        if selected is not None and len(selected) > 0:
+            profiles[pname] = [app["id"] for app in selected]
+            if save_custom_profiles(profiles):
+                CONSOLE.print(f"[bold green][✓] Profile '{pname}' saved with {len(selected)} apps![/bold green]")
+        questionary.press_any_key_to_continue().ask()
+
+    elif action == "load":
+        if not profiles:
+            CONSOLE.print("[yellow]No custom profiles saved yet.[/yellow]")
+            questionary.press_any_key_to_continue().ask()
+            return
+
+        p_choices = [Choice(name, value=name) for name in profiles.keys()] + [Choice("← Back", value="back")]
+        chosen_profile = questionary.select("Select Profile to Load:", choices=p_choices, style=CUSTOM_STYLE).ask()
+
+        if chosen_profile and chosen_profile != "back":
+            target_ids = set(profiles[chosen_profile])
+            choices = build_choices(apps, target_ids=target_ids, installed_set=installed_set)
+            selected = questionary.checkbox(
+                f"Review & Install profile [{chosen_profile}]:",
+                choices=choices,
+                style=CUSTOM_STYLE
+            ).ask()
+            if selected is not None:
+                execute_installation(selected)
+
+def handle_tweaks_menu():
+    """Handle Windows System & Explorer Tweaks."""
+    print_banner()
+    CONSOLE.print("[bold cyan]=== Windows System & Explorer Tweaks ===[/bold cyan]\n")
+
+    tweak_choices = []
+    for t in tweaks.TWEAKS_LIST:
+        display_title = f"{t['name']} - [dim]{t['description']}[/dim]"
+        tweak_choices.append(Choice(
+            title=display_title,
+            value=t["id"],
+            checked=t.get("default", False)
+        ))
+
+    selected_ids = questionary.checkbox(
+        "Select Tweaks to apply to Windows:",
+        choices=tweak_choices,
+        instruction="(Space: toggle, Enter: apply, Ctrl+C: back)",
+        style=CUSTOM_STYLE
+    ).ask()
+
+    if selected_ids is not None and len(selected_ids) > 0:
+        results = tweaks.apply_selected_tweaks(selected_ids)
+        CONSOLE.print("\n[bold cyan]Tweaks Application Results:[/bold cyan]")
+        for r in results:
+            status = "[green][✓] Applied[/green]" if r["success"] else "[red][✗] Failed (Admin required)[/red]"
+            CONSOLE.print(f"  {status} {r['name']}")
+
+        restart = questionary.confirm("Restart Windows Explorer now to apply visual changes?", default=True).ask()
+        if restart:
+            tweaks.restart_explorer()
+            CONSOLE.print("[bold green][✓] Windows Explorer restarted successfully![/bold green]")
+        questionary.press_any_key_to_continue().ask()
+
+def handle_update_all():
+    """Run winget upgrade --all."""
+    print_banner()
+    CONSOLE.print("[bold cyan]=== Update All Installed Apps ===[/bold cyan]\n")
+    confirm = questionary.confirm("Run 'winget upgrade --all' to update all software on this PC?", default=True).ask()
+    if not confirm:
+        return
+
+    cmd = ["winget", "upgrade", "--all", "--accept-package-agreements", "--accept-source-agreements", "--disable-interactivity"]
+    try:
+        subprocess.run(cmd)
+    except Exception as e:
+        CONSOLE.print(f"[red]Error during upgrade: {e}[/red]")
+    
+    scan_installed_apps(force_refresh=True)
+    questionary.press_any_key_to_continue().ask()
+
+def add_new_app_interactive(apps: List[Dict[str, Any]]):
+    """Prompt user to add a new app directly to apps.json."""
+    print_banner()
+    CONSOLE.print("[bold yellow]=== Add New Application ===[/bold yellow]\n")
+
+    name = questionary.text("App Display Name (e.g. VLC Media Player):").ask()
+    if not name:
+        return
+
+    app_id = questionary.text("Winget Package ID (e.g. VideoLAN.VLC):").ask()
+    if not app_id:
+        return
+
+    existing_categories = sorted(list(set(app.get("category", "Other") for app in apps)))
+    category_choices = existing_categories + ["[+ Add New Category]"]
+    chosen_cat = questionary.select("Select Category:", choices=category_choices, style=CUSTOM_STYLE).ask()
+
+    if chosen_cat == "[+ Add New Category]":
+        category = questionary.text("Enter New Category Name:").ask()
+        if not category:
+            category = "Other"
+    else:
+        category = chosen_cat
+
+    description = questionary.text("Description / Notes (optional):").ask() or ""
+    default_checked = questionary.confirm("Check by default in TUI?", default=True).ask()
+
+    new_entry = {
+        "category": category,
+        "name": name,
+        "id": app_id,
+        "description": description,
+        "default": bool(default_checked)
+    }
+
+    apps.append(new_entry)
+    if save_apps(apps):
+        CONSOLE.print(f"[bold green][✓] Added '{name}' ({app_id}) to apps.json![/bold green]")
     questionary.press_any_key_to_continue().ask()
 
 def main_menu():
@@ -338,6 +571,9 @@ def main_menu():
         )
         sys.exit(1)
 
+    # Initial scan of installed applications
+    installed_set = scan_installed_apps()
+
     while True:
         print_banner()
         apps = load_apps()
@@ -348,11 +584,15 @@ def main_menu():
         total_apps = len(apps)
         categories = sorted(list(set(app.get("category", "General") for app in apps)))
 
-        CONSOLE.print(f"[dim]Loaded {total_apps} apps across {len(categories)} categories.[/dim]\n")
+        CONSOLE.print(f"[dim]Loaded {total_apps} apps across {len(categories)} categories | Detected {len(installed_set)} installed packages.[/dim]\n")
 
         menu_choices = [
-            Choice("🚀 Select & Install Apps (Full Interactive Checkbox TUI)", value="select_all"),
+            Choice("🚀 Select & Install Apps (Full Checkbox TUI)", value="select_all"),
+            Choice("🎯 Curated Persona Presets (Dev, Gamer, Creator, Minimalist...)", value="presets"),
             Choice("📂 Filter & Select by Category", value="by_category"),
+            Choice("💾 Custom Profiles (Save / Load Custom App Bundles)", value="custom_profiles"),
+            Choice("⚙️ Apply Windows System & Explorer Tweaks", value="tweaks"),
+            Choice("🔄 Update All Installed Apps (winget upgrade --all)", value="update_all"),
             Choice("➕ Add New App to apps.json", value="add_app"),
             Choice("📝 Open apps.json in Default Text Editor", value="edit_json"),
             Choice("❌ Exit", value="exit")
@@ -369,7 +609,7 @@ def main_menu():
             break
 
         elif action == "select_all":
-            choices = build_choices(apps)
+            choices = build_choices(apps, installed_set=installed_set)
             instruction_text = "(Space to select/deselect, 'a' to toggle all, 'i' to invert, Enter to confirm)"
             selected = questionary.checkbox(
                 "Select applications to install:",
@@ -380,6 +620,11 @@ def main_menu():
 
             if selected is not None:
                 execute_installation(selected)
+                installed_set = scan_installed_apps(force_refresh=True)
+
+        elif action == "presets":
+            handle_presets_menu(apps, installed_set)
+            installed_set = scan_installed_apps(force_refresh=True)
 
         elif action == "by_category":
             cat_choices = categories + ["← Back"]
@@ -390,7 +635,7 @@ def main_menu():
             ).ask()
 
             if chosen_cat and chosen_cat != "← Back":
-                choices = build_choices(apps, filter_cat=chosen_cat)
+                choices = build_choices(apps, filter_cat=chosen_cat, installed_set=installed_set)
                 selected = questionary.checkbox(
                     f"Select applications in [{chosen_cat}]:",
                     choices=choices,
@@ -399,6 +644,18 @@ def main_menu():
                 ).ask()
                 if selected is not None:
                     execute_installation(selected)
+                    installed_set = scan_installed_apps(force_refresh=True)
+
+        elif action == "custom_profiles":
+            handle_custom_profiles_menu(apps, installed_set)
+            installed_set = scan_installed_apps(force_refresh=True)
+
+        elif action == "tweaks":
+            handle_tweaks_menu()
+
+        elif action == "update_all":
+            handle_update_all()
+            installed_set = scan_installed_apps(force_refresh=True)
 
         elif action == "add_app":
             add_new_app_interactive(apps)
