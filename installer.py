@@ -37,6 +37,7 @@ try:
     from rich.console import Console
     from rich.panel import Panel
     from rich.table import Table
+    from rich.align import Align
     from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
     from rich import print as rprint
 except ImportError:
@@ -51,6 +52,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 APPS_FILE = os.path.join(BASE_DIR, "apps.json")
 PRESETS_FILE = os.path.join(BASE_DIR, "presets.json")
 PROFILES_FILE = os.path.join(BASE_DIR, "custom_profiles.json")
+TITLE_FILE = os.path.join(BASE_DIR, "title.txt")
 LOGS_DIR = os.path.join(BASE_DIR, "logs")
 
 _INSTALLED_CACHE: Optional[Set[str]] = None
@@ -80,15 +82,36 @@ def ensure_dirs():
     if not os.path.exists(LOGS_DIR):
         os.makedirs(LOGS_DIR, exist_ok=True)
 
+def load_title() -> str:
+    """Load ASCII art title from title.txt with a safe fallback."""
+    if os.path.exists(TITLE_FILE):
+        try:
+            with open(TITLE_FILE, "r", encoding="utf-8") as f:
+                content = f.read().rstrip()
+                if content:
+                    return content
+        except Exception:
+            pass
+    return (
+        "██╗░░██╗██╗██╗░░░░░░█████╗░██╗░░░░░░█████╗░░█████╗░\n"
+        "██║░░██║██║██║░░░░░██╔══██╗██║░░░░░██╔══██╗██╔═══╝░\n"
+        "███████║██║██║░░░░░███████║██║░░░░░██║░░██║██████╗░\n"
+        "██╔══██║██║██║░░░░░██╔══██║██║░░░░░██║░░██║██╔══██╗\n"
+        "██║░░██║██║███████╗██║░░██║███████╗╚█████╔╝╚█████╔╝\n"
+        "╚═╝░░╚═╝╚═╝╚══════╝╚═╝░░╚═╝╚══════╝░╚════╝░░╚════╝░"
+    )
+
 def print_banner():
     CONSOLE.clear()
     admin_status = "[bold green][🛡️ Administrator][/bold green]" if is_admin() else "[dim yellow][👤 Standard User][/dim yellow]"
-    banner_text = (
-        f"[bold cyan]win-fresh-setup[/bold cyan] {admin_status}\n"
+    title_art = load_title()
+    banner_content = (
+        f"[bold #ff8800]{title_art}[/bold #ff8800]\n\n"
+        f"[bold cyan]win-fresh-setup[/bold cyan]  {admin_status}\n"
         f"[dim]Windows 11 & 10 Automated Package & System Setup TUI[/dim]\n"
         f"[italic magenta]Developed by Hilal06[/italic magenta]"
     )
-    CONSOLE.print(Panel(banner_text, border_style="cyan", expand=False))
+    CONSOLE.print(Align.center(Panel(Align.center(banner_content), border_style="orange3", expand=False)))
 
 def check_winget() -> bool:
     """Check if winget CLI is accessible."""

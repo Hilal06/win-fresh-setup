@@ -64,8 +64,15 @@ def test_tweaks_module():
         assert "actions" in tweak and len(tweak["actions"]) > 0
     print(f"  [OK] {len(tweaks.TWEAKS_LIST)} registry tweaks validated successfully.")
 
+def test_title_loading():
+    print("\n[TEST 5] Testing title.txt loading...")
+    import installer
+    title = installer.load_title()
+    assert len(title) > 0, "Title art is empty"
+    print("  [OK] Title ASCII art loaded successfully.")
+
 def test_choices_builder():
-    print("\n[TEST 5] Testing Questionary choices generator...")
+    print("\n[TEST 6] Testing Questionary choices generator...")
     import installer
     apps = installer.load_apps()
     choices = installer.build_choices(apps)
@@ -79,7 +86,7 @@ def test_choices_builder():
     print("  [OK] Choice generator and category filtering working as expected.")
 
 def test_winget_availability():
-    print("\n[TEST 6] Testing Winget CLI accessibility...")
+    print("\n[TEST 7] Testing Winget CLI accessibility...")
     import installer
     # If in CI environment (or non-Windows), check gracefully
     is_available = installer.check_winget()
@@ -89,7 +96,7 @@ def test_winget_availability():
         print("  [WARN] Winget CLI not found in current environment (Expected on GitHub Actions runner).")
 
 def test_log_directory_creation():
-    print("\n[TEST 7] Testing log directory creation...")
+    print("\n[TEST 8] Testing log directory creation...")
     import installer
     installer.ensure_dirs()
     assert os.path.exists(installer.LOGS_DIR), "Logs directory not created"
@@ -103,6 +110,7 @@ def run_all_tests():
     test_apps_json_validity()
     test_presets_json_validity()
     test_tweaks_module()
+    test_title_loading()
     test_choices_builder()
     test_winget_availability()
     test_log_directory_creation()
