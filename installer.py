@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Windows 11 Winget Automation & TUI App Installer
-Author: Rifaul06
+Author: Hilal06
 
 Features:
 - Interactive TUI multi-select with search and categories (via questionary & rich)
@@ -65,7 +65,7 @@ def print_banner():
     banner_text = (
         "[bold cyan]Windows 11 Winget App Installer[/bold cyan]\n"
         "[dim]Automated Package Installer & Management TUI[/dim]\n"
-        "[italic magenta]Developed by Rifaul06[/italic magenta]"
+        "[italic magenta]Developed by Hilal06[/italic magenta]"
     )
     CONSOLE.print(Panel(banner_text, border_style="cyan", expand=False))
 

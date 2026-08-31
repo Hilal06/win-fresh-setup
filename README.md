@@ -1,6 +1,6 @@
-# Windows 11 Winget App Installer (TUI)
+# win-fresh-setup 🚀
 
-An interactive Terminal User Interface (TUI) to selectively batch-install applications on Windows 11 using **Winget (Windows Package Manager)**.
+An interactive Terminal User Interface (TUI) and automated package installer to batch-install software on fresh Windows 11 & 10 setups using **Winget (Windows Package Manager)**.
 
 ---
 
@@ -124,5 +124,6 @@ Copy the value from the **`Id`** column into `apps.json`.
 
 ## 👤 Author & Credits
 
-* **Author / Creator:** [Rifaul06](https://github.com/Rifaul06)
+* **Author / Creator:** [Hilal06](https://github.com/Hilal06)
+* **Repository:** [win-fresh-setup](https://github.com/Hilal06/win-fresh-setup)
 * **License:** MIT License
