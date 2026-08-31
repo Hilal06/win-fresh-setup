@@ -3,7 +3,7 @@
 [![CI Validation](https://github.com/Hilal06/win-fresh-setup/actions/workflows/ci.yml/badge.svg)](https://github.com/Hilal06/win-fresh-setup/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-An interactive Terminal User Interface (TUI) and automated package installer to batch-install software and apply system optimizations on fresh Windows 11 & 10 setups using **Winget (Windows Package Manager)**.
+An interactive Terminal User Interface (TUI) and automated package installer to batch-install software, remove bloatware, and apply system optimizations on fresh Windows 11 & 10 setups using **Winget (Windows Package Manager)**.
 
 ---
 
@@ -13,26 +13,28 @@ Open PowerShell as Administrator and run:
 ```powershell
 irm https://raw.githubusercontent.com/Hilal06/win-fresh-setup/main/bootstrap.ps1 | iex
 ```
-This automatically downloads the repository, prepares the Python virtual environment, and launches the interactive installer immediately.
+*✨ Automatically downloads the repository, prepares the Python environment, launches the interactive installer, and cleans up all temporary setup files upon exit!*
 
 ---
 
 ## ✨ Features
 
-- **⚡ 1-Line Web Bootstrap**: Run a single PowerShell command on a completely fresh Windows install without manually downloading files or installing Git first.
+- **⚡ 1-Line Web Bootstrap**: Run a single PowerShell command on a completely fresh Windows install without downloading files or installing Git first.
+- **🔍 Live In-App Winget Search**: Search for any software in the Winget catalog directly inside the TUI and install or save it immediately.
+- **🧹 Windows Bloatware Remover (Debloater)**: Safely uninstall pre-installed Windows UWP apps (Feedback Hub, 3D Viewer, Solitaire, News, Tips, etc.).
+- **💾 PC Setup Migration & Backup**: Export your installed application inventory to a portable `my-setup.json` file and import it on any new PC.
+- **📊 Interactive Upgrade Dashboard**: View installed vs latest available software versions in a styled table with selective / bulk upgrade controls.
 - **🎯 Curated Preset Profiles**: Instant 1-click profiles for **Developer**, **Gamer**, **Content Creator**, **Minimalist**, and **Power User**.
-- **🛠️ Windows 10/11 System Tweaks**: Apply safe registry-level tweaks (Dark Mode, Show File Extensions, Enable 'End Task' in Taskbar, Disable Bing Search, etc.).
+- **🛠️ Windows 10/11 Tweaks with Rollback**: Apply safe registry tweaks (Classic Context Menu, Dark Mode, Show File Extensions, Taskbar End Task, Disable Bing Search) with automatic backup and 1-click rollback.
+- **⚡ Terminal & PowerShell Quick-Booster**: Automatically configures PowerShell with **PSReadLine Predictive IntelliSense** (Fish-shell style autocomplete), **Starship prompt**, and power-user aliases (`ll`, `grep`, `which`, `touch`).
+- **🩺 Pre-Flight System Health & Disk Space Check**: Live check for `C:\` drive storage, administrator privileges, internet connection, and Winget CDN service.
 - **🎨 Interactive TUI Checkboxes**: Check / uncheck applications using keyboard navigation.
   - `Space`: Toggle selected / unselected
   - `a`: Select / Deselect All
   - `i`: Invert selection
   - `Enter`: Confirm selection
-- **📁 Easily Editable `apps.json`**: Manage your custom list of software, categories, Winget IDs, and default checked states.
-- **📂 Category Filtering**: Install by specific software categories (e.g. *Web Browsers*, *Developer Tools*, *Media & Audio*, *System & Customization*).
-- **➕ Interactive App Addition**: Add new applications directly from the TUI or by editing `apps.json`.
-- **⚡ Live Installation Progress**: Real-time progress bar, spinner, status updates, and summary table (Success, Already Installed, Failed).
+- **📁 Editable `apps.json`**: Manage your custom list of software, categories, Winget IDs, and default checked states.
 - **📜 Detailed Logging**: All installation logs are saved automatically to `logs/winget_install_<timestamp>.log`.
-- **🚀 One-Click Launchers**: `run.bat` and `run.ps1` automatically detect and install Python & dependencies if missing.
 
 ---
 
@@ -83,7 +85,7 @@ This automatically downloads the repository, prepares the Python virtual environ
 Simply double-click [run.bat](file:///D:/Workspace/Script/run.bat). It will:
 1. Check if Python is installed (if not, auto-installs Python 3.12 via Winget).
 2. Set up a local Python virtual environment `.venv`.
-3. Install dependencies (`questionary`, `rich`, `colorama`).
+3. Install dependencies (`questionary`, `rich`).
 4. Launch the TUI installer.
 
 ---
@@ -105,27 +107,8 @@ python installer.py
 
 ---
 
-## ✏️ How to Add / Edit Apps
-
-### Option A: Edit [apps.json](file:///D:/Workspace/Script/apps.json)
-You can open and edit `apps.json` directly. Each entry follows this format:
-```json
-{
-  "category": "Developer Tools",
-  "name": "Node.js (LTS)",
-  "id": "OpenJS.NodeJS.LTS",
-  "description": "JavaScript runtime built on Chrome V8 engine",
-  "default": true
-}
-```
-
-### Option B: Add App directly from TUI
-Select **`➕ Add New App to apps.json`** in the main menu to interactively add any package.
-
----
-
 ## 🧪 Automated Testing
-Run the built-in test suite:
+Run the built-in test suite (11 test suites):
 ```powershell
 .\.venv\Scripts\python.exe test_installer.py
 ```
