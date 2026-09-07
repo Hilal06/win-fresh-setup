@@ -7,7 +7,7 @@
     3. If tests FAIL: Halts execution immediately and displays failure diagnostics.
     4. If tests PASS: Stages all changes, commits with message, and pushes to origin.
 .EXAMPLE
-    powershell -ExecutionPolicy Bypass -File .\.agents\auto_push.ps1 -CommitMessage "fix: update scripts"
+    powershell -ExecutionPolicy Bypass -File .\.agents\scripts\auto_push.ps1 -CommitMessage "fix: update scripts"
 #>
 
 param(
@@ -15,8 +15,15 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$agentDir = $PSScriptRoot
-$repoRoot = Split-Path -Parent $agentDir
+
+# Dynamically locate repository root
+$currentDir = $PSScriptRoot
+while ($currentDir -and (-not (Test-Path (Join-Path $currentDir ".git")))) {
+    $parent = Split-Path -Parent $currentDir
+    if ($parent -eq $currentDir) { break }
+    $currentDir = $parent
+}
+$repoRoot = if (Test-Path (Join-Path $currentDir ".git")) { $currentDir } else { (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) }
 
 # Ensure working directory is the repository root
 Set-Location $repoRoot
@@ -66,7 +73,7 @@ if (-not $gitStatus) {
 
 # 3. Determine commit message
 if ([string]::IsNullOrWhiteSpace($CommitMessage)) {
-    $defaultMsg = "chore: move automation tools to .agents directory"
+    $defaultMsg = "chore: organize agent instructions and scripts"
     $inputMsg = Read-Host "Enter commit message (Press Enter for default: '$defaultMsg')"
     if ([string]::IsNullOrWhiteSpace($inputMsg)) {
         $CommitMessage = $defaultMsg
