@@ -3,6 +3,7 @@
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
 $ErrorActionPreference = "Stop"
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force -ErrorAction SilentlyContinue
 
 Write-Host "=======================================================" -ForegroundColor Cyan
 Write-Host "       win-fresh-setup: Online Web Bootstrap           " -ForegroundColor Cyan
@@ -43,7 +44,12 @@ try {
 
     Write-Host "[✓] Setup ready. Launching installer..." -ForegroundColor Green
     Write-Host ""
-    & .\run.ps1
+    $runScriptPath = Join-Path (Get-Location) "run.ps1"
+    if (Test-Path $runScriptPath) {
+        & ([scriptblock]::Create((Get-Content -Path $runScriptPath -Raw)))
+    } else {
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "run.ps1"
+    }
 }
 catch {
     Write-Host "[X] Error during setup execution: $_" -ForegroundColor Red

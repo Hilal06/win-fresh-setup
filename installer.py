@@ -86,6 +86,71 @@ def is_admin() -> bool:
     except Exception:
         return False
 
+def elevate_process() -> bool:
+    """Relaunch the current script with Administrator elevation (UAC prompt)."""
+    CONSOLE.print("\n[bold cyan][*] Membuka jendela Administrator baru... Silakan klik 'Yes' pada prompt UAC.[/bold cyan]")
+    python_exe = sys.executable
+    script_path = os.path.abspath(sys.argv[0])
+    params = f'"{script_path}"'
+    
+    try:
+        ret = ctypes.windll.shell32.ShellExecuteW(
+            None,
+            "runas",
+            python_exe,
+            params,
+            os.getcwd(),
+            1  # SW_SHOWNORMAL
+        )
+        # ShellExecute returns HINSTANCE > 32 on success
+        if int(ret) > 32:
+            return True
+        else:
+            return False
+    except Exception as e:
+        CONSOLE.print(f"[bold red][X] Terjadi kesalahan saat membuka prompt Administrator: {e}[/bold red]")
+        return False
+
+def prompt_elevation_if_needed():
+    """Prompt standard user to elevate to Administrator privileges before main menu."""
+    if is_admin():
+        return
+
+    print_banner()
+    CONSOLE.print(
+        Panel(
+            "[bold yellow]⚠️  PEMBERITAHUAN HAK AKSES SISTEM[/bold yellow]\n\n"
+            "Anda saat ini menjalankan installer sebagai [bold cyan]Standard User (Bukan Administrator)[/bold cyan].\n\n"
+            "Fitur seperti [italic]Instalasi Aplikasi System-wide, Registry Tweaks, Windows Debloater, dan Shell Booster[/italic] "
+            "memerlukan hak akses [bold green]Administrator[/bold green] agar dapat bekerja secara optimal.\n\n"
+            "[bold green]👉 Catatan: Sangat direkomendasikan untuk beralih ke sesi Administrator sekarang.[/bold green]",
+            title="[bold yellow]🛡️ Hak Akses Administrator[/bold yellow]",
+            border_style="yellow",
+            padding=(1, 2)
+        )
+    )
+    CONSOLE.print("")
+
+    choice = questionary.select(
+        "Pilih mode eksekusi:",
+        choices=[
+            Choice("🛡️ Beralih ke Administrator (Sangat Direkomendasikan)", value="elevate"),
+            Choice("👤 Tetap Lanjut sebagai Standard User (Beberapa fitur mungkin terbatas)", value="continue"),
+            Choice("❌ Keluar", value="exit")
+        ],
+        style=CUSTOM_STYLE
+    ).ask()
+
+    if choice == "elevate":
+        if elevate_process():
+            sys.exit(0)
+        else:
+            CONSOLE.print("[bold yellow][!] Elevasi dibatalkan atau ditolak. Melanjutkan sebagai Standard User...[/bold yellow]")
+            questionary.press_any_key_to_continue().ask()
+    elif choice == "exit":
+        CONSOLE.print("\n[yellow]Setup dibatalkan oleh pengguna.[/yellow]")
+        sys.exit(0)
+
 def ensure_dirs():
     if not os.path.exists(LOGS_DIR):
         os.makedirs(LOGS_DIR, exist_ok=True)
@@ -515,10 +580,10 @@ def handle_winget_search_menu(apps: List[Dict[str, Any]]):
     item_choices = [
         Choice(f"{r['name']} ({r['id']})", value=r)
         for r in results[:15]
-    ] + [Choice("← Cancel / Back", value=None)]
+    ] + [Choice("← Cancel / Back", value="back")]
 
     chosen_pkg = questionary.select("Select a package to take action:", choices=item_choices, style=CUSTOM_STYLE).ask()
-    if not chosen_pkg:
+    if chosen_pkg is None or chosen_pkg == "back" or not isinstance(chosen_pkg, dict):
         return
 
     action = questionary.select(
@@ -1197,6 +1262,8 @@ def main_menu():
 
 if __name__ == "__main__":
     try:
+        ensure_dirs()
+        prompt_elevation_if_needed()
         main_menu()
     except KeyboardInterrupt:
         CONSOLE.print("\n[yellow]Operation canceled by user.[/yellow]")
