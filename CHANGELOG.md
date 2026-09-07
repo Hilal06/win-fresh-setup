@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Automated Testing & Push Pipeline (`.agents/scripts/auto_push.ps1` & `.agents/auto-push.md`)**:
   - Structured `.agents/` workflow with SOP guidelines (`auto-push.md`) for AI agents.
   - Automated pre-commit verification tool located in `.agents/scripts/auto_push.ps1` that runs the test suite (`test_installer.py`), halts on failure with detailed diagnostic logs, and automatically stages, commits, and pushes upon 100% test pass.
+- **Enhanced `.gitignore` Coverage**:
+  - Added comprehensive ignore rules for Python environment/cache/packaging artifacts, test output, temporary migration backups (`my-setup.json`, `migration-*.json`), log files, OS artifacts, and IDE configurations.
 
 ### 🛠️ Fixed
 - **Windows Store Python Execution Alias Trap**:

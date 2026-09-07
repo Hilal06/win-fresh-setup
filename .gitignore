@@ -1,36 +1,71 @@
-# Python Virtual Environment
+# ====================================================================
+# .gitignore for win-fresh-setup
+# ====================================================================
+
+# Python Virtual Environments
 .venv/
 venv/
 ENV/
 env/
 ENV.bak/
 venv.bak/
+.env
+.venv*
 
-# Byte-compiled / optimized / DLL files
+# Python Byte-compiled / cache / optimized files
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyd
+*.so
 
-# Distribution / packaging
+# Python Packaging & Testing caches
 build/
 dist/
 *.egg-info/
 .eggs/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
 
-# Installer Execution Logs
+# Application Logs & Runtime Outputs
 logs/
 *.log
+logs/*
+!logs/.gitkeep
 
-# Windows thumbnail and system caches
+# Local Backups & Exported Configurations
+my-setup.json
+migration-*.json
+tweaks_backup_*.json
+*.bak
+*.tmp
+*.temp
+
+# Windows System Files
 Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db
 Desktop.ini
 $RECYCLE.BIN/
+*.lnk
 
-# IDE & Text Editor Configuration
+# macOS & Linux metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# IDE & Editor Configurations
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
