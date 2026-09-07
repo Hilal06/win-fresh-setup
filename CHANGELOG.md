@@ -21,8 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Invocations of `pip` and `installer.py` now directly call `.\.venv\Scripts\python.exe`, completely removing the dependency on `Activate.ps1`.
 - **In-Memory Scriptblock Execution in Bootstrap (`bootstrap.ps1`)**:
   - `bootstrap.ps1` now invokes `run.ps1` via `[scriptblock]::Create` to guarantee execution on fresh Windows installations where local file ExecutionPolicy is `Restricted`.
-- **Automated Testing & Push Script (`auto_push.ps1`)**:
-  - Automated pre-commit verification tool that runs the test suite (`test_installer.py`), halts on failure with detailed diagnostic logs, and automatically stages, commits, and pushes upon 100% test pass.
+- **Automated Testing & Push Script (`.agents/auto_push.ps1`)**:
+  - Automated pre-commit verification tool located in `.agents/` that runs the test suite (`test_installer.py`), halts on failure with detailed diagnostic logs, and automatically stages, commits, and pushes upon 100% test pass.
 
 ### 🛠️ Fixed
 - **Windows Store Python Execution Alias Trap**:

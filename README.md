@@ -122,7 +122,7 @@ Run the built-in test suite (11 test suites):
 ### Automated Test & Push Tool
 Run automated test-driven commit and push:
 ```powershell
-.\auto_push.ps1 -CommitMessage "feat: your commit message"
+powershell -ExecutionPolicy Bypass -File .\.agents\auto_push.ps1 -CommitMessage "feat: your commit message"
 ```
 *Guarantees zero broken commits: validates all 11 test suites first; halts and displays error logs if tests fail; commits and pushes to origin upon 100% test pass.*
 
@@ -138,7 +138,7 @@ See full details in [CHANGELOG.md](file:///D:/Workspace/Script/CHANGELOG.md).
   + Added: UAC elevation prompt (runas) before main menu with "[Sangat Direkomendasikan]" notice
   + Added: Direct venv execution (.venv\Scripts\python.exe) bypassing Activate.ps1 execution policies
   + Added: In-memory scriptblock invocation in bootstrap.ps1 for restricted environments
-  + Added: auto_push.ps1 automated test verification & git push tool
+  + Added: .agents/auto_push.ps1 automated test verification & git push tool
   * Fixed: WindowsApps/python.exe Microsoft Store false-positive execution alias trap
   * Fixed: Session PATH refresh after Winget Python installation
 ```

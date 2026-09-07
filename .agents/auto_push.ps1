@@ -2,11 +2,12 @@
 .SYNOPSIS
     Automated Test-Driven Git Commit and Push Tool for win-fresh-setup.
 .DESCRIPTION
-    1. Runs the test suite (test_installer.py).
-    2. If tests FAIL: Halts execution immediately and displays failure diagnostics.
-    3. If tests PASS: Stages all changes, commits with message, and pushes to origin.
+    1. Sets workspace context to the repository root.
+    2. Runs the test suite (test_installer.py).
+    3. If tests FAIL: Halts execution immediately and displays failure diagnostics.
+    4. If tests PASS: Stages all changes, commits with message, and pushes to origin.
 .EXAMPLE
-    powershell -ExecutionPolicy Bypass -File .\auto_push.ps1 -CommitMessage "fix: enhance python detection"
+    powershell -ExecutionPolicy Bypass -File .\.agents\auto_push.ps1 -CommitMessage "fix: update scripts"
 #>
 
 param(
@@ -14,21 +15,27 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-Set-Location $PSScriptRoot
+$agentDir = $PSScriptRoot
+$repoRoot = Split-Path -Parent $agentDir
+
+# Ensure working directory is the repository root
+Set-Location $repoRoot
 
 Write-Host "=======================================================" -ForegroundColor Cyan
 Write-Host "     win-fresh-setup: Automated Test and Push Tool     " -ForegroundColor Cyan
 Write-Host "=======================================================" -ForegroundColor Cyan
+Write-Host ("[*] Repository Root: " + $repoRoot) -ForegroundColor Gray
 Write-Host ""
 
 # 1. Locate Python executable
-$venvPython = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
+$venvPython = Join-Path $repoRoot ".venv\Scripts\python.exe"
 $pythonExe = if (Test-Path $venvPython) { $venvPython } else { "python" }
 
 Write-Host ("[*] Executing automated test suite with: " + $pythonExe) -ForegroundColor Cyan
 Write-Host ""
 
-$testOutput = & $pythonExe test_installer.py 2>&1
+$testScript = Join-Path $repoRoot "test_installer.py"
+$testOutput = & $pythonExe $testScript 2>&1
 $testExitCode = $LASTEXITCODE
 
 # Display test output
@@ -59,7 +66,7 @@ if (-not $gitStatus) {
 
 # 3. Determine commit message
 if ([string]::IsNullOrWhiteSpace($CommitMessage)) {
-    $defaultMsg = "chore: enhance setup resiliency, python detection, pwsh7 auto-install, and UAC elevation"
+    $defaultMsg = "chore: move automation tools to .agents directory"
     $inputMsg = Read-Host "Enter commit message (Press Enter for default: '$defaultMsg')"
     if ([string]::IsNullOrWhiteSpace($inputMsg)) {
         $CommitMessage = $defaultMsg
