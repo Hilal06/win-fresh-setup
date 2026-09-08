@@ -1,7 +1,10 @@
 # Windows 11 Winget App Installer - PowerShell Launcher
 $ErrorActionPreference = "Stop"
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force -ErrorAction SilentlyContinue
-Set-Location $PSScriptRoot
+$scriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
+if ($PSScriptRoot) {
+    Set-Location $PSScriptRoot
+}
 
 Write-Host "=======================================================" -ForegroundColor Cyan
 Write-Host "         Windows 11 Winget App Installer Setup         " -ForegroundColor Cyan
@@ -84,7 +87,7 @@ if (-not $pythonExe) {
     }
 }
 
-Write-Host "[✓] Using Python: $pythonExe" -ForegroundColor Green
+Write-Host "[OK] Using Python: $pythonExe" -ForegroundColor Green
 
 # Add Python directory to PATH for this session
 $pyDir = Split-Path -Parent $pythonExe
@@ -94,18 +97,18 @@ if ($env:Path -notlike "*$pyDir*") {
 }
 
 # 2. Setup Virtual Environment
-$venvPython = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
+$venvPython = Join-Path $scriptDir ".venv\Scripts\python.exe"
 
-if (Test-Path ".venv") {
+if (Test-Path (Join-Path $scriptDir ".venv")) {
     if (-not (Test-Path $venvPython)) {
         Write-Host "[!] Existing .venv appears corrupted. Rebuilding..." -ForegroundColor Yellow
-        Remove-Item -Path ".venv" -Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path (Join-Path $scriptDir ".venv") -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
 
-if (-not (Test-Path ".venv")) {
+if (-not (Test-Path (Join-Path $scriptDir ".venv"))) {
     Write-Host "[*] Creating Python virtual environment (.venv)..." -ForegroundColor Cyan
-    & $pythonExe -m venv .venv
+    & $pythonExe -m venv (Join-Path $scriptDir ".venv")
 }
 
 $activePython = if (Test-Path $venvPython) { $venvPython } else { $pythonExe }
@@ -113,10 +116,10 @@ $activePython = if (Test-Path $venvPython) { $venvPython } else { $pythonExe }
 # 3. Install requirements
 Write-Host "[*] Installing / Verifying requirements..." -ForegroundColor Cyan
 & $activePython -m pip install --quiet --upgrade pip
-& $activePython -m pip install --quiet -r requirements.txt
+& $activePython -m pip install --quiet -r (Join-Path $scriptDir "requirements.txt")
 
 # 4. Run installer
 Write-Host "[*] Starting TUI Installer..." -ForegroundColor Green
 Write-Host ""
-& $activePython installer.py
+& $activePython (Join-Path $scriptDir "installer.py")
 

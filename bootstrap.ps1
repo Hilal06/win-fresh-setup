@@ -42,11 +42,11 @@ try {
         Set-Location $tempFolder
     }
 
-    Write-Host "[✓] Setup ready. Launching installer..." -ForegroundColor Green
+    Write-Host "[OK] Setup ready. Launching installer..." -ForegroundColor Green
     Write-Host ""
     $runScriptPath = Join-Path (Get-Location) "run.ps1"
     if (Test-Path $runScriptPath) {
-        & ([scriptblock]::Create((Get-Content -Path $runScriptPath -Raw)))
+        & $runScriptPath
     } else {
         powershell.exe -NoProfile -ExecutionPolicy Bypass -File "run.ps1"
     }
@@ -68,6 +68,6 @@ finally {
         # Brief pause to ensure all process handles released
         Start-Sleep -Milliseconds 500
         Remove-Item -Path $tempFolder -Recurse -Force -ErrorAction SilentlyContinue
-        Write-Host "[✓] Cleanup complete. No leftover files remained on your system!" -ForegroundColor Green
+        Write-Host "[OK] Cleanup complete. No leftover files remained on your system!" -ForegroundColor Green
     }
 }
