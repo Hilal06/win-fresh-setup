@@ -96,25 +96,27 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "[*] Pushing to remote origin..." -ForegroundColor Cyan
 
-# Check for GitHub token in env or mcp_config.json
+# Prevent hanging on GUI/credential prompt
+$env:GIT_TERMINAL_PROMPT = "0"
+
+# Check for GitHub token in env
 $token = $env:GITHUB_PERSONAL_ACCESS_TOKEN
+if (-not $token) { $token = [System.Environment]::GetEnvironmentVariable("GITHUB_PERSONAL_ACCESS_TOKEN", "User") }
 if (-not $token) { $token = $env:GITHUB_TOKEN }
 if (-not $token) { $token = $env:GH_TOKEN }
-if (-not $token) {
-    $mcpConfigFile = Join-Path $repoRoot ".agents\plugins\win-fresh-setup-kit\mcp_config.json"
-    if (Test-Path $mcpConfigFile) {
-        try {
-            $mcpJson = Get-Content $mcpConfigFile -Raw | ConvertFrom-Json
-            if ($mcpJson.mcpServers.github.env.GITHUB_PERSONAL_ACCESS_TOKEN) {
-                $token = $mcpJson.mcpServers.github.env.GITHUB_PERSONAL_ACCESS_TOKEN
-            }
-        } catch {}
-    }
-}
 
 if ($token) {
-    $authHeader = "Authorization: Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("x-access-token:$token"))
-    git -c http.extraHeader="$authHeader" push origin HEAD
+    $token = $token.Trim()
+    $remoteUrl = git remote get-url origin
+    if ($remoteUrl -match "github\.com[:/](.+?)/(.+?)(\.git)?$") {
+        $owner = $matches[1]
+        $repo = $matches[2]
+        $authUrl = "https://$token@github.com/$owner/$repo.git"
+        git push $authUrl HEAD
+    } else {
+        $authHeader = "Authorization: Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("x-access-token:$token"))
+        git -c http.extraHeader="$authHeader" push origin HEAD
+    }
 } else {
     git push origin HEAD
 }
@@ -124,6 +126,6 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "[OK] Successfully pushed changes to GitHub!" -ForegroundColor Green
 } else {
     Write-Host ""
-    Write-Host "[X] Git push failed. Please check your network or repository permissions." -ForegroundColor Red
+    Write-Host "[X] Git push failed. Please verify credentials or set GITHUB_PERSONAL_ACCESS_TOKEN." -ForegroundColor Red
     exit 1
 }

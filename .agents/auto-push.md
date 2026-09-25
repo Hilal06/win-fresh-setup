@@ -40,7 +40,9 @@ Whenever a feature, fix, or behavior changes:
 
 ---
 
-## 🛠️ Execution Tool
+## 🛠️ Execution Tools & Methods
+
+### Method 1: Automated Script (`.agents/scripts/auto_push.ps1`)
 - **Script Location**: [`.agents/scripts/auto_push.ps1`](file:///D:/Workspace/Script/.agents/scripts/auto_push.ps1)
 - **Usage**:
   ```powershell
@@ -50,4 +52,10 @@ Whenever a feature, fix, or behavior changes:
   1. Identifies repository root dynamically.
   2. Executes `.venv\Scripts\python.exe test_installer.py`.
   3. Halts with exit code 1 if any failure occurs.
-  4. Stages all files (`git add -A`), commits, and pushes to remote `main` branch upon 100% pass.
+  4. Stages all files (`git add -A`), commits, and resolves `GITHUB_PERSONAL_ACCESS_TOKEN` from user environment.
+  5. Sets `GIT_TERMINAL_PROMPT=0` to prevent hanging UI prompts, securely pushing directly to origin.
+
+### Method 2: GitHub MCP Server (`win-fresh-setup-kit_github`)
+When running agent-driven operations or in headless environments:
+- Use MCP tools (`push_files`, `create_or_update_file`, `list_commits`, `create_pull_request`) configured via `.agents/plugins/win-fresh-setup-kit/mcp_config.json`.
+- Eliminates reliance on interactive Git credential managers or local network blocking.
