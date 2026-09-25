@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [Unreleased] - 2026-09-07
+## [Unreleased] - 2026-09-26
 
 ### 🚀 Added
+- **Visual Demo & VHS Automation Suite (`demo/`, `demo_showcase.tape`)**:
+  - Full automated VHS tape script (`demo_showcase.tape`) for automated headless TUI simulation and screenshots.
+  - Interactive demo showcase GIF (`demo/win-fresh-setup-showcase.gif`) for README hero preview.
+  - High-resolution SVG and PNG screenshots for all core features (Elevation check, Main Menu, Select Apps, Presets, Debloater, Tweaks, Shell Booster, Pre-flight Health).
+  - Standalone SVG generator and renderer (`generate_feature_svgs.py`, `convert_svg_to_demo.py`).
+- **Enhanced Documentation in `README.md`**:
+  - Added animated showcase preview under repository introduction.
+  - Added clean 2-column aesthetic feature gallery showcasing actual TUI captures.
 - **CMD to Modern PowerShell 7+ Auto-Upgrade (`run.bat`)**:
   - Automatically detects if Modern PowerShell (`pwsh.exe`) is installed when launched from CMD.
   - Automatically downloads and installs `Microsoft.PowerShell` via Winget if missing.

@@ -95,7 +95,29 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "[*] Pushing to remote origin..." -ForegroundColor Cyan
-git push origin HEAD
+
+# Check for GitHub token in env or mcp_config.json
+$token = $env:GITHUB_PERSONAL_ACCESS_TOKEN
+if (-not $token) { $token = $env:GITHUB_TOKEN }
+if (-not $token) { $token = $env:GH_TOKEN }
+if (-not $token) {
+    $mcpConfigFile = Join-Path $repoRoot ".agents\plugins\win-fresh-setup-kit\mcp_config.json"
+    if (Test-Path $mcpConfigFile) {
+        try {
+            $mcpJson = Get-Content $mcpConfigFile -Raw | ConvertFrom-Json
+            if ($mcpJson.mcpServers.github.env.GITHUB_PERSONAL_ACCESS_TOKEN) {
+                $token = $mcpJson.mcpServers.github.env.GITHUB_PERSONAL_ACCESS_TOKEN
+            }
+        } catch {}
+    }
+}
+
+if ($token) {
+    $authHeader = "Authorization: Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("x-access-token:$token"))
+    git -c http.extraHeader="$authHeader" push origin HEAD
+} else {
+    git push origin HEAD
+}
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""

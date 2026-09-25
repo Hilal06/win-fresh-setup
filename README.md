@@ -5,6 +5,10 @@
 
 An interactive Terminal User Interface (TUI) and automated package installer to batch-install software, remove bloatware, and apply system optimizations on fresh Windows 11 & 10 setups using **Winget (Windows Package Manager)**.
 
+<p align="center">
+  <img src="demo/win-fresh-setup-showcase.gif" alt="win-fresh-setup Showcase Demo" width="90%">
+</p>
+
 ---
 
 ## ⚡ Quick 1-Line Online Bootstrap (No Git Required)
@@ -38,6 +42,51 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; irm https://raw.githubusercont
   - `Enter`: Confirm selection
 - **📁 Editable `apps.json`**: Manage your custom list of software, categories, Winget IDs, and default checked states.
 - **📜 Detailed Logging**: All installation logs are saved automatically to `logs/winget_install_<timestamp>.log`.
+
+---
+
+## 📸 Feature Showcase
+
+Experience a rich, responsive terminal UI crafted with `rich` and `questionary`:
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>🚀 Interactive Multi-Select Checkbox</b><br>
+      <sub>Batch-select applications by category with search & real-time install status</sub><br><br>
+      <img src="demo/03_select_install_apps.png" alt="Select & Install Apps" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <b>🎯 Curated Persona Presets</b><br>
+      <sub>Instant 1-click profiles: Dev, Gamer, Creator, Minimalist & Power User</sub><br><br>
+      <img src="demo/04_persona_presets.png" alt="Persona Presets" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>🧹 Windows Bloatware Remover</b><br>
+      <sub>Safely eliminate telemetry & pre-installed UWP junk packages</sub><br><br>
+      <img src="demo/05_debloater.png" alt="Windows Debloater" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <b>🛠️ System & Explorer Tweaks</b><br>
+      <sub>Classic context menu, dark mode, taskbar enhancements with 1-click rollback</sub><br><br>
+      <img src="demo/06_system_tweaks.png" alt="System Tweaks" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>⚡ Terminal & PowerShell Booster</b><br>
+      <sub>PSReadLine predictive IntelliSense, Starship prompt & Unix-style aliases</sub><br><br>
+      <img src="demo/07_shell_booster.png" alt="Shell Booster" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <b>🩺 System Pre-Flight Diagnosis</b><br>
+      <sub>Live check for storage space, admin privileges, internet & Winget CDN</sub><br><br>
+      <img src="demo/08_preflight_health.png" alt="Pre-Flight Health Check" width="100%">
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -133,7 +182,9 @@ powershell -ExecutionPolicy Bypass -File .\.agents\scripts\auto_push.ps1 -Commit
 See full details in [CHANGELOG.md](file:///D:/Workspace/Script/CHANGELOG.md).
 
 ```text
-[v1.1.0-dev] - 2026-09-07
+[v1.1.0-dev] - 2026-09-26
+  + Added: Visual Demo & VHS Automation suite (demo/ showcase GIF + screenshots)
+  + Added: Enhanced feature gallery in README.md
   + Added: CMD -> PowerShell 7 (pwsh) auto-install & execution switch in run.bat
   + Added: UAC elevation prompt (runas) before main menu with "[Sangat Direkomendasikan]" notice
   + Added: Direct venv execution (.venv\Scripts\python.exe) bypassing Activate.ps1 execution policies

@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "D:\\Workspace\\Script\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "mcp_server_fetch"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  }
+}
