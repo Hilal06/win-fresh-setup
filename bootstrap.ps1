@@ -10,6 +10,23 @@ Write-Host "       win-fresh-setup: Online Web Bootstrap           " -Foreground
 Write-Host "=======================================================" -ForegroundColor Cyan
 Write-Host ""
 
+# Mandatory Administrator Elevation Check (CTT WinUtil Reference Pattern)
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host "[*] win-fresh-setup memerlukan hak akses Administrator." -ForegroundColor Yellow
+    Write-Host "[*] Membuka sesi Administrator via UAC..." -ForegroundColor Cyan
+
+    $powershellCmd = if (Get-Command pwsh -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
+    $processCmd = if (Get-Command wt.exe -ErrorAction SilentlyContinue) { "wt.exe" } else { "$powershellCmd" }
+    $onlineCmd = "&([ScriptBlock]::Create((irm https://raw.githubusercontent.com/Hilal06/win-fresh-setup/main/bootstrap.ps1)))"
+
+    if ($processCmd -eq "wt.exe") {
+        Start-Process $processCmd -ArgumentList "$powershellCmd -ExecutionPolicy Bypass -NoProfile -Command `"$onlineCmd`"" -Verb RunAs
+    } else {
+        Start-Process $processCmd -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"$onlineCmd`"" -Verb RunAs
+    }
+    exit 0
+}
+
 # Check Winget
 $wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
 if (-not $wingetCmd) {

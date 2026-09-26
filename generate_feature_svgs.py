@@ -39,7 +39,7 @@ def render_to_svg(filename: str, render_callback, width=120):
     console.save_svg(svg_path, title=filename.replace(".svg", ""))
     return svg_path
 
-# 1. Main Banner & Elevation Screen
+# 1. Main Banner & Mandatory Elevation Screen (CTT-style Auto-Elevation)
 def draw_elevation_screen(c: Console):
     title = """
   ██╗    ██╗██╗███╗   ██╗      ███████╗██████╗ ███████╗███████╗██╗  ██╗
@@ -53,19 +53,17 @@ def draw_elevation_screen(c: Console):
     c.print(Align.center("[bold white]Windows 11 & 10 Automated Package & System Setup Suite[/bold white]"))
     c.print(Align.center("[dim]Author: Hilal06 | GitHub: https://github.com/Hilal06/win-fresh-setup[/dim]\n"))
     c.print(Panel(
-        "[bold yellow]⚠️  PEMBERITAHUAN HAK AKSES SISTEM[/bold yellow]\n\n"
+        "[bold yellow]⚠️  HAK AKSES ADMINISTRATOR DIWAJIBKAN[/bold yellow]\n\n"
         "Anda saat ini menjalankan installer sebagai [bold cyan]Standard User (Bukan Administrator)[/bold cyan].\n\n"
-        "Fitur seperti [italic]Instalasi Aplikasi System-wide, Registry Tweaks, Windows Debloater, dan Shell Booster[/italic] "
-        "memerlukan hak akses [bold green]Administrator[/bold green] agar dapat bekerja secara optimal.\n\n"
-        "[bold green]👉 Catatan: Sangat direkomendasikan untuk beralih ke sesi Administrator sekarang.[/bold green]",
-        title="[bold yellow]🛡️ Hak Akses Administrator[/bold yellow]",
+        "Fitur seperti [italic]Instalasi Paket Sistem, Registry & Explorer Tweaks, Windows Debloater, dan Shell Booster[/italic] "
+        "memerlukan hak akses [bold green]Administrator[/bold green] penuh agar dapat bekerja optimal.\n\n"
+        "[bold cyan][*] Membuka sesi Administrator via UAC... Silakan klik 'Yes' pada jendela konfirmasi Windows.[/bold cyan]",
+        title="[bold yellow]🛡️ Auto-Elevation Administrator (Mandatory)[/bold yellow]",
         border_style="yellow",
         padding=(1, 2)
     ))
-    c.print("\n[bold]? Pilih mode eksekusi:[/bold]")
-    c.print("  [bold green]❯ 🛡️ Beralih ke Administrator (Sangat Direkomendasikan)[/bold green]")
-    c.print("    👤 Tetap Lanjut sebagai Standard User (Beberapa fitur mungkin terbatas)")
-    c.print("    ❌ Keluar")
+    c.print("\n[bold cyan][*] Membuka jendela Administrator baru...[/bold cyan]")
+    c.print("[dim]Prompt UAC Windows terpicu secara otomatis. Sesi non-administrator akan ditutup setelah elevasi disetujui.[/dim]")
 
 # 2. Main Menu Screen
 def draw_main_menu_screen(c: Console):

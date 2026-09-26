@@ -4,6 +4,15 @@ title Windows 11 Winget App Installer
 
 cd /d "%~dp0"
 
+:: Mandatory Administrator Elevation Check
+net session >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo [*] win-fresh-setup memerlukan hak akses Administrator.
+    echo [*] Membuka sesi Administrator via UAC...
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process cmd.exe -ArgumentList '/c \"\"%~f0\"\"' -Verb RunAs"
+    exit /b 0
+)
+
 echo =======================================================
 echo          Windows 11 Winget App Installer Setup
 echo =======================================================

@@ -11,6 +11,23 @@ Write-Host "         Windows 11 Winget App Installer Setup         " -Foreground
 Write-Host "=======================================================" -ForegroundColor Cyan
 Write-Host ""
 
+# Mandatory Administrator Elevation Check (CTT WinUtil Reference Pattern)
+if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host "[*] win-fresh-setup memerlukan hak akses Administrator." -ForegroundColor Yellow
+    Write-Host "[*] Membuka sesi Administrator via UAC..." -ForegroundColor Cyan
+
+    $powershellCmd = if (Get-Command pwsh -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
+    $processCmd = if (Get-Command wt.exe -ErrorAction SilentlyContinue) { "wt.exe" } else { "$powershellCmd" }
+    $targetScript = if ($PSCommandPath) { $PSCommandPath } else { (Join-Path $scriptDir "run.ps1") }
+
+    if ($processCmd -eq "wt.exe") {
+        Start-Process $processCmd -ArgumentList "$powershellCmd -ExecutionPolicy Bypass -NoProfile -File `"$targetScript`"" -Verb RunAs
+    } else {
+        Start-Process $processCmd -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$targetScript`"" -Verb RunAs
+    }
+    exit 0
+}
+
 function Get-PythonExecutable {
     # 1. Test standard 'python' in PATH (ensure it's not the Windows Store 0-byte shim)
     $py = Get-Command python -ErrorAction SilentlyContinue

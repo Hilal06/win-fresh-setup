@@ -176,20 +176,32 @@ def is_admin() -> bool:
 
 def elevate_process() -> bool:
     """Relaunch the current script with Administrator elevation (UAC prompt)."""
-    CONSOLE.print("\n[bold cyan][*] Membuka jendela Administrator baru... Silakan klik 'Yes' pada prompt UAC.[/bold cyan]")
+    CONSOLE.print("\n[bold cyan][*] Membuka jendela Administrator baru... Silakan klik 'Yes' pada prompt UAC Windows.[/bold cyan]")
     python_exe = sys.executable
     script_path = os.path.abspath(sys.argv[0])
-    params = f'"{script_path}"'
-    
+
+    # Check if Windows Terminal is available
+    wt_exe = shutil.which("wt.exe")
+
     try:
-        ret = ctypes.windll.shell32.ShellExecuteW(
-            None,
-            "runas",
-            python_exe,
-            params,
-            os.getcwd(),
-            1  # SW_SHOWNORMAL
-        )
+        if wt_exe:
+            ret = ctypes.windll.shell32.ShellExecuteW(
+                None,
+                "runas",
+                wt_exe,
+                f'"{python_exe}" "{script_path}"',
+                os.getcwd(),
+                1  # SW_SHOWNORMAL
+            )
+        else:
+            ret = ctypes.windll.shell32.ShellExecuteW(
+                None,
+                "runas",
+                python_exe,
+                f'"{script_path}"',
+                os.getcwd(),
+                1  # SW_SHOWNORMAL
+            )
         # ShellExecute returns HINSTANCE > 32 on success
         if int(ret) > 32:
             return True
@@ -199,45 +211,35 @@ def elevate_process() -> bool:
         CONSOLE.print(f"[bold red][X] Terjadi kesalahan saat membuka prompt Administrator: {e}[/bold red]")
         return False
 
-def prompt_elevation_if_needed():
-    """Prompt standard user to elevate to Administrator privileges before main menu."""
+def require_admin():
+    """Ensure script is running as Administrator; automatically trigger UAC elevation if not."""
     if is_admin():
         return
 
     print_banner()
     CONSOLE.print(
         Panel(
-            "[bold yellow]⚠️  PEMBERITAHUAN HAK AKSES SISTEM[/bold yellow]\n\n"
+            "[bold yellow]⚠️  HAK AKSES ADMINISTRATOR DIWAJIBKAN[/bold yellow]\n\n"
             "Anda saat ini menjalankan installer sebagai [bold cyan]Standard User (Bukan Administrator)[/bold cyan].\n\n"
-            "Fitur seperti [italic]Instalasi Aplikasi System-wide, Registry Tweaks, Windows Debloater, dan Shell Booster[/italic] "
-            "memerlukan hak akses [bold green]Administrator[/bold green] agar dapat bekerja secara optimal.\n\n"
-            "[bold green]👉 Catatan: Sangat direkomendasikan untuk beralih ke sesi Administrator sekarang.[/bold green]",
-            title="[bold yellow]🛡️ Hak Akses Administrator[/bold yellow]",
+            "Fitur seperti [italic]Instalasi Paket Sistem, Registry & Explorer Tweaks, Windows Debloater, dan Shell Booster[/italic] "
+            "memerlukan hak akses [bold green]Administrator[/bold green] penuh agar dapat bekerja optimal.\n\n"
+            "[bold cyan][*] Membuka sesi Administrator via UAC... Silakan klik 'Yes' pada jendela konfirmasi Windows.[/bold cyan]",
+            title="[bold yellow]🛡️ Auto-Elevation Administrator[/bold yellow]",
             border_style="yellow",
             padding=(1, 2)
         )
     )
-    CONSOLE.print("")
 
-    choice = questionary.select(
-        "Pilih mode eksekusi:",
-        choices=[
-            Choice("🛡️ Beralih ke Administrator (Sangat Direkomendasikan)", value="elevate"),
-            Choice("👤 Tetap Lanjut sebagai Standard User (Beberapa fitur mungkin terbatas)", value="continue"),
-            Choice("❌ Keluar", value="exit")
-        ],
-        style=CUSTOM_STYLE
-    ).ask()
-
-    if choice == "elevate":
-        if elevate_process():
-            sys.exit(0)
-        else:
-            CONSOLE.print("[bold yellow][!] Elevasi dibatalkan atau ditolak. Melanjutkan sebagai Standard User...[/bold yellow]")
-            questionary.press_any_key_to_continue().ask()
-    elif choice == "exit":
-        CONSOLE.print("\n[yellow]Setup dibatalkan oleh pengguna.[/yellow]")
+    if elevate_process():
         sys.exit(0)
+    else:
+        CONSOLE.print("\n[bold red][X] Elevasi Administrator dibatalkan atau ditolak.[/bold red]")
+        CONSOLE.print("[yellow]win-fresh-setup memerlukan hak akses Administrator untuk berjalan. Program dihentikan.[/yellow]\n")
+        sys.exit(1)
+
+def prompt_elevation_if_needed():
+    """Alias for backwards compatibility."""
+    require_admin()
 
 def ensure_dirs():
     if not os.path.exists(LOGS_DIR):
@@ -1356,7 +1358,7 @@ def main_menu():
 if __name__ == "__main__":
     try:
         ensure_dirs()
-        prompt_elevation_if_needed()
+        require_admin()
         main_menu()
     except KeyboardInterrupt:
         CONSOLE.print("\n[yellow]Operation canceled by user.[/yellow]")
