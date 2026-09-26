@@ -104,23 +104,23 @@ def draw_main_menu_screen(c: Console):
         else:
             c.print(f"   {m}")
 
-# 3. Checkbox Application Multi-Select Screen (Checkmark-focused, clean dev aesthetic)
+# 3. Checkbox Application Multi-Select Screen (Classic Dev ASCII [X]/[ ] style)
 def draw_app_select_screen(c: Console):
     c.print("[bold yellow]=== 🚀 Select & Install Applications ===[/bold yellow]")
     c.print("[dim](Space to select/deselect, 'a' to toggle all, 'i' to invert, Enter to confirm)[/dim]\n")
     c.print("[bold #89dceb]── WEB BROWSERS ──[/bold #89dceb]")
-    c.print(" [bold #f38ba8]❯[/bold #f38ba8] [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Mozilla Firefox[/bold #cdd6f4] [italic #89dceb][Installed][/italic #89dceb] [dim #6c7086](Mozilla.Firefox)[/dim #6c7086] [dim #a6adc8]- Fast, private, and open-source web browser[/dim #a6adc8]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Google Chrome[/bold #cdd6f4] [dim #6c7086](Google.Chrome)[/dim #6c7086] [dim #a6adc8]- Fast and secure web browser by Google[/dim #a6adc8]")
+    c.print(" [bold #f38ba8]❯[/bold #f38ba8] [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Mozilla Firefox[/bold #cdd6f4] [italic #89dceb][Installed][/italic #89dceb] [dim #6c7086](Mozilla.Firefox)[/dim #6c7086] [dim #a6adc8]- Fast, private, and open-source web browser[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Google Chrome[/bold #cdd6f4] [dim #6c7086](Google.Chrome)[/dim #6c7086] [dim #a6adc8]- Fast and secure web browser by Google[/dim #a6adc8]")
     c.print("   [bold #6c7086][ ][/bold #6c7086] [bold #cdd6f4]Brave Browser[/bold #cdd6f4] [dim #6c7086](Brave.Brave)[/dim #6c7086] [dim #a6adc8]- Privacy-focused browser with built-in ad blocker[/dim #a6adc8]")
     c.print("\n[bold #89dceb]── DEVELOPER TOOLS ──[/bold #89dceb]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Visual Studio Code[/bold #cdd6f4] [dim #6c7086](Microsoft.VisualStudioCode)[/dim #6c7086] [dim #a6adc8]- Code editing redefined by Microsoft[/dim #a6adc8]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Windows Terminal[/bold #cdd6f4] [dim #6c7086](Microsoft.WindowsTerminal)[/dim #6c7086] [dim #a6adc8]- Modern, fast, and powerful terminal for Windows[/dim #a6adc8]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]PowerShell 7[/bold #cdd6f4] [dim #6c7086](Microsoft.PowerShell)[/dim #6c7086] [dim #a6adc8]- Cross-platform command-line shell[/dim #a6adc8]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Git[/bold #cdd6f4] [dim #6c7086](Git.Git)[/dim #6c7086] [dim #a6adc8]- Distributed version control system[/dim #a6adc8]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Node.js (LTS)[/bold #cdd6f4] [dim #6c7086](OpenJS.NodeJS.LTS)[/dim #6c7086] [dim #a6adc8]- JavaScript runtime built on Chrome's V8 engine[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Visual Studio Code[/bold #cdd6f4] [dim #6c7086](Microsoft.VisualStudioCode)[/dim #6c7086] [dim #a6adc8]- Code editing redefined by Microsoft[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Windows Terminal[/bold #cdd6f4] [dim #6c7086](Microsoft.WindowsTerminal)[/dim #6c7086] [dim #a6adc8]- Modern, fast, and powerful terminal for Windows[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]PowerShell 7[/bold #cdd6f4] [dim #6c7086](Microsoft.PowerShell)[/dim #6c7086] [dim #a6adc8]- Cross-platform command-line shell[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Git[/bold #cdd6f4] [dim #6c7086](Git.Git)[/dim #6c7086] [dim #a6adc8]- Distributed version control system[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Node.js (LTS)[/bold #cdd6f4] [dim #6c7086](OpenJS.NodeJS.LTS)[/dim #6c7086] [dim #a6adc8]- JavaScript runtime built on Chrome's V8 engine[/dim #a6adc8]")
     c.print("\n[bold #89dceb]── MEDIA & AUDIO ──[/bold #89dceb]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]VLC Media Player[/bold #cdd6f4] [dim #6c7086](VideoLAN.VLC)[/dim #6c7086] [dim #a6adc8]- Free and open source multimedia player[/dim #a6adc8]")
-    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]✔[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Spotify[/bold #cdd6f4] [dim #6c7086](Spotify.Spotify)[/dim #6c7086] [dim #a6adc8]- Music for everyone[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]VLC Media Player[/bold #cdd6f4] [dim #6c7086](VideoLAN.VLC)[/dim #6c7086] [dim #a6adc8]- Free and open source multimedia player[/dim #a6adc8]")
+    c.print("   [bold #6c7086][[/bold #6c7086][bold #a6e3a1]X[/bold #a6e3a1][bold #6c7086]][/bold #6c7086] [bold #cdd6f4]Spotify[/bold #cdd6f4] [dim #6c7086](Spotify.Spotify)[/dim #6c7086] [dim #a6adc8]- Music for everyone[/dim #a6adc8]")
     c.print("   [bold #6c7086][ ][/bold #6c7086] [bold #cdd6f4]OBS Studio[/bold #cdd6f4] [dim #6c7086](OBSProject.OBSStudio)[/dim #6c7086] [dim #a6adc8]- Free and open source software for video recording[/dim #a6adc8]")
 
 # 4. Persona Presets Screen

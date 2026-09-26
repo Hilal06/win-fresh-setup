@@ -134,8 +134,8 @@ def test_choices_builder():
     ic = InquirerControl(choices=choices[:5], use_indicator=True)
     tokens = ic._get_choice_tokens()
     assert any(t[0] == "class:checkbox-bracket" and t[1] == "[" for t in tokens), "Checkbox bracket '[' missing"
-    assert any(t[0] == "class:checkbox-check" for t in tokens), "Checkbox checkmark missing"
-    print("  [OK] Choice generator, category filtering, and [✔]/[ ] checkbox tokens verified.")
+    assert any(t[0] == "class:checkbox-check" and t[1] == "X" for t in tokens), "Checkbox check 'X' missing"
+    print("  [OK] Choice generator, category filtering, and [X]/[ ] checkbox tokens verified.")
 
 def test_winget_availability():
     print("\n[TEST 10] Testing Winget CLI accessibility...")

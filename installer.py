@@ -73,7 +73,7 @@ def patch_questionary_rendering():
     """
     from questionary.prompts.common import InquirerControl
 
-    check_char = os.environ.get("WFS_CHECK_CHAR", "✔")
+    check_char = os.environ.get("WFS_CHECK_CHAR", "X")
 
     def custom_get_choice_tokens(self):
         tokens = []
