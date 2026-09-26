@@ -65,18 +65,18 @@ LOGS_DIR = os.path.join(BASE_DIR, "logs")
 
 _INSTALLED_CACHE: Optional[Set[str]] = None
 
-# Custom styling for questionary
+# Custom styling for questionary (Clean, dev-ish Catppuccin-inspired palette)
 CUSTOM_STYLE = Style([
-    ('qmark', 'fg:#5f87ff bold'),
-    ('question', 'bold'),
-    ('answer', 'fg:#5fffff bold'),
-    ('pointer', 'fg:#ff5f87 bold'),
-    ('highlighted', 'fg:#ff5f87 bold'),
-    ('selected', 'fg:#5fff87 bold'),
-    ('separator', 'fg:#6c6c6c italic'),
-    ('instruction', 'fg:#808080 italic'),
-    ('text', ''),
-    ('disabled', 'fg:#858585 italic')
+    ('qmark', 'fg:#89b4fa bold'),
+    ('question', 'bold fg:#cdd6f4'),
+    ('answer', 'fg:#89dceb bold'),
+    ('pointer', 'fg:#f38ba8 bold'),        # Modern clean pointer '❯'
+    ('highlighted', 'noinherit'),           # Clean cursor navigation: do not glare the whole line
+    ('selected', 'fg:#a6e3a1 bold'),        # Crisp emerald checkmark [X]
+    ('separator', 'fg:#6c7086 italic'),
+    ('instruction', 'fg:#a6adc8 italic'),
+    ('text', 'fg:#cdd6f4'),
+    ('disabled', 'fg:#585b70 italic')
 ])
 
 def is_admin() -> bool:

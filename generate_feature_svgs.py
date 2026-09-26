@@ -104,24 +104,24 @@ def draw_main_menu_screen(c: Console):
         else:
             c.print(f"   {m}")
 
-# 3. Checkbox Application Multi-Select Screen
+# 3. Checkbox Application Multi-Select Screen (Checkmark-focused, clean dev aesthetic)
 def draw_app_select_screen(c: Console):
     c.print("[bold yellow]=== 🚀 Select & Install Applications ===[/bold yellow]")
     c.print("[dim](Space to select/deselect, 'a' to toggle all, 'i' to invert, Enter to confirm)[/dim]\n")
-    c.print("[bold cyan]-- Web Browsers --[/bold cyan]")
-    c.print(" [bold green]❯ [X] Mozilla Firefox - Fast, private, and open-source web browser (Mozilla.Firefox)[/bold green]")
-    c.print("   [X] Google Chrome - Fast and secure web browser by Google (Google.Chrome)")
-    c.print("   [ ] Brave Browser - Privacy-focused browser with built-in ad blocker (Brave.Brave)")
-    c.print("\n[bold cyan]-- Developer Tools --[/bold cyan]")
-    c.print("   [X] Visual Studio Code - Code editing redefined by Microsoft (Microsoft.VisualStudioCode)")
-    c.print("   [X] Windows Terminal - Modern, fast, and powerful terminal for Windows (Microsoft.WindowsTerminal)")
-    c.print("   [X] PowerShell 7 - Cross-platform command-line shell (Microsoft.PowerShell)")
-    c.print("   [X] Git - Distributed version control system (Git.Git)")
-    c.print("   [X] Node.js (LTS) - JavaScript runtime built on Chrome's V8 engine (OpenJS.NodeJS.LTS)")
-    c.print("\n[bold cyan]-- Media & Audio --[/bold cyan]")
-    c.print("   [X] VLC Media Player - Free and open source multimedia player (VideoLAN.VLC)")
-    c.print("   [X] Spotify - Music for everyone (Spotify.Spotify)")
-    c.print("   [ ] OBS Studio - Free and open source software for video recording (OBSProject.OBSStudio)")
+    c.print("[bold cyan]── WEB BROWSERS ──[/bold cyan]")
+    c.print(" [bold magenta]❯[/bold magenta] [bold green][X][/bold green] Mozilla Firefox [dim](Mozilla.Firefox)[/dim] - Fast, private, and open-source web browser")
+    c.print("   [bold green][X][/bold green] Google Chrome [dim](Google.Chrome)[/dim] - Fast and secure web browser by Google")
+    c.print("   [dim][ ][/dim] Brave Browser [dim](Brave.Brave)[/dim] - Privacy-focused browser with built-in ad blocker")
+    c.print("\n[bold cyan]── DEVELOPER TOOLS ──[/bold cyan]")
+    c.print("   [bold green][X][/bold green] Visual Studio Code [dim](Microsoft.VisualStudioCode)[/dim] - Code editing redefined by Microsoft")
+    c.print("   [bold green][X][/bold green] Windows Terminal [dim](Microsoft.WindowsTerminal)[/dim] - Modern, fast, and powerful terminal for Windows")
+    c.print("   [bold green][X][/bold green] PowerShell 7 [dim](Microsoft.PowerShell)[/dim] - Cross-platform command-line shell")
+    c.print("   [bold green][X][/bold green] Git [dim](Git.Git)[/dim] - Distributed version control system")
+    c.print("   [bold green][X][/bold green] Node.js (LTS) [dim](OpenJS.NodeJS.LTS)[/dim] - JavaScript runtime built on Chrome's V8 engine")
+    c.print("\n[bold cyan]── MEDIA & AUDIO ──[/bold cyan]")
+    c.print("   [bold green][X][/bold green] VLC Media Player [dim](VideoLAN.VLC)[/dim] - Free and open source multimedia player")
+    c.print("   [bold green][X][/bold green] Spotify [dim](Spotify.Spotify)[/dim] - Music for everyone")
+    c.print("   [dim][ ][/dim] OBS Studio [dim](OBSProject.OBSStudio)[/dim] - Free and open source software for video recording")
 
 # 4. Persona Presets Screen
 def draw_presets_screen(c: Console):
