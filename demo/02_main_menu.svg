@@ -1,4 +1,4 @@
-<svg class="rich-terminal" viewBox="0 0 1482 733.1999999999999" xmlns="http://www.w3.org/2000/svg">
+<svg class="rich-terminal" viewBox="0 0 1482 782.0" xmlns="http://www.w3.org/2000/svg">
     <!-- Generated with Rich https://www.textualize.io -->
     <style>
 
@@ -19,155 +19,166 @@
         font-weight: 700;
     }
 
-    .terminal-3846764588-matrix {
+    .terminal-845433525-matrix {
         font-family: Fira Code, monospace;
         font-size: 20px;
         line-height: 24.4px;
         font-variant-east-asian: full-width;
     }
 
-    .terminal-3846764588-title {
+    .terminal-845433525-title {
         font-size: 18px;
         font-weight: bold;
         font-family: arial;
     }
 
-    .terminal-3846764588-r1 { fill: #c5c8c6 }
-.terminal-3846764588-r2 { fill: #68a0b3;font-weight: bold }
-.terminal-3846764588-r3 { fill: #c5c8c6;font-weight: bold }
-.terminal-3846764588-r4 { fill: #868887 }
-.terminal-3846764588-r5 { fill: #1f5f9c;text-decoration: underline; }
-.terminal-3846764588-r6 { fill: #4e707b;font-weight: bold }
-.terminal-3846764588-r7 { fill: #98729f;font-weight: bold }
-.terminal-3846764588-r8 { fill: #d0b344 }
-.terminal-3846764588-r9 { fill: #98729f }
+    .terminal-845433525-r1 { fill: #c5c8c6 }
+.terminal-845433525-r2 { fill: #d78700 }
+.terminal-845433525-r3 { fill: #ff8800;font-weight: bold }
+.terminal-845433525-r4 { fill: #68a0b3;font-weight: bold }
+.terminal-845433525-r5 { fill: #98a84b;font-weight: bold }
+.terminal-845433525-r6 { fill: #868887 }
+.terminal-845433525-r7 { fill: #98729f;font-style: italic; }
+.terminal-845433525-r8 { fill: #4e707b;font-weight: bold }
+.terminal-845433525-r9 { fill: #c5c8c6;font-weight: bold }
+.terminal-845433525-r10 { fill: #98729f;font-weight: bold }
+.terminal-845433525-r11 { fill: #d0b344 }
+.terminal-845433525-r12 { fill: #98729f }
     </style>
 
     <defs>
-    <clipPath id="terminal-3846764588-clip-terminal">
-      <rect x="0" y="0" width="1463.0" height="682.1999999999999" />
+    <clipPath id="terminal-845433525-clip-terminal">
+      <rect x="0" y="0" width="1463.0" height="731.0" />
     </clipPath>
-    <clipPath id="terminal-3846764588-line-0">
+    <clipPath id="terminal-845433525-line-0">
     <rect x="0" y="1.5" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-1">
+<clipPath id="terminal-845433525-line-1">
     <rect x="0" y="25.9" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-2">
+<clipPath id="terminal-845433525-line-2">
     <rect x="0" y="50.3" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-3">
+<clipPath id="terminal-845433525-line-3">
     <rect x="0" y="74.7" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-4">
+<clipPath id="terminal-845433525-line-4">
     <rect x="0" y="99.1" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-5">
+<clipPath id="terminal-845433525-line-5">
     <rect x="0" y="123.5" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-6">
+<clipPath id="terminal-845433525-line-6">
     <rect x="0" y="147.9" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-7">
+<clipPath id="terminal-845433525-line-7">
     <rect x="0" y="172.3" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-8">
+<clipPath id="terminal-845433525-line-8">
     <rect x="0" y="196.7" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-9">
+<clipPath id="terminal-845433525-line-9">
     <rect x="0" y="221.1" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-10">
+<clipPath id="terminal-845433525-line-10">
     <rect x="0" y="245.5" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-11">
+<clipPath id="terminal-845433525-line-11">
     <rect x="0" y="269.9" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-12">
+<clipPath id="terminal-845433525-line-12">
     <rect x="0" y="294.3" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-13">
+<clipPath id="terminal-845433525-line-13">
     <rect x="0" y="318.7" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-14">
+<clipPath id="terminal-845433525-line-14">
     <rect x="0" y="343.1" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-15">
+<clipPath id="terminal-845433525-line-15">
     <rect x="0" y="367.5" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-16">
+<clipPath id="terminal-845433525-line-16">
     <rect x="0" y="391.9" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-17">
+<clipPath id="terminal-845433525-line-17">
     <rect x="0" y="416.3" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-18">
+<clipPath id="terminal-845433525-line-18">
     <rect x="0" y="440.7" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-19">
+<clipPath id="terminal-845433525-line-19">
     <rect x="0" y="465.1" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-20">
+<clipPath id="terminal-845433525-line-20">
     <rect x="0" y="489.5" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-21">
+<clipPath id="terminal-845433525-line-21">
     <rect x="0" y="513.9" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-22">
+<clipPath id="terminal-845433525-line-22">
     <rect x="0" y="538.3" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-23">
+<clipPath id="terminal-845433525-line-23">
     <rect x="0" y="562.7" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-24">
+<clipPath id="terminal-845433525-line-24">
     <rect x="0" y="587.1" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-25">
+<clipPath id="terminal-845433525-line-25">
     <rect x="0" y="611.5" width="1464" height="24.65"/>
             </clipPath>
-<clipPath id="terminal-3846764588-line-26">
+<clipPath id="terminal-845433525-line-26">
     <rect x="0" y="635.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-845433525-line-27">
+    <rect x="0" y="660.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-845433525-line-28">
+    <rect x="0" y="684.7" width="1464" height="24.65"/>
             </clipPath>
     </defs>
 
-    <rect fill="#292929" stroke="rgba(255,255,255,0.35)" stroke-width="1" x="1" y="1" width="1480" height="731.2" rx="8"/><text class="terminal-3846764588-title" fill="#c5c8c6" text-anchor="middle" x="740" y="27">02_main_menu</text>
+    <rect fill="#292929" stroke="rgba(255,255,255,0.35)" stroke-width="1" x="1" y="1" width="1480" height="780" rx="8"/><text class="terminal-845433525-title" fill="#c5c8c6" text-anchor="middle" x="740" y="27">02_main_menu</text>
             <g transform="translate(26,22)">
             <circle cx="0" cy="0" r="7" fill="#ff5f57"/>
             <circle cx="22" cy="0" r="7" fill="#febc2e"/>
             <circle cx="44" cy="0" r="7" fill="#28c840"/>
             </g>
         
-    <g transform="translate(9, 41)" clip-path="url(#terminal-3846764588-clip-terminal)">
+    <g transform="translate(9, 41)" clip-path="url(#terminal-845433525-clip-terminal)">
     
-    <g class="terminal-3846764588-matrix">
-    <text class="terminal-3846764588-r1" x="1464" y="20" textLength="12.2" clip-path="url(#terminal-3846764588-line-0)">
-</text><text class="terminal-3846764588-r2" x="292.8" y="44.4" textLength="866.2" clip-path="url(#terminal-3846764588-line-1)">&#160;&#160;██╗&#160;&#160;&#160;&#160;██╗██╗███╗&#160;&#160;&#160;██╗&#160;&#160;&#160;&#160;&#160;&#160;███████╗██████╗&#160;███████╗███████╗██╗&#160;&#160;██╗</text><text class="terminal-3846764588-r1" x="1464" y="44.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-1)">
-</text><text class="terminal-3846764588-r2" x="292.8" y="68.8" textLength="866.2" clip-path="url(#terminal-3846764588-line-2)">&#160;&#160;██║&#160;&#160;&#160;&#160;██║██║████╗&#160;&#160;██║&#160;&#160;&#160;&#160;&#160;&#160;██╔════╝██╔══██╗██╔════╝██╔════╝██║&#160;&#160;██║</text><text class="terminal-3846764588-r1" x="1464" y="68.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-2)">
-</text><text class="terminal-3846764588-r2" x="292.8" y="93.2" textLength="866.2" clip-path="url(#terminal-3846764588-line-3)">&#160;&#160;██║&#160;█╗&#160;██║██║██╔██╗&#160;██║█████╗█████╗&#160;&#160;██████╔╝█████╗&#160;&#160;███████╗███████║</text><text class="terminal-3846764588-r1" x="1464" y="93.2" textLength="12.2" clip-path="url(#terminal-3846764588-line-3)">
-</text><text class="terminal-3846764588-r2" x="292.8" y="117.6" textLength="866.2" clip-path="url(#terminal-3846764588-line-4)">&#160;&#160;██║███╗██║██║██║╚██╗██║╚════╝██╔══╝&#160;&#160;██╔══██╗██╔══╝&#160;&#160;╚════██║██╔══██║</text><text class="terminal-3846764588-r1" x="1464" y="117.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-4)">
-</text><text class="terminal-3846764588-r2" x="292.8" y="142" textLength="866.2" clip-path="url(#terminal-3846764588-line-5)">&#160;&#160;╚███╔███╔╝██║██║&#160;╚████║&#160;&#160;&#160;&#160;&#160;&#160;██║&#160;&#160;&#160;&#160;&#160;██║&#160;&#160;██║███████╗███████║██║&#160;&#160;██║</text><text class="terminal-3846764588-r1" x="1464" y="142" textLength="12.2" clip-path="url(#terminal-3846764588-line-5)">
-</text><text class="terminal-3846764588-r2" x="292.8" y="166.4" textLength="866.2" clip-path="url(#terminal-3846764588-line-6)">&#160;&#160;&#160;╚══╝╚══╝&#160;╚═╝╚═╝&#160;&#160;╚═══╝&#160;&#160;&#160;&#160;&#160;&#160;╚═╝&#160;&#160;&#160;&#160;&#160;╚═╝&#160;&#160;╚═╝╚══════╝╚══════╝╚═╝&#160;&#160;╚═╝</text><text class="terminal-3846764588-r1" x="1464" y="166.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-6)">
-</text><text class="terminal-3846764588-r1" x="1464" y="190.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-7)">
-</text><text class="terminal-3846764588-r3" x="402.6" y="215.2" textLength="97.6" clip-path="url(#terminal-3846764588-line-8)">Windows&#160;</text><text class="terminal-3846764588-r3" x="500.2" y="215.2" textLength="24.4" clip-path="url(#terminal-3846764588-line-8)">11</text><text class="terminal-3846764588-r3" x="524.6" y="215.2" textLength="36.6" clip-path="url(#terminal-3846764588-line-8)">&#160;&amp;&#160;</text><text class="terminal-3846764588-r3" x="561.2" y="215.2" textLength="24.4" clip-path="url(#terminal-3846764588-line-8)">10</text><text class="terminal-3846764588-r3" x="585.6" y="215.2" textLength="475.8" clip-path="url(#terminal-3846764588-line-8)">&#160;Automated&#160;Package&#160;&amp;&#160;System&#160;Setup&#160;Suite</text><text class="terminal-3846764588-r1" x="1464" y="215.2" textLength="12.2" clip-path="url(#terminal-3846764588-line-8)">
-</text><text class="terminal-3846764588-r4" x="317.2" y="239.6" textLength="317.2" clip-path="url(#terminal-3846764588-line-9)">Author:&#160;Hilal06&#160;|&#160;GitHub:&#160;</text><text class="terminal-3846764588-r5" x="634.4" y="239.6" textLength="512.4" clip-path="url(#terminal-3846764588-line-9)">https://github.com/Hilal06/win-fresh-setup</text><text class="terminal-3846764588-r1" x="1464" y="239.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-9)">
-</text><text class="terminal-3846764588-r1" x="1464" y="264" textLength="12.2" clip-path="url(#terminal-3846764588-line-10)">
-</text><text class="terminal-3846764588-r4" x="0" y="288.4" textLength="85.4" clip-path="url(#terminal-3846764588-line-11)">Loaded&#160;</text><text class="terminal-3846764588-r6" x="85.4" y="288.4" textLength="24.4" clip-path="url(#terminal-3846764588-line-11)">34</text><text class="terminal-3846764588-r4" x="109.8" y="288.4" textLength="158.6" clip-path="url(#terminal-3846764588-line-11)">&#160;apps&#160;across&#160;</text><text class="terminal-3846764588-r6" x="268.4" y="288.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-11)">7</text><text class="terminal-3846764588-r4" x="280.6" y="288.4" textLength="280.6" clip-path="url(#terminal-3846764588-line-11)">&#160;categories&#160;|&#160;Detected&#160;</text><text class="terminal-3846764588-r6" x="561.2" y="288.4" textLength="24.4" clip-path="url(#terminal-3846764588-line-11)">14</text><text class="terminal-3846764588-r4" x="585.6" y="288.4" textLength="244" clip-path="url(#terminal-3846764588-line-11)">&#160;installed&#160;packages.</text><text class="terminal-3846764588-r1" x="1464" y="288.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-11)">
-</text><text class="terminal-3846764588-r1" x="1464" y="312.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-12)">
-</text><text class="terminal-3846764588-r3" x="0" y="337.2" textLength="341.6" clip-path="url(#terminal-3846764588-line-13)">?&#160;What&#160;would&#160;you&#160;like&#160;to&#160;do?</text><text class="terminal-3846764588-r1" x="1464" y="337.2" textLength="12.2" clip-path="url(#terminal-3846764588-line-13)">
-</text><text class="terminal-3846764588-r7" x="12.2" y="361.6" textLength="317.2" clip-path="url(#terminal-3846764588-line-14)">❯&#160;🚀&#160;Select&#160;&amp;&#160;Install&#160;Apps&#160;</text><text class="terminal-3846764588-r7" x="341.6" y="361.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-14)">(</text><text class="terminal-3846764588-r7" x="353.8" y="361.6" textLength="207.4" clip-path="url(#terminal-3846764588-line-14)">Full&#160;Checkbox&#160;TUI</text><text class="terminal-3846764588-r7" x="561.2" y="361.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-14)">)</text><text class="terminal-3846764588-r1" x="1464" y="361.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-14)">
-</text><text class="terminal-3846764588-r1" x="0" y="386" textLength="353.8" clip-path="url(#terminal-3846764588-line-15)">&#160;&#160;&#160;🎯&#160;Curated&#160;Persona&#160;Presets&#160;</text><text class="terminal-3846764588-r3" x="366" y="386" textLength="12.2" clip-path="url(#terminal-3846764588-line-15)">(</text><text class="terminal-3846764588-r1" x="378.2" y="386" textLength="378.2" clip-path="url(#terminal-3846764588-line-15)">Dev,&#160;Gamer,&#160;Creator,&#160;Minimalist</text><text class="terminal-3846764588-r8" x="756.4" y="386" textLength="36.6" clip-path="url(#terminal-3846764588-line-15)">...</text><text class="terminal-3846764588-r3" x="793" y="386" textLength="12.2" clip-path="url(#terminal-3846764588-line-15)">)</text><text class="terminal-3846764588-r1" x="1464" y="386" textLength="12.2" clip-path="url(#terminal-3846764588-line-15)">
-</text><text class="terminal-3846764588-r1" x="0" y="410.4" textLength="390.4" clip-path="url(#terminal-3846764588-line-16)">&#160;&#160;&#160;📂&#160;Filter&#160;&amp;&#160;Select&#160;by&#160;Category</text><text class="terminal-3846764588-r1" x="1464" y="410.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-16)">
-</text><text class="terminal-3846764588-r1" x="0" y="434.8" textLength="378.2" clip-path="url(#terminal-3846764588-line-17)">&#160;&#160;&#160;🔍&#160;Live&#160;In-App&#160;Winget&#160;Search&#160;</text><text class="terminal-3846764588-r3" x="390.4" y="434.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-17)">(</text><text class="terminal-3846764588-r1" x="402.6" y="434.8" textLength="305" clip-path="url(#terminal-3846764588-line-17)">Find&#160;&amp;&#160;Install&#160;on&#160;the&#160;fly</text><text class="terminal-3846764588-r3" x="707.6" y="434.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-17)">)</text><text class="terminal-3846764588-r1" x="1464" y="434.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-17)">
-</text><text class="terminal-3846764588-r1" x="0" y="459.2" textLength="427" clip-path="url(#terminal-3846764588-line-18)">&#160;&#160;&#160;📊&#160;Interactive&#160;Updates&#160;Dashboard&#160;</text><text class="terminal-3846764588-r3" x="439.2" y="459.2" textLength="12.2" clip-path="url(#terminal-3846764588-line-18)">(</text><text class="terminal-3846764588-r1" x="451.4" y="459.2" textLength="231.8" clip-path="url(#terminal-3846764588-line-18)">Installed&#160;vs&#160;Latest</text><text class="terminal-3846764588-r3" x="683.2" y="459.2" textLength="12.2" clip-path="url(#terminal-3846764588-line-18)">)</text><text class="terminal-3846764588-r1" x="1464" y="459.2" textLength="12.2" clip-path="url(#terminal-3846764588-line-18)">
-</text><text class="terminal-3846764588-r1" x="0" y="483.6" textLength="378.2" clip-path="url(#terminal-3846764588-line-19)">&#160;&#160;&#160;🧹&#160;Windows&#160;Bloatware&#160;Remover&#160;</text><text class="terminal-3846764588-r3" x="390.4" y="483.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-19)">(</text><text class="terminal-3846764588-r1" x="402.6" y="483.6" textLength="109.8" clip-path="url(#terminal-3846764588-line-19)">Debloater</text><text class="terminal-3846764588-r3" x="512.4" y="483.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-19)">)</text><text class="terminal-3846764588-r1" x="1464" y="483.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-19)">
-</text><text class="terminal-3846764588-r1" x="0" y="508" textLength="475.8" clip-path="url(#terminal-3846764588-line-20)">&#160;&#160;&#160;🛠️&#160;Windows&#160;System&#160;&amp;&#160;Explorer&#160;Tweaks&#160;</text><text class="terminal-3846764588-r3" x="475.8" y="508" textLength="12.2" clip-path="url(#terminal-3846764588-line-20)">(</text><text class="terminal-3846764588-r1" x="488" y="508" textLength="158.6" clip-path="url(#terminal-3846764588-line-20)">with&#160;Rollback</text><text class="terminal-3846764588-r3" x="646.6" y="508" textLength="12.2" clip-path="url(#terminal-3846764588-line-20)">)</text><text class="terminal-3846764588-r1" x="1464" y="508" textLength="12.2" clip-path="url(#terminal-3846764588-line-20)">
-</text><text class="terminal-3846764588-r1" x="0" y="532.4" textLength="402.6" clip-path="url(#terminal-3846764588-line-21)">&#160;&#160;&#160;⚡&#160;Boost&#160;PowerShell&#160;&amp;&#160;Terminal&#160;</text><text class="terminal-3846764588-r3" x="414.8" y="532.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-21)">(</text><text class="terminal-3846764588-r1" x="427" y="532.4" textLength="390.4" clip-path="url(#terminal-3846764588-line-21)">Starship,&#160;Aliases&#160;&amp;&#160;IntelliSense</text><text class="terminal-3846764588-r3" x="817.4" y="532.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-21)">)</text><text class="terminal-3846764588-r1" x="1464" y="532.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-21)">
-</text><text class="terminal-3846764588-r1" x="0" y="556.8" textLength="292.8" clip-path="url(#terminal-3846764588-line-22)">&#160;&#160;&#160;💾&#160;PC&#160;Setup&#160;Migration&#160;</text><text class="terminal-3846764588-r3" x="305" y="556.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-22)">(</text><text class="terminal-3846764588-r1" x="317.2" y="556.8" textLength="427" clip-path="url(#terminal-3846764588-line-22)">Backup&#160;&amp;&#160;Restore&#160;Software&#160;Inventory</text><text class="terminal-3846764588-r3" x="744.2" y="556.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-22)">)</text><text class="terminal-3846764588-r1" x="1464" y="556.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-22)">
-</text><text class="terminal-3846764588-r1" x="0" y="581.2" textLength="451.4" clip-path="url(#terminal-3846764588-line-23)">&#160;&#160;&#160;🩺&#160;System&#160;Pre-Flight&#160;&amp;&#160;Health&#160;Check</text><text class="terminal-3846764588-r1" x="1464" y="581.2" textLength="12.2" clip-path="url(#terminal-3846764588-line-23)">
-</text><text class="terminal-3846764588-r1" x="0" y="605.6" textLength="256.2" clip-path="url(#terminal-3846764588-line-24)">&#160;&#160;&#160;💾&#160;Custom&#160;Profiles&#160;</text><text class="terminal-3846764588-r3" x="268.4" y="605.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-24)">(</text><text class="terminal-3846764588-r1" x="280.6" y="605.6" textLength="61" clip-path="url(#terminal-3846764588-line-24)">Save&#160;</text><text class="terminal-3846764588-r9" x="341.6" y="605.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-24)">/</text><text class="terminal-3846764588-r1" x="353.8" y="605.6" textLength="292.8" clip-path="url(#terminal-3846764588-line-24)">&#160;Load&#160;Custom&#160;App&#160;Bundles</text><text class="terminal-3846764588-r3" x="646.6" y="605.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-24)">)</text><text class="terminal-3846764588-r1" x="1464" y="605.6" textLength="12.2" clip-path="url(#terminal-3846764588-line-24)">
-</text><text class="terminal-3846764588-r1" x="0" y="630" textLength="353.8" clip-path="url(#terminal-3846764588-line-25)">&#160;&#160;&#160;➕&#160;Add&#160;New&#160;App&#160;to&#160;apps.json</text><text class="terminal-3846764588-r1" x="1464" y="630" textLength="12.2" clip-path="url(#terminal-3846764588-line-25)">
-</text><text class="terminal-3846764588-r1" x="0" y="654.4" textLength="512.4" clip-path="url(#terminal-3846764588-line-26)">&#160;&#160;&#160;📝&#160;Open&#160;apps.json&#160;in&#160;Default&#160;Text&#160;Editor</text><text class="terminal-3846764588-r1" x="1464" y="654.4" textLength="12.2" clip-path="url(#terminal-3846764588-line-26)">
-</text><text class="terminal-3846764588-r1" x="0" y="678.8" textLength="109.8" clip-path="url(#terminal-3846764588-line-27)">&#160;&#160;&#160;❌&#160;Exit</text><text class="terminal-3846764588-r1" x="1464" y="678.8" textLength="12.2" clip-path="url(#terminal-3846764588-line-27)">
+    <g class="terminal-845433525-matrix">
+    <text class="terminal-845433525-r2" x="390.4" y="20" textLength="683.2" clip-path="url(#terminal-845433525-line-0)">┌──────────────────────────────────────────────────────┐</text><text class="terminal-845433525-r1" x="1464" y="20" textLength="12.2" clip-path="url(#terminal-845433525-line-0)">
+</text><text class="terminal-845433525-r2" x="390.4" y="44.4" textLength="12.2" clip-path="url(#terminal-845433525-line-1)">│</text><text class="terminal-845433525-r3" x="414.8" y="44.4" textLength="622.2" clip-path="url(#terminal-845433525-line-1)">██╗░░██╗██╗██╗░░░░░░█████╗░██╗░░░░░░█████╗░░█████╗░</text><text class="terminal-845433525-r2" x="1061.4" y="44.4" textLength="12.2" clip-path="url(#terminal-845433525-line-1)">│</text><text class="terminal-845433525-r1" x="1464" y="44.4" textLength="12.2" clip-path="url(#terminal-845433525-line-1)">
+</text><text class="terminal-845433525-r2" x="390.4" y="68.8" textLength="12.2" clip-path="url(#terminal-845433525-line-2)">│</text><text class="terminal-845433525-r3" x="414.8" y="68.8" textLength="622.2" clip-path="url(#terminal-845433525-line-2)">██║░░██║██║██║░░░░░██╔══██╗██║░░░░░██╔══██╗██╔═══╝░</text><text class="terminal-845433525-r2" x="1061.4" y="68.8" textLength="12.2" clip-path="url(#terminal-845433525-line-2)">│</text><text class="terminal-845433525-r1" x="1464" y="68.8" textLength="12.2" clip-path="url(#terminal-845433525-line-2)">
+</text><text class="terminal-845433525-r2" x="390.4" y="93.2" textLength="12.2" clip-path="url(#terminal-845433525-line-3)">│</text><text class="terminal-845433525-r3" x="414.8" y="93.2" textLength="622.2" clip-path="url(#terminal-845433525-line-3)">███████║██║██║░░░░░███████║██║░░░░░██║░░██║██████╗░</text><text class="terminal-845433525-r2" x="1061.4" y="93.2" textLength="12.2" clip-path="url(#terminal-845433525-line-3)">│</text><text class="terminal-845433525-r1" x="1464" y="93.2" textLength="12.2" clip-path="url(#terminal-845433525-line-3)">
+</text><text class="terminal-845433525-r2" x="390.4" y="117.6" textLength="12.2" clip-path="url(#terminal-845433525-line-4)">│</text><text class="terminal-845433525-r3" x="414.8" y="117.6" textLength="622.2" clip-path="url(#terminal-845433525-line-4)">██╔══██║██║██║░░░░░██╔══██║██║░░░░░██║░░██║██╔══██╗</text><text class="terminal-845433525-r2" x="1061.4" y="117.6" textLength="12.2" clip-path="url(#terminal-845433525-line-4)">│</text><text class="terminal-845433525-r1" x="1464" y="117.6" textLength="12.2" clip-path="url(#terminal-845433525-line-4)">
+</text><text class="terminal-845433525-r2" x="390.4" y="142" textLength="12.2" clip-path="url(#terminal-845433525-line-5)">│</text><text class="terminal-845433525-r3" x="414.8" y="142" textLength="622.2" clip-path="url(#terminal-845433525-line-5)">██║░░██║██║███████╗██║░░██║███████╗╚█████╔╝╚█████╔╝</text><text class="terminal-845433525-r2" x="1061.4" y="142" textLength="12.2" clip-path="url(#terminal-845433525-line-5)">│</text><text class="terminal-845433525-r1" x="1464" y="142" textLength="12.2" clip-path="url(#terminal-845433525-line-5)">
+</text><text class="terminal-845433525-r2" x="390.4" y="166.4" textLength="12.2" clip-path="url(#terminal-845433525-line-6)">│</text><text class="terminal-845433525-r3" x="414.8" y="166.4" textLength="622.2" clip-path="url(#terminal-845433525-line-6)">╚═╝░░╚═╝╚═╝╚══════╝╚═╝░░╚═╝╚══════╝░╚════╝░░╚════╝░</text><text class="terminal-845433525-r2" x="1061.4" y="166.4" textLength="12.2" clip-path="url(#terminal-845433525-line-6)">│</text><text class="terminal-845433525-r1" x="1464" y="166.4" textLength="12.2" clip-path="url(#terminal-845433525-line-6)">
+</text><text class="terminal-845433525-r2" x="390.4" y="190.8" textLength="12.2" clip-path="url(#terminal-845433525-line-7)">│</text><text class="terminal-845433525-r2" x="1061.4" y="190.8" textLength="12.2" clip-path="url(#terminal-845433525-line-7)">│</text><text class="terminal-845433525-r1" x="1464" y="190.8" textLength="12.2" clip-path="url(#terminal-845433525-line-7)">
+</text><text class="terminal-845433525-r2" x="390.4" y="215.2" textLength="12.2" clip-path="url(#terminal-845433525-line-8)">│</text><text class="terminal-845433525-r4" x="414.8" y="215.2" textLength="183" clip-path="url(#terminal-845433525-line-8)">win-fresh-setup</text><text class="terminal-845433525-r5" x="622.2" y="215.2" textLength="219.6" clip-path="url(#terminal-845433525-line-8)">[🛡️&#160;Administrator]</text><text class="terminal-845433525-r2" x="1061.4" y="215.2" textLength="12.2" clip-path="url(#terminal-845433525-line-8)">│</text><text class="terminal-845433525-r1" x="1464" y="215.2" textLength="12.2" clip-path="url(#terminal-845433525-line-8)">
+</text><text class="terminal-845433525-r2" x="390.4" y="239.6" textLength="12.2" clip-path="url(#terminal-845433525-line-9)">│</text><text class="terminal-845433525-r6" x="414.8" y="239.6" textLength="634.4" clip-path="url(#terminal-845433525-line-9)">Windows&#160;11&#160;&amp;&#160;10&#160;Automated&#160;Package&#160;&amp;&#160;System&#160;Setup&#160;TUI</text><text class="terminal-845433525-r2" x="1061.4" y="239.6" textLength="12.2" clip-path="url(#terminal-845433525-line-9)">│</text><text class="terminal-845433525-r1" x="1464" y="239.6" textLength="12.2" clip-path="url(#terminal-845433525-line-9)">
+</text><text class="terminal-845433525-r2" x="390.4" y="264" textLength="12.2" clip-path="url(#terminal-845433525-line-10)">│</text><text class="terminal-845433525-r7" x="414.8" y="264" textLength="244" clip-path="url(#terminal-845433525-line-10)">Developed&#160;by&#160;Hilal06</text><text class="terminal-845433525-r2" x="1061.4" y="264" textLength="12.2" clip-path="url(#terminal-845433525-line-10)">│</text><text class="terminal-845433525-r1" x="1464" y="264" textLength="12.2" clip-path="url(#terminal-845433525-line-10)">
+</text><text class="terminal-845433525-r2" x="390.4" y="288.4" textLength="683.2" clip-path="url(#terminal-845433525-line-11)">└──────────────────────────────────────────────────────┘</text><text class="terminal-845433525-r1" x="1464" y="288.4" textLength="12.2" clip-path="url(#terminal-845433525-line-11)">
+</text><text class="terminal-845433525-r1" x="1464" y="312.8" textLength="12.2" clip-path="url(#terminal-845433525-line-12)">
+</text><text class="terminal-845433525-r6" x="0" y="337.2" textLength="85.4" clip-path="url(#terminal-845433525-line-13)">Loaded&#160;</text><text class="terminal-845433525-r8" x="85.4" y="337.2" textLength="24.4" clip-path="url(#terminal-845433525-line-13)">34</text><text class="terminal-845433525-r6" x="109.8" y="337.2" textLength="158.6" clip-path="url(#terminal-845433525-line-13)">&#160;apps&#160;across&#160;</text><text class="terminal-845433525-r8" x="268.4" y="337.2" textLength="12.2" clip-path="url(#terminal-845433525-line-13)">7</text><text class="terminal-845433525-r6" x="280.6" y="337.2" textLength="280.6" clip-path="url(#terminal-845433525-line-13)">&#160;categories&#160;|&#160;Detected&#160;</text><text class="terminal-845433525-r8" x="561.2" y="337.2" textLength="24.4" clip-path="url(#terminal-845433525-line-13)">14</text><text class="terminal-845433525-r6" x="585.6" y="337.2" textLength="244" clip-path="url(#terminal-845433525-line-13)">&#160;installed&#160;packages.</text><text class="terminal-845433525-r1" x="1464" y="337.2" textLength="12.2" clip-path="url(#terminal-845433525-line-13)">
+</text><text class="terminal-845433525-r1" x="1464" y="361.6" textLength="12.2" clip-path="url(#terminal-845433525-line-14)">
+</text><text class="terminal-845433525-r9" x="0" y="386" textLength="341.6" clip-path="url(#terminal-845433525-line-15)">?&#160;What&#160;would&#160;you&#160;like&#160;to&#160;do?</text><text class="terminal-845433525-r1" x="1464" y="386" textLength="12.2" clip-path="url(#terminal-845433525-line-15)">
+</text><text class="terminal-845433525-r10" x="12.2" y="410.4" textLength="317.2" clip-path="url(#terminal-845433525-line-16)">❯&#160;🚀&#160;Select&#160;&amp;&#160;Install&#160;Apps&#160;</text><text class="terminal-845433525-r10" x="341.6" y="410.4" textLength="12.2" clip-path="url(#terminal-845433525-line-16)">(</text><text class="terminal-845433525-r10" x="353.8" y="410.4" textLength="207.4" clip-path="url(#terminal-845433525-line-16)">Full&#160;Checkbox&#160;TUI</text><text class="terminal-845433525-r10" x="561.2" y="410.4" textLength="12.2" clip-path="url(#terminal-845433525-line-16)">)</text><text class="terminal-845433525-r1" x="1464" y="410.4" textLength="12.2" clip-path="url(#terminal-845433525-line-16)">
+</text><text class="terminal-845433525-r1" x="0" y="434.8" textLength="353.8" clip-path="url(#terminal-845433525-line-17)">&#160;&#160;&#160;🎯&#160;Curated&#160;Persona&#160;Presets&#160;</text><text class="terminal-845433525-r9" x="366" y="434.8" textLength="12.2" clip-path="url(#terminal-845433525-line-17)">(</text><text class="terminal-845433525-r1" x="378.2" y="434.8" textLength="378.2" clip-path="url(#terminal-845433525-line-17)">Dev,&#160;Gamer,&#160;Creator,&#160;Minimalist</text><text class="terminal-845433525-r11" x="756.4" y="434.8" textLength="36.6" clip-path="url(#terminal-845433525-line-17)">...</text><text class="terminal-845433525-r9" x="793" y="434.8" textLength="12.2" clip-path="url(#terminal-845433525-line-17)">)</text><text class="terminal-845433525-r1" x="1464" y="434.8" textLength="12.2" clip-path="url(#terminal-845433525-line-17)">
+</text><text class="terminal-845433525-r1" x="0" y="459.2" textLength="390.4" clip-path="url(#terminal-845433525-line-18)">&#160;&#160;&#160;📂&#160;Filter&#160;&amp;&#160;Select&#160;by&#160;Category</text><text class="terminal-845433525-r1" x="1464" y="459.2" textLength="12.2" clip-path="url(#terminal-845433525-line-18)">
+</text><text class="terminal-845433525-r1" x="0" y="483.6" textLength="378.2" clip-path="url(#terminal-845433525-line-19)">&#160;&#160;&#160;🔍&#160;Live&#160;In-App&#160;Winget&#160;Search&#160;</text><text class="terminal-845433525-r9" x="390.4" y="483.6" textLength="12.2" clip-path="url(#terminal-845433525-line-19)">(</text><text class="terminal-845433525-r1" x="402.6" y="483.6" textLength="305" clip-path="url(#terminal-845433525-line-19)">Find&#160;&amp;&#160;Install&#160;on&#160;the&#160;fly</text><text class="terminal-845433525-r9" x="707.6" y="483.6" textLength="12.2" clip-path="url(#terminal-845433525-line-19)">)</text><text class="terminal-845433525-r1" x="1464" y="483.6" textLength="12.2" clip-path="url(#terminal-845433525-line-19)">
+</text><text class="terminal-845433525-r1" x="0" y="508" textLength="427" clip-path="url(#terminal-845433525-line-20)">&#160;&#160;&#160;📊&#160;Interactive&#160;Updates&#160;Dashboard&#160;</text><text class="terminal-845433525-r9" x="439.2" y="508" textLength="12.2" clip-path="url(#terminal-845433525-line-20)">(</text><text class="terminal-845433525-r1" x="451.4" y="508" textLength="231.8" clip-path="url(#terminal-845433525-line-20)">Installed&#160;vs&#160;Latest</text><text class="terminal-845433525-r9" x="683.2" y="508" textLength="12.2" clip-path="url(#terminal-845433525-line-20)">)</text><text class="terminal-845433525-r1" x="1464" y="508" textLength="12.2" clip-path="url(#terminal-845433525-line-20)">
+</text><text class="terminal-845433525-r1" x="0" y="532.4" textLength="378.2" clip-path="url(#terminal-845433525-line-21)">&#160;&#160;&#160;🧹&#160;Windows&#160;Bloatware&#160;Remover&#160;</text><text class="terminal-845433525-r9" x="390.4" y="532.4" textLength="12.2" clip-path="url(#terminal-845433525-line-21)">(</text><text class="terminal-845433525-r1" x="402.6" y="532.4" textLength="109.8" clip-path="url(#terminal-845433525-line-21)">Debloater</text><text class="terminal-845433525-r9" x="512.4" y="532.4" textLength="12.2" clip-path="url(#terminal-845433525-line-21)">)</text><text class="terminal-845433525-r1" x="1464" y="532.4" textLength="12.2" clip-path="url(#terminal-845433525-line-21)">
+</text><text class="terminal-845433525-r1" x="0" y="556.8" textLength="475.8" clip-path="url(#terminal-845433525-line-22)">&#160;&#160;&#160;🛠️&#160;Windows&#160;System&#160;&amp;&#160;Explorer&#160;Tweaks&#160;</text><text class="terminal-845433525-r9" x="475.8" y="556.8" textLength="12.2" clip-path="url(#terminal-845433525-line-22)">(</text><text class="terminal-845433525-r1" x="488" y="556.8" textLength="158.6" clip-path="url(#terminal-845433525-line-22)">with&#160;Rollback</text><text class="terminal-845433525-r9" x="646.6" y="556.8" textLength="12.2" clip-path="url(#terminal-845433525-line-22)">)</text><text class="terminal-845433525-r1" x="1464" y="556.8" textLength="12.2" clip-path="url(#terminal-845433525-line-22)">
+</text><text class="terminal-845433525-r1" x="0" y="581.2" textLength="402.6" clip-path="url(#terminal-845433525-line-23)">&#160;&#160;&#160;⚡&#160;Boost&#160;PowerShell&#160;&amp;&#160;Terminal&#160;</text><text class="terminal-845433525-r9" x="414.8" y="581.2" textLength="12.2" clip-path="url(#terminal-845433525-line-23)">(</text><text class="terminal-845433525-r1" x="427" y="581.2" textLength="390.4" clip-path="url(#terminal-845433525-line-23)">Starship,&#160;Aliases&#160;&amp;&#160;IntelliSense</text><text class="terminal-845433525-r9" x="817.4" y="581.2" textLength="12.2" clip-path="url(#terminal-845433525-line-23)">)</text><text class="terminal-845433525-r1" x="1464" y="581.2" textLength="12.2" clip-path="url(#terminal-845433525-line-23)">
+</text><text class="terminal-845433525-r1" x="0" y="605.6" textLength="292.8" clip-path="url(#terminal-845433525-line-24)">&#160;&#160;&#160;💾&#160;PC&#160;Setup&#160;Migration&#160;</text><text class="terminal-845433525-r9" x="305" y="605.6" textLength="12.2" clip-path="url(#terminal-845433525-line-24)">(</text><text class="terminal-845433525-r1" x="317.2" y="605.6" textLength="427" clip-path="url(#terminal-845433525-line-24)">Backup&#160;&amp;&#160;Restore&#160;Software&#160;Inventory</text><text class="terminal-845433525-r9" x="744.2" y="605.6" textLength="12.2" clip-path="url(#terminal-845433525-line-24)">)</text><text class="terminal-845433525-r1" x="1464" y="605.6" textLength="12.2" clip-path="url(#terminal-845433525-line-24)">
+</text><text class="terminal-845433525-r1" x="0" y="630" textLength="451.4" clip-path="url(#terminal-845433525-line-25)">&#160;&#160;&#160;🩺&#160;System&#160;Pre-Flight&#160;&amp;&#160;Health&#160;Check</text><text class="terminal-845433525-r1" x="1464" y="630" textLength="12.2" clip-path="url(#terminal-845433525-line-25)">
+</text><text class="terminal-845433525-r1" x="0" y="654.4" textLength="256.2" clip-path="url(#terminal-845433525-line-26)">&#160;&#160;&#160;💾&#160;Custom&#160;Profiles&#160;</text><text class="terminal-845433525-r9" x="268.4" y="654.4" textLength="12.2" clip-path="url(#terminal-845433525-line-26)">(</text><text class="terminal-845433525-r1" x="280.6" y="654.4" textLength="61" clip-path="url(#terminal-845433525-line-26)">Save&#160;</text><text class="terminal-845433525-r12" x="341.6" y="654.4" textLength="12.2" clip-path="url(#terminal-845433525-line-26)">/</text><text class="terminal-845433525-r1" x="353.8" y="654.4" textLength="292.8" clip-path="url(#terminal-845433525-line-26)">&#160;Load&#160;Custom&#160;App&#160;Bundles</text><text class="terminal-845433525-r9" x="646.6" y="654.4" textLength="12.2" clip-path="url(#terminal-845433525-line-26)">)</text><text class="terminal-845433525-r1" x="1464" y="654.4" textLength="12.2" clip-path="url(#terminal-845433525-line-26)">
+</text><text class="terminal-845433525-r1" x="0" y="678.8" textLength="353.8" clip-path="url(#terminal-845433525-line-27)">&#160;&#160;&#160;➕&#160;Add&#160;New&#160;App&#160;to&#160;apps.json</text><text class="terminal-845433525-r1" x="1464" y="678.8" textLength="12.2" clip-path="url(#terminal-845433525-line-27)">
+</text><text class="terminal-845433525-r1" x="0" y="703.2" textLength="512.4" clip-path="url(#terminal-845433525-line-28)">&#160;&#160;&#160;📝&#160;Open&#160;apps.json&#160;in&#160;Default&#160;Text&#160;Editor</text><text class="terminal-845433525-r1" x="1464" y="703.2" textLength="12.2" clip-path="url(#terminal-845433525-line-28)">
+</text><text class="terminal-845433525-r1" x="0" y="727.6" textLength="109.8" clip-path="url(#terminal-845433525-line-29)">&#160;&#160;&#160;❌&#160;Exit</text><text class="terminal-845433525-r1" x="1464" y="727.6" textLength="12.2" clip-path="url(#terminal-845433525-line-29)">
 </text>
     </g>
     </g>

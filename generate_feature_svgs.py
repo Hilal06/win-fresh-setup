@@ -15,6 +15,7 @@ if hasattr(sys.stderr, "reconfigure"):
 from PIL import Image, ImageDraw, ImageFont
 
 # Import internal modules
+import installer
 import tweaks
 import debloat
 import shell_booster
@@ -39,19 +40,21 @@ def render_to_svg(filename: str, render_callback, width=120):
     console.save_svg(svg_path, title=filename.replace(".svg", ""))
     return svg_path
 
+def draw_banner(c: Console, is_admin: bool = True):
+    admin_status = "[bold green][🛡️ Administrator][/bold green]" if is_admin else "[dim yellow][👤 Standard User][/dim yellow]"
+    title_art = installer.load_title()
+    banner_content = (
+        f"[bold #ff8800]{title_art}[/bold #ff8800]\n\n"
+        f"[bold cyan]win-fresh-setup[/bold cyan]  {admin_status}\n"
+        f"[dim]Windows 11 & 10 Automated Package & System Setup TUI[/dim]\n"
+        f"[italic magenta]Developed by Hilal06[/italic magenta]"
+    )
+    c.print(Align.center(Panel(Align.center(banner_content), border_style="orange3", expand=False)))
+
 # 1. Main Banner & Mandatory Elevation Screen (CTT-style Auto-Elevation)
 def draw_elevation_screen(c: Console):
-    title = """
-  ██╗    ██╗██╗███╗   ██╗      ███████╗██████╗ ███████╗███████╗██╗  ██╗
-  ██║    ██║██║████╗  ██║      ██╔════╝██╔══██╗██╔════╝██╔════╝██║  ██║
-  ██║ █╗ ██║██║██╔██╗ ██║█████╗█████╗  ██████╔╝█████╗  ███████╗███████║
-  ██║███╗██║██║██║╚██╗██║╚════╝██╔══╝  ██╔══██╗██╔══╝  ╚════██║██╔══██║
-  ╚███╔███╔╝██║██║ ╚████║      ██║     ██║  ██║███████╗███████║██║  ██║
-   ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝      ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝
-    """
-    c.print(Align.center(f"[bold cyan]{title}[/bold cyan]"))
-    c.print(Align.center("[bold white]Windows 11 & 10 Automated Package & System Setup Suite[/bold white]"))
-    c.print(Align.center("[dim]Author: Hilal06 | GitHub: https://github.com/Hilal06/win-fresh-setup[/dim]\n"))
+    draw_banner(c, is_admin=False)
+    c.print("")
     c.print(Panel(
         "[bold yellow]⚠️  HAK AKSES ADMINISTRATOR DIWAJIBKAN[/bold yellow]\n\n"
         "Anda saat ini menjalankan installer sebagai [bold cyan]Standard User (Bukan Administrator)[/bold cyan].\n\n"
@@ -67,17 +70,8 @@ def draw_elevation_screen(c: Console):
 
 # 2. Main Menu Screen
 def draw_main_menu_screen(c: Console):
-    title = """
-  ██╗    ██╗██╗███╗   ██╗      ███████╗██████╗ ███████╗███████╗██╗  ██╗
-  ██║    ██║██║████╗  ██║      ██╔════╝██╔══██╗██╔════╝██╔════╝██║  ██║
-  ██║ █╗ ██║██║██╔██╗ ██║█████╗█████╗  ██████╔╝█████╗  ███████╗███████║
-  ██║███╗██║██║██║╚██╗██║╚════╝██╔══╝  ██╔══██╗██╔══╝  ╚════██║██╔══██║
-  ╚███╔███╔╝██║██║ ╚████║      ██║     ██║  ██║███████╗███████║██║  ██║
-   ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝      ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝
-    """
-    c.print(Align.center(f"[bold cyan]{title}[/bold cyan]"))
-    c.print(Align.center("[bold white]Windows 11 & 10 Automated Package & System Setup Suite[/bold white]"))
-    c.print(Align.center("[dim]Author: Hilal06 | GitHub: https://github.com/Hilal06/win-fresh-setup[/dim]\n"))
+    draw_banner(c, is_admin=True)
+    c.print("")
     c.print(f"[dim]Loaded {len(apps_data)} apps across 7 categories | Detected 14 installed packages.[/dim]\n")
     c.print("[bold]? What would you like to do?[/bold]")
     menus = [
