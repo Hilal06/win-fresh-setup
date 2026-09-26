@@ -126,21 +126,20 @@ def draw_app_select_screen(c: Console):
 # 4. Persona Presets Screen
 def draw_presets_screen(c: Console):
     c.print("[bold yellow]=== 🎯 Curated Persona Presets ===[/bold yellow]\n")
-    presets = presets_data.get("presets", {})
     table = Table(title="Available Preset Profiles", show_lines=True, border_style="cyan")
-    table.add_column("Preset Name", style="bold green", width=22)
-    table.add_column("Description", style="white", width=45)
+    table.add_column("Preset Name", style="bold green", width=26)
+    table.add_column("Description", style="white", width=48)
     table.add_column("App Count", style="cyan", justify="center", width=12)
     
-    for key, val in presets.items():
-        table.add_row(f"{val.get('icon', '')} {val.get('name', key)}", val.get("description", ""), f"{len(val.get('app_ids', []))} apps")
+    for key, val in presets_data.items():
+        table.add_row(f"{val.get('name', key)}", val.get("description", ""), f"{len(val.get('app_ids', []))} apps")
     c.print(table)
     c.print("\n[bold]? Choose a preset to inspect or install:[/bold]")
-    c.print(" [bold magenta]❯ 💻 Developer - Essential stack for software developers & engineers[/bold magenta]")
-    c.print("   🎮 Gamer - Gaming clients, controllers, and performance tools")
-    c.print("   🎨 Content Creator - Audio, video, and streaming production setup")
-    c.print("   🪶 Minimalist - Lightweight essentials: Browser, text editor, archiver")
-    c.print("   ⚡ Power User - Comprehensive utilities, tweaks, and system monitors")
+    c.print(" [bold magenta]❯ 💻 Developer Pack - Essential coding, terminal, shell, and developer tooling[/bold magenta]")
+    c.print("   🎮 Gamer Pack - Gaming launchers, graphics tuning, controllers & voice chat")
+    c.print("   🎬 Content Creator & Media - Streaming, recording, notes, audio enhancement & multimedia")
+    c.print("   🪶 Minimalist Pack - Lightweight daily essentials without clutter")
+    c.print("   ⚡ Power User Pack - Complete system utilities, tweaks, uninstallers & monitors")
 
 # 5. Windows Debloater Screen
 def draw_debloater_screen(c: Console):
