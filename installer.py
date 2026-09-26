@@ -65,14 +65,95 @@ LOGS_DIR = os.path.join(BASE_DIR, "logs")
 
 _INSTALLED_CACHE: Optional[Set[str]] = None
 
+def patch_questionary_rendering():
+    """
+    Patch Questionary InquirerControl._get_choice_tokens to render clean
+    checkbox indicators [✔] / [ ] (or [X] / [ ]) instead of bullet points,
+    and prevent full-line highlighting when items are selected.
+    """
+    from questionary.prompts.common import InquirerControl
+
+    check_char = os.environ.get("WFS_CHECK_CHAR", "✔")
+
+    def custom_get_choice_tokens(self):
+        tokens = []
+
+        def append(index: int, choice: Choice):
+            selected = choice.value in self.selected_options
+
+            # Pointer navigation
+            pointer_sym = self.pointer if self.pointer is not None and self.pointer != "»" else "❯"
+            if index == self.pointed_at:
+                tokens.append(("class:pointer", f" {pointer_sym} "))
+                tokens.append(("[SetCursorPosition]", ""))
+            else:
+                pointer_length = len(pointer_sym)
+                tokens.append(("class:text", " " * (2 + pointer_length)))
+
+            if isinstance(choice, Separator):
+                tokens.append(("class:separator", f"{choice.title}"))
+            elif choice.disabled:
+                if isinstance(choice.title, list):
+                    tokens.append(("class:disabled", "- "))
+                    tokens.extend(choice.title)
+                else:
+                    tokens.append(("class:disabled", f"- {choice.title}"))
+                tokens.append(
+                    ("class:disabled", f"{'' if isinstance(choice.disabled, bool) else f' ({choice.disabled})'}")
+                )
+            else:
+                shortcut = choice.get_shortcut_title() if self.use_shortcuts else ""
+
+                if self.use_indicator:
+                    # True checkbox appearance: [✔] or [ ]
+                    tokens.append(("class:checkbox-bracket", "["))
+                    if selected:
+                        tokens.append(("class:checkbox-check", check_char))
+                    else:
+                        tokens.append(("class:checkbox-blank", " "))
+                    tokens.append(("class:checkbox-bracket", "] "))
+
+                # Choice title - preserve structured tokens without wrapping in class:selected
+                if isinstance(choice.title, list):
+                    tokens.extend(choice.title)
+                elif index == self.pointed_at:
+                    tokens.append(("class:highlighted", f"{shortcut}{choice.title}"))
+                else:
+                    tokens.append(("class:text", f"{shortcut}{choice.title}"))
+
+            tokens.append(("", "\n"))
+
+        for i, c in enumerate(self.filtered_choices):
+            append(i, c)
+
+        current = self.get_pointed_at()
+
+        if self.show_selected:
+            answer = current.get_shortcut_title() if self.use_shortcuts else ""
+            answer += current.title if isinstance(current.title, str) else current.title[0][1]
+            tokens.append(("class:text", f"  Answer: {answer}"))
+
+        show_description = self.show_description and current.description is not None
+        if show_description:
+            tokens.append(("class:text", f"  Description: {current.description}"))
+
+        if not (self.show_selected or show_description):
+            tokens.pop()
+
+        return tokens
+
+    InquirerControl._get_choice_tokens = custom_get_choice_tokens
+
+patch_questionary_rendering()
+
 # Custom styling for questionary (Clean, dev-ish Catppuccin-inspired palette)
 CUSTOM_STYLE = Style([
     ('qmark', 'fg:#89b4fa bold'),
     ('question', 'bold fg:#cdd6f4'),
     ('answer', 'fg:#89dceb bold'),
     ('pointer', 'fg:#f38ba8 bold'),             # Modern clean pointer '❯'
-    ('highlighted', 'noinherit'),                # Never highlight the line; focus stays on the checkmark
-    ('selected', 'fg:#a6e3a1 bold'),             # Crisp emerald checkmark
+    ('highlighted', 'bold fg:#cdd6f4'),          # Pointed choice text (no background highlight)
+    ('selected', 'fg:#a6e3a1 bold'),             # Crisp emerald green checkmark
     ('separator', 'fg:#89dceb bold italic'),     # Category header
     ('instruction', 'fg:#a6adc8 italic'),
     ('text', 'fg:#cdd6f4'),
@@ -80,7 +161,10 @@ CUSTOM_STYLE = Style([
     ('appname', 'fg:#cdd6f4 bold'),              # White/lavender crisp app title
     ('installedbadge', 'fg:#89dceb italic'),     # Cyan badge
     ('appid', 'fg:#6c7086'),                     # Muted gray ID
-    ('appdesc', 'fg:#a6adc8')                    # Legible secondary description
+    ('appdesc', 'fg:#a6adc8'),                   # Legible secondary description
+    ('checkbox-bracket', 'fg:#6c7086 bold'),     # Subtle bracket [ ]
+    ('checkbox-check', 'fg:#a6e3a1 bold'),       # Crisp emerald green checkmark/X
+    ('checkbox-blank', 'fg:#6c7086')             # Unchecked blank space
 ])
 
 def is_admin() -> bool:
