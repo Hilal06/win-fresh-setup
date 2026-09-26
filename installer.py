@@ -70,13 +70,17 @@ CUSTOM_STYLE = Style([
     ('qmark', 'fg:#89b4fa bold'),
     ('question', 'bold fg:#cdd6f4'),
     ('answer', 'fg:#89dceb bold'),
-    ('pointer', 'fg:#f38ba8 bold'),        # Modern clean pointer '❯'
-    ('highlighted', 'noinherit'),           # Clean cursor navigation: do not glare the whole line
-    ('selected', 'fg:#a6e3a1 bold'),        # Crisp emerald checkmark [X]
-    ('separator', 'fg:#6c7086 italic'),
+    ('pointer', 'fg:#f38ba8 bold'),             # Modern clean pointer '❯'
+    ('highlighted', 'noinherit'),                # Never highlight the line; focus stays on the checkmark
+    ('selected', 'fg:#a6e3a1 bold'),             # Crisp emerald checkmark
+    ('separator', 'fg:#89dceb bold italic'),     # Category header
     ('instruction', 'fg:#a6adc8 italic'),
     ('text', 'fg:#cdd6f4'),
-    ('disabled', 'fg:#585b70 italic')
+    ('disabled', 'fg:#585b70 italic'),
+    ('appname', 'fg:#cdd6f4 bold'),              # White/lavender crisp app title
+    ('installedbadge', 'fg:#89dceb italic'),     # Cyan badge
+    ('appid', 'fg:#6c7086'),                     # Muted gray ID
+    ('appdesc', 'fg:#a6adc8')                    # Legible secondary description
 ])
 
 def is_admin() -> bool:
@@ -351,10 +355,15 @@ def build_choices(
             app_id = app.get("id", "")
             installed = is_app_installed(app, installed_set)
 
-            badge = " [Installed]" if installed else ""
-            display_title = f"{app['name']}{badge} [dim]({app_id})[/dim]"
+            # Build structured formatted tokens for clean typography
+            tokens = [
+                ("class:appname", f"{app['name']} ")
+            ]
+            if installed:
+                tokens.append(("class:installedbadge", "[Installed] "))
+            tokens.append(("class:appid", f"({app_id})"))
             if app.get("description"):
-                display_title += f" - {app['description']}"
+                tokens.append(("class:appdesc", f" - {app['description']}"))
 
             # Checked state logic:
             if target_ids is not None:
@@ -363,7 +372,7 @@ def build_choices(
                 is_checked = False if installed else app.get("default", False)
 
             choices.append(Choice(
-                title=display_title,
+                title=tokens,
                 value=app,
                 checked=is_checked
             ))
