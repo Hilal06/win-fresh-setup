@@ -3,6 +3,7 @@
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
 $ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force -ErrorAction SilentlyContinue
 
 Write-Host "=======================================================" -ForegroundColor Cyan
@@ -45,7 +46,11 @@ try {
     Write-Host "[*] Downloading latest win-fresh-setup from GitHub..." -ForegroundColor Cyan
     $repoUrl = "https://github.com/Hilal06/win-fresh-setup/archive/refs/heads/main.zip"
 
-    Invoke-WebRequest -Uri $repoUrl -OutFile $zipPath -UseBasicParsing
+    if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
+        curl.exe -fSL $repoUrl -o $zipPath --silent --show-error
+    } else {
+        Invoke-WebRequest -Uri $repoUrl -OutFile $zipPath -UseBasicParsing
+    }
     Write-Host "[*] Extracting setup files..." -ForegroundColor Cyan
     Expand-Archive -Path $zipPath -DestinationPath $tempFolder -Force
     if (Test-Path $zipPath) {
