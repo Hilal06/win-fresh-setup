@@ -169,8 +169,7 @@ if not exist "!VENV_PYTHON!" (
 
 :: 3. Dependencies
 echo [*] Checking dependencies...
-!VENV_PYTHON! -m pip install --quiet --upgrade pip
-!VENV_PYTHON! -m pip install --quiet -r requirements.txt
+!VENV_PYTHON! -m pip install --quiet --prefer-binary --no-warn-script-location -r requirements.txt
 
 :: 4. Run Installer TUI
 echo [*] Launching Winget App Installer TUI...

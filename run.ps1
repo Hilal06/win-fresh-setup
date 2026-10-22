@@ -28,15 +28,18 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     exit 0
 }
 
-# 0. Fast-path: Check local virtual environment (.venv) first
-$venvPython = Join-Path $scriptDir ".venv\Scripts\python.exe"
-if (Test-Path $venvPython) {
-    & $venvPython -c "import questionary, rich" 2>$null
+# 0. Fast-path: Check local or persistent virtual environment (.venv)
+$localVenv = Join-Path $scriptDir ".venv\Scripts\python.exe"
+$persistentVenv = Join-Path "$env:LOCALAPPDATA\win-fresh-setup" ".venv\Scripts\python.exe"
+$cachedVenv = if (Test-Path $localVenv) { $localVenv } elseif (Test-Path $persistentVenv) { $persistentVenv } else { $null }
+
+if ($cachedVenv) {
+    & $cachedVenv -c "import questionary, rich" 2>$null
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "[OK] Using cached environment: $venvPython" -ForegroundColor Green
+        Write-Host "[OK] Using cached environment: $cachedVenv" -ForegroundColor Green
         Write-Host "[*] Starting TUI Installer..." -ForegroundColor Green
         Write-Host ""
-        & $venvPython (Join-Path $scriptDir "installer.py")
+        & $cachedVenv (Join-Path $scriptDir "installer.py")
         exit $LASTEXITCODE
     }
 }
@@ -127,26 +130,32 @@ if ($env:Path -notlike "*$pyDir*") {
 }
 
 # 2. Setup Virtual Environment
-$venvPython = Join-Path $scriptDir ".venv\Scripts\python.exe"
+# If running inside a temporary directory (e.g. via bootstrap.ps1), persist .venv in LocalAppData
+$isTempFolder = $scriptDir -like "*$env:TEMP*"
+$targetVenvDir = if ($isTempFolder) {
+    Join-Path "$env:LOCALAPPDATA\win-fresh-setup" ".venv"
+} else {
+    Join-Path $scriptDir ".venv"
+}
+$venvPython = Join-Path $targetVenvDir "Scripts\python.exe"
 
-if (Test-Path (Join-Path $scriptDir ".venv")) {
+if (Test-Path $targetVenvDir) {
     if (-not (Test-Path $venvPython)) {
         Write-Host "[!] Existing .venv appears corrupted. Rebuilding..." -ForegroundColor Yellow
-        Remove-Item -Path (Join-Path $scriptDir ".venv") -Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path $targetVenvDir -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
 
-if (-not (Test-Path (Join-Path $scriptDir ".venv"))) {
+if (-not (Test-Path $targetVenvDir)) {
     Write-Host "[*] Creating Python virtual environment (.venv)..." -ForegroundColor Cyan
-    & $pythonExe -m venv (Join-Path $scriptDir ".venv")
+    & $pythonExe -m venv $targetVenvDir
 }
 
 $activePython = if (Test-Path $venvPython) { $venvPython } else { $pythonExe }
 
-# 3. Install requirements
+# 3. Install requirements (fast binary wheels, no redundant pip upgrade)
 Write-Host "[*] Installing / Verifying requirements..." -ForegroundColor Cyan
-& $activePython -m pip install --quiet --upgrade pip
-& $activePython -m pip install --quiet -r (Join-Path $scriptDir "requirements.txt")
+& $activePython -m pip install --quiet --prefer-binary --no-warn-script-location -r (Join-Path $scriptDir "requirements.txt")
 
 # 4. Run installer
 Write-Host "[*] Starting TUI Installer..." -ForegroundColor Green

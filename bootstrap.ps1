@@ -42,17 +42,24 @@ try {
     if (Test-Path $tempFolder) {
         Remove-Item -Path $tempFolder -Recurse -Force -ErrorAction SilentlyContinue
     }
+    New-Item -ItemType Directory -Path $tempFolder -Force | Out-Null
 
     Write-Host "[*] Downloading latest win-fresh-setup from GitHub..." -ForegroundColor Cyan
     $repoUrl = "https://github.com/Hilal06/win-fresh-setup/archive/refs/heads/main.zip"
 
     if (Get-Command curl.exe -ErrorAction SilentlyContinue) {
-        curl.exe -fSL $repoUrl -o $zipPath --silent --show-error
+        curl.exe -fSL --compressed $repoUrl -o $zipPath --silent --show-error
     } else {
         Invoke-WebRequest -Uri $repoUrl -OutFile $zipPath -UseBasicParsing
     }
     Write-Host "[*] Extracting setup files..." -ForegroundColor Cyan
-    Expand-Archive -Path $zipPath -DestinationPath $tempFolder -Force
+    if (Get-Command tar.exe -ErrorAction SilentlyContinue) {
+        tar.exe -xf $zipPath -C $tempFolder --exclude="*/demo/*"
+    } elseif ([System.Type]::GetType("System.IO.Compression.ZipFile")) {
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $tempFolder)
+    } else {
+        Expand-Archive -Path $zipPath -DestinationPath $tempFolder -Force
+    }
     if (Test-Path $zipPath) {
         Remove-Item -Path $zipPath -Force -ErrorAction SilentlyContinue
     }
