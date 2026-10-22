@@ -28,6 +28,19 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     exit 0
 }
 
+# 0. Fast-path: Check local virtual environment (.venv) first
+$venvPython = Join-Path $scriptDir ".venv\Scripts\python.exe"
+if (Test-Path $venvPython) {
+    & $venvPython -c "import questionary, rich" 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "[OK] Using cached environment: $venvPython" -ForegroundColor Green
+        Write-Host "[*] Starting TUI Installer..." -ForegroundColor Green
+        Write-Host ""
+        & $venvPython (Join-Path $scriptDir "installer.py")
+        exit $LASTEXITCODE
+    }
+}
+
 function Get-PythonExecutable {
     # 1. Test standard 'python' in PATH (ensure it's not the Windows Store 0-byte shim)
     $py = Get-Command python -ErrorAction SilentlyContinue

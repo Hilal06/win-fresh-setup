@@ -171,17 +171,38 @@ def set_registry_value(hive_str: str, subkey: str, value_name: str, value_type: 
     except Exception:
         return False
 
+def _delete_key_tree_native(root_key, subkey: str) -> bool:
+    """Recursively delete a Windows registry key tree using pure winreg C-API."""
+    try:
+        with winreg.OpenKey(root_key, subkey, 0, winreg.KEY_ALL_ACCESS) as key:
+            while True:
+                try:
+                    child_key_name = winreg.EnumKey(key, 0)
+                    _delete_key_tree_native(key, child_key_name)
+                except OSError:
+                    break
+        winreg.DeleteKey(root_key, subkey)
+        return True
+    except FileNotFoundError:
+        return True
+    except Exception:
+        return False
+
 def delete_registry_key_tree(hive_str: str, subkey: str) -> bool:
-    """Recursively delete a registry key."""
+    """Recursively delete a registry key with fallback to reg.exe."""
     if not winreg:
         return False
     try:
         root = get_hkey_root(hive_str)
-        # Using reg.exe command for safe recursive deletion
+        # 1. Fast native pure-Python deletion (instant, no subprocess overhead)
+        if _delete_key_tree_native(root, subkey):
+            return True
+
+        # 2. Safe fallback: reg.exe command
         root_name = "HKCU" if hive_str == "HKCU" else "HKLM"
         full_path = f"{root_name}\\{subkey}"
-        subprocess.run(["reg", "delete", full_path, "/f"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        return True
+        res = subprocess.run(["reg", "delete", full_path, "/f"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return res.returncode == 0
     except Exception:
         return False
 

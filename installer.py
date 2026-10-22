@@ -23,6 +23,7 @@ Features:
 import sys
 import os
 import json
+import time
 import subprocess
 import shutil
 import ctypes
@@ -64,6 +65,10 @@ TITLE_FILE = os.path.join(BASE_DIR, "title.txt")
 LOGS_DIR = os.path.join(BASE_DIR, "logs")
 
 _INSTALLED_CACHE: Optional[Set[str]] = None
+INSTALLED_CACHE_FILE = os.path.join(LOGS_DIR, ".installed_cache.json")
+CACHE_TTL_SECONDS = 7200  # 2 Hours TTL
+_APPS_CACHE: Optional[List[Dict[str, Any]]] = None
+_APPS_FILE_MTIME: float = 0.0
 
 def patch_questionary_rendering():
     """
@@ -334,50 +339,141 @@ def parse_winget_table(output: str) -> List[Dict[str, str]]:
             })
     return results
 
-def scan_installed_apps(force_refresh: bool = False) -> Set[str]:
-    """Scan machine using winget list to detect already installed packages."""
+def load_installed_cache() -> Optional[Set[str]]:
+    """Load cached installed packages from disk if valid and within TTL."""
+    if not os.path.exists(INSTALLED_CACHE_FILE):
+        return None
+    try:
+        mtime = os.path.getmtime(INSTALLED_CACHE_FILE)
+        if (time.time() - mtime) > CACHE_TTL_SECONDS:
+            return None  # Cache expired
+
+        with open(INSTALLED_CACHE_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            if isinstance(data, dict) and "items" in data:
+                return set(data["items"])
+            elif isinstance(data, list):
+                return set(data)
+    except Exception:
+        pass
+    return None
+
+def save_installed_cache(installed_set: Set[str]) -> bool:
+    """Persist installed packages set to disk cache."""
+    try:
+        ensure_dirs()
+        payload = {
+            "timestamp": time.time(),
+            "updated_at": datetime.now().isoformat(),
+            "count": len(installed_set),
+            "items": sorted(list(installed_set))
+        }
+        with open(INSTALLED_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+        return True
+    except Exception:
+        return False
+
+def add_installed_apps_to_cache(apps: List[Dict[str, Any]]):
+    """Incrementally register newly installed applications into cache without full rescan."""
+    global _INSTALLED_CACHE
+    if _INSTALLED_CACHE is None:
+        _INSTALLED_CACHE = scan_installed_apps()
+
+    modified = False
+    for app in apps:
+        app_id = app.get("id", "").lower().strip()
+        app_name = app.get("name", "").lower().strip()
+        if app_id and app_id not in _INSTALLED_CACHE:
+            _INSTALLED_CACHE.add(app_id)
+            modified = True
+        if app_name and app_name not in _INSTALLED_CACHE:
+            _INSTALLED_CACHE.add(app_name)
+            modified = True
+
+    if modified:
+        save_installed_cache(_INSTALLED_CACHE)
+
+def scan_installed_apps(force_refresh: bool = False, show_spinner: bool = False) -> Set[str]:
+    """Scan machine using winget list with disk caching to detect already installed packages."""
     global _INSTALLED_CACHE
     if _INSTALLED_CACHE is not None and not force_refresh:
         return _INSTALLED_CACHE
 
+    if not force_refresh:
+        cached = load_installed_cache()
+        if cached is not None:
+            _INSTALLED_CACHE = cached
+            return cached
+
     installed = set()
     try:
-        res = subprocess.run(
-            ["winget", "list", "--accept-source-agreements"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=25
-        )
+        if show_spinner:
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                console=CONSOLE
+            ) as progress:
+                progress.add_task("[cyan]Scanning installed applications via Winget...[/cyan]", total=None)
+                res = subprocess.run(
+                    ["winget", "list", "--accept-source-agreements"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    timeout=30
+                )
+        else:
+            res = subprocess.run(
+                ["winget", "list", "--accept-source-agreements"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=30
+            )
+
         if res.returncode == 0:
             for item in parse_winget_table(res.stdout):
                 installed.add(item["id"].lower())
                 installed.add(item["name"].lower())
+            save_installed_cache(installed)
     except Exception as e:
         CONSOLE.print(f"[dim yellow][!] Note: Quick installed scan skipped ({e})[/dim yellow]")
 
     _INSTALLED_CACHE = installed
     return installed
 
-def load_apps() -> List[Dict[str, Any]]:
-    """Load application list from apps.json."""
+def load_apps(force_reload: bool = False) -> List[Dict[str, Any]]:
+    """Load application list from apps.json with mtime-based memory caching."""
+    global _APPS_CACHE, _APPS_FILE_MTIME
     if not os.path.exists(APPS_FILE):
         CONSOLE.print(f"[bold red][!] Config file not found:[/bold red] {APPS_FILE}")
         return []
     try:
+        current_mtime = os.path.getmtime(APPS_FILE)
+        if not force_reload and _APPS_CACHE is not None and current_mtime == _APPS_FILE_MTIME:
+            return _APPS_CACHE
+
         with open(APPS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+            _APPS_CACHE = data
+            _APPS_FILE_MTIME = current_mtime
+            return data
     except Exception as e:
         CONSOLE.print(f"[bold red][!] Error parsing {APPS_FILE}:[/bold red] {e}")
         return []
 
 def save_apps(apps: List[Dict[str, Any]]) -> bool:
-    """Save application list back to apps.json."""
+    """Save application list back to apps.json and update memory cache."""
+    global _APPS_CACHE, _APPS_FILE_MTIME
     try:
         with open(APPS_FILE, "w", encoding="utf-8") as f:
             json.dump(apps, f, indent=2, ensure_ascii=False)
+        _APPS_CACHE = apps
+        _APPS_FILE_MTIME = os.path.getmtime(APPS_FILE)
         return True
     except Exception as e:
         CONSOLE.print(f"[bold red][!] Error saving apps.json:[/bold red] {e}")
@@ -626,7 +722,11 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
             execute_installation(failed_apps)
             return
 
-    scan_installed_apps(force_refresh=True)
+    # Incrementally update installed apps cache without slow winget list rescan
+    successful_installed = [r["app"] for r in results if r["status"] in ["SUCCESS", "ALREADY_INSTALLED"]]
+    if successful_installed:
+        add_installed_apps_to_cache(successful_installed)
+
     questionary.press_any_key_to_continue().ask()
 
 def handle_winget_search_menu(apps: List[Dict[str, Any]]):
@@ -739,22 +839,20 @@ def handle_debloat_menu():
     if not confirm:
         return
 
-    CONSOLE.print("\n[bold cyan]Removing Selected Bloatware Packages...[/bold cyan]\n")
+    CONSOLE.print("\n[bold cyan]Removing Selected Bloatware Packages (Fast Batch Mode)...[/bold cyan]\n")
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
-        BarColumn(),
-        TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
         console=CONSOLE
     ) as progress:
-        task = progress.add_task("[cyan]Debloating...[/cyan]", total=len(selected_ids))
-        results = []
-        for pkg_id in selected_ids:
-            progress.update(task, description=f"[cyan]Uninstalling:[/cyan] [bold white]{pkg_id}[/bold white]")
-            success = debloat.uninstall_appx_package(pkg_id)
-            pkg_info = next((x for x in debloat.DEBLOAT_LIST if x["id"] == pkg_id), {"name": pkg_id, "description": ""})
-            results.append({"name": pkg_info["name"], "id": pkg_id, "success": success})
-            progress.advance(task)
+        progress.add_task(f"[cyan]Removing {len(selected_ids)} package(s) in a single PowerShell session...[/cyan]", total=None)
+        batch_results = debloat.uninstall_appx_packages_batch(selected_ids)
+
+    results = []
+    for pkg_id in selected_ids:
+        pkg_info = next((x for x in debloat.DEBLOAT_LIST if x["id"] == pkg_id), {"name": pkg_id, "description": ""})
+        success = batch_results.get(pkg_id, False)
+        results.append({"name": pkg_info["name"], "id": pkg_id, "success": success})
 
     CONSOLE.print("\n")
     table = Table(title="Debloat Summary Report", show_header=True, header_style="bold cyan")
@@ -872,18 +970,40 @@ def handle_upgrade_dashboard():
     """Interactive dashboard for checking and upgrading outdated applications."""
     print_banner()
     CONSOLE.print("[bold cyan]=== 📊 Interactive Upgrade Dashboard ===[/bold cyan]\n")
-    CONSOLE.print("[dim]Checking Winget for available software updates...[/dim]\n")
+
+    scan_mode = questionary.select(
+        "Select Upgrade Scan Mode:",
+        choices=[
+            Choice("⚡ Quick Scan (Fast ~3-5s, standard versioned packages)", value="quick"),
+            Choice("🔍 Deep Scan (Thorough, probes packages with unknown versions)", value="deep"),
+            Choice("← Back", value="back")
+        ],
+        style=CUSTOM_STYLE
+    ).ask()
+
+    if scan_mode == "back" or scan_mode is None:
+        return
+
+    cmd = ["winget", "upgrade", "--accept-source-agreements"]
+    if scan_mode == "deep":
+        cmd.append("--include-unknown")
 
     try:
-        res = subprocess.run(
-            ["winget", "upgrade", "--include-unknown", "--accept-source-agreements"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=35
-        )
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=CONSOLE
+        ) as progress:
+            progress.add_task("[cyan]Checking Winget for available software updates...[/cyan]", total=None)
+            res = subprocess.run(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=45
+            )
         upgrades = parse_winget_table(res.stdout)
     except Exception as e:
         CONSOLE.print(f"[bold red]Failed to check upgrades: {e}[/bold red]")
@@ -1263,6 +1383,7 @@ def main_menu():
             Choice("💾 PC Setup Migration (Backup & Restore Software Inventory)", value="migration"),
             Choice("🩺 System Pre-Flight & Health Check", value="preflight"),
             Choice("💾 Custom Profiles (Save / Load Custom App Bundles)", value="custom_profiles"),
+            Choice("🔄 Refresh Installed Apps Cache (Force Rescan)", value="refresh_cache"),
             Choice("➕ Add New App to apps.json", value="add_app"),
             Choice("📝 Open apps.json in Default Text Editor", value="edit_json"),
             Choice("❌ Exit", value="exit")
@@ -1290,11 +1411,11 @@ def main_menu():
 
             if selected is not None:
                 execute_installation(selected)
-                installed_set = scan_installed_apps(force_refresh=True)
+                installed_set = scan_installed_apps()
 
         elif action == "presets":
             handle_presets_menu(apps, installed_set)
-            installed_set = scan_installed_apps(force_refresh=True)
+            installed_set = scan_installed_apps()
 
         elif action == "by_category":
             cat_choices = categories + ["← Back"]
@@ -1314,15 +1435,15 @@ def main_menu():
                 ).ask()
                 if selected is not None:
                     execute_installation(selected)
-                    installed_set = scan_installed_apps(force_refresh=True)
+                    installed_set = scan_installed_apps()
 
         elif action == "search":
             handle_winget_search_menu(apps)
-            installed_set = scan_installed_apps(force_refresh=True)
+            installed_set = scan_installed_apps()
 
         elif action == "upgrade_dash":
             handle_upgrade_dashboard()
-            installed_set = scan_installed_apps(force_refresh=True)
+            installed_set = scan_installed_apps()
 
         elif action == "debloat":
             handle_debloat_menu()
@@ -1335,14 +1456,20 @@ def main_menu():
 
         elif action == "migration":
             handle_migration_menu(apps, installed_set)
-            installed_set = scan_installed_apps(force_refresh=True)
+            installed_set = scan_installed_apps()
 
         elif action == "preflight":
             handle_preflight_check()
 
         elif action == "custom_profiles":
             handle_custom_profiles_menu(apps, installed_set)
-            installed_set = scan_installed_apps(force_refresh=True)
+            installed_set = scan_installed_apps()
+
+        elif action == "refresh_cache":
+            CONSOLE.print("\n[dim cyan]Rescanning all installed packages on this system...[/dim cyan]")
+            installed_set = scan_installed_apps(force_refresh=True, show_spinner=True)
+            CONSOLE.print(f"[bold green][✓] Cache refreshed! Detected {len(installed_set)} installed packages.[/bold green]")
+            questionary.press_any_key_to_continue().ask()
 
         elif action == "add_app":
             add_new_app_interactive(apps)

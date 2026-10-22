@@ -69,3 +69,21 @@ $RECYCLE.BIN/
 *.sublime-workspace
 .project
 .settings/
+
+# AI Assistants, Agent Workspaces & LLM Tooling
+.agents/
+.agent/
+.gemini/
+GEMINI.md
+.claude/
+CLAUDE.md
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.copilot/
+copilot-instructions.md
+.github/copilot-instructions.md
+.aider*
+.continue/
+.prompts/

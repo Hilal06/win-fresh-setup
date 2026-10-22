@@ -153,6 +153,50 @@ def test_log_directory_creation():
     assert os.path.exists(installer.LOGS_DIR), "Logs directory not created"
     print(f"  [OK] Logs directory verified at: {installer.LOGS_DIR}")
 
+def test_performance_caching():
+    print("\n[TEST 12] Testing installed apps disk caching and incremental updates...")
+    import installer
+    test_set = {"git.git", "7zip.7zip", "test.sample"}
+    save_ok = installer.save_installed_cache(test_set)
+    assert save_ok, "Failed to save installed cache"
+    assert os.path.exists(installer.INSTALLED_CACHE_FILE), "Cache file does not exist"
+
+    loaded = installer.load_installed_cache()
+    assert loaded is not None, "Failed to load installed cache"
+    assert "git.git" in loaded, "Missing item in loaded cache"
+    assert "7zip.7zip" in loaded
+
+    # Test incremental addition
+    installer.add_installed_apps_to_cache([{"id": "new.app", "name": "New App"}])
+    reloaded = installer.load_installed_cache()
+    assert "new.app" in reloaded, "Incrementally added ID missing in cache"
+    assert "new app" in reloaded, "Incrementally added Name missing in cache"
+
+    # Test apps.json mtime memory caching
+    apps1 = installer.load_apps()
+    apps2 = installer.load_apps()
+    assert apps1 is apps2, "Expected cached reference for consecutive load_apps calls"
+    print("  [OK] Disk cache, incremental mutation, and memory caching verified successfully.")
+
+def test_performance_debloat_and_tweaks():
+    print("\n[TEST 13] Testing batch debloater & native winreg deletion capabilities...")
+    import debloat
+    import tweaks
+    # Verify PowerShell executable detection
+    ps_cmd = debloat.get_powershell_executable()
+    assert ps_cmd in ["pwsh", "powershell"], f"Unexpected powershell command: {ps_cmd}"
+
+    # Verify batch empty call
+    batch_res = debloat.uninstall_appx_packages_batch([])
+    assert batch_res == {}, "Empty batch did not return empty dict"
+
+    # Verify native key tree deletion safe behavior on non-existent key
+    if tweaks.winreg:
+        safe_res = tweaks.delete_registry_key_tree("HKCU", r"Software\NonExistentTestKey12345")
+        assert isinstance(safe_res, bool), "Expected boolean result from delete_registry_key_tree"
+
+    print("  [OK] Batch debloater interface and native winreg tree deletion verified.")
+
 def run_all_tests():
     print("=" * 60)
     print(" Running win-fresh-setup Automated Test Suite ")
@@ -168,8 +212,10 @@ def run_all_tests():
     test_choices_builder()
     test_winget_availability()
     test_log_directory_creation()
+    test_performance_caching()
+    test_performance_debloat_and_tweaks()
     print("\n" + "=" * 60)
-    print(" ALL 11 TEST SUITES PASSED SUCCESSFULLY! ")
+    print(" ALL 13 TEST SUITES PASSED SUCCESSFULLY! ")
     print("=" * 60)
 
 if __name__ == "__main__":

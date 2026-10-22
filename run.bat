@@ -62,6 +62,18 @@ if defined PWSH_EXE (
 echo [!] Modern PowerShell not available. Continuing with Python setup in CMD...
 echo.
 
+:: Fast-path: Check local virtual environment (.venv) first
+if exist ".venv\Scripts\python.exe" (
+    .venv\Scripts\python.exe -c "import questionary, rich" >nul 2>&1
+    if !ERRORLEVEL! EQU 0 (
+        echo [OK] Using cached environment: .venv\Scripts\python.exe
+        echo [*] Launching Winget App Installer TUI...
+        echo.
+        .venv\Scripts\python.exe installer.py
+        exit /b !ERRORLEVEL!
+    )
+)
+
 :: Test if python in PATH actually executes (not MS Store alias)
 python -c "import sys; print(sys.executable)" >nul 2>&1
 if !ERRORLEVEL! EQU 0 (
