@@ -224,12 +224,12 @@ def require_admin():
     print_banner()
     CONSOLE.print(
         Panel(
-            "[bold yellow]⚠️  HAK AKSES ADMINISTRATOR DIWAJIBKAN[/bold yellow]\n\n"
-            "Anda saat ini menjalankan installer sebagai [bold cyan]Standard User (Bukan Administrator)[/bold cyan].\n\n"
-            "Fitur seperti [italic]Instalasi Paket Sistem, Registry & Explorer Tweaks, Windows Debloater, dan Shell Booster[/italic] "
+            "[bold yellow][!] Hak Akses Administrator Diwajibkan[/bold yellow]\n\n"
+            "Installer saat ini berjalan sebagai [bold cyan]Standard User[/bold cyan].\n\n"
+            "Fitur seperti instalasi paket, registry tweaks, debloater, dan shell booster "
             "memerlukan hak akses [bold green]Administrator[/bold green] penuh agar dapat bekerja optimal.\n\n"
-            "[bold cyan][*] Membuka sesi Administrator via UAC... Silakan klik 'Yes' pada jendela konfirmasi Windows.[/bold cyan]",
-            title="[bold yellow]🛡️ Auto-Elevation Administrator[/bold yellow]",
+            "[bold cyan][*] Membuka sesi Administrator via UAC... Silakan klik 'Yes' pada jendela konfirmasi.[/bold cyan]",
+            title="[bold yellow]Auto-Elevation[/bold yellow]",
             border_style="yellow",
             padding=(1, 2)
         )
@@ -271,15 +271,15 @@ def load_title() -> str:
 
 def print_banner():
     CONSOLE.clear()
-    admin_status = "[bold green][🛡️ Administrator][/bold green]" if is_admin() else "[dim yellow][👤 Standard User][/dim yellow]"
+    admin_status = "[bold green][admin][/bold green]" if is_admin() else "[dim yellow][user][/dim yellow]"
     title_art = load_title()
     banner_content = (
         f"[bold #ff8800]{title_art}[/bold #ff8800]\n\n"
         f"[bold cyan]win-fresh-setup[/bold cyan]  {admin_status}\n"
-        f"[dim]Windows 11 & 10 Automated Package & System Setup TUI[/dim]\n"
-        f"[italic magenta]Developed by Hilal06[/italic magenta]"
+        f"[dim]Windows 10 & 11 Automated Package & System Setup Suite[/dim]\n"
+        f"[dim]github.com/Hilal06/win-fresh-setup[/dim]"
     )
-    CONSOLE.print(Align.center(Panel(Align.center(banner_content), border_style="orange3", expand=False)))
+    CONSOLE.print(Align.center(Panel(Align.center(banner_content), border_style="cyan", expand=False)))
 
 def check_winget() -> bool:
     """Check if winget CLI is accessible."""
@@ -698,7 +698,7 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
             status_str = "[green]✓ Installed[/green]"
             success_cnt += 1
         elif status == "ALREADY_INSTALLED":
-            status_str = "[yellow]ℹ Already Present[/yellow]"
+            status_str = "[yellow]Already Present[/yellow]"
             already_cnt += 1
         else:
             status_str = "[red]✗ Failed[/red]"
@@ -717,7 +717,7 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
 
     # Retry Queue for Failed Installations
     if failed_apps:
-        retry = questionary.confirm(f"⚠️ {len(failed_apps)} app(s) failed. Would you like to retry them now?", default=True).ask()
+        retry = questionary.confirm(f"[!] {len(failed_apps)} app(s) failed. Would you like to retry them now?", default=True).ask()
         if retry:
             execute_installation(failed_apps)
             return
@@ -730,9 +730,9 @@ def execute_installation(selected_apps: List[Dict[str, Any]]):
     questionary.press_any_key_to_continue().ask()
 
 def handle_winget_search_menu(apps: List[Dict[str, Any]]):
-    """Live In-App Winget Search with instant install and bookmarking."""
+    """Search Winget catalog with instant install and bookmarking."""
     print_banner()
-    CONSOLE.print("[bold cyan]=== 🔍 Live In-App Winget Search ===[/bold cyan]\n")
+    CONSOLE.print("[bold cyan]=== Winget Package Search ===[/bold cyan]\n")
 
     query = questionary.text("Enter search keyword (e.g. vlc, obsidian, blender, figma):").ask()
     if not query or not query.strip():
@@ -775,19 +775,19 @@ def handle_winget_search_menu(apps: List[Dict[str, Any]]):
     item_choices = [
         Choice(f"{r['name']} ({r['id']})", value=r)
         for r in results[:15]
-    ] + [Choice("← Cancel / Back", value="back")]
+    ] + [Choice("Back", value="back")]
 
-    chosen_pkg = questionary.select("Select a package to take action:", choices=item_choices, style=CUSTOM_STYLE).ask()
+    chosen_pkg = questionary.select("Select package:", choices=item_choices, style=CUSTOM_STYLE).ask()
     if chosen_pkg is None or chosen_pkg == "back" or not isinstance(chosen_pkg, dict):
         return
 
     action = questionary.select(
         f"Action for [{chosen_pkg['name']}]:",
         choices=[
-            Choice("⚡ Install Immediately", value="install"),
-            Choice("➕ Add to apps.json permanently", value="add_json"),
-            Choice("⚡ Install AND Add to apps.json", value="both"),
-            Choice("← Cancel", value="cancel")
+            Choice("Install package now", value="install"),
+            Choice("Add to apps.json", value="add_json"),
+            Choice("Install and add to apps.json", value="both"),
+            Choice("Cancel", value="cancel")
         ],
         style=CUSTOM_STYLE
     ).ask()
@@ -813,8 +813,8 @@ def handle_winget_search_menu(apps: List[Dict[str, Any]]):
 def handle_debloat_menu():
     """Handle Windows Bloatware Remover."""
     print_banner()
-    CONSOLE.print("[bold red]=== 🧹 Windows Bloatware Remover (Debloater) ===[/bold red]\n")
-    CONSOLE.print("[dim]Select pre-installed Windows UWP apps you wish to safely uninstall:[/dim]\n")
+    CONSOLE.print("[bold red]=== Windows Bloatware Remover ===[/bold red]\n")
+    CONSOLE.print("[dim]Select pre-installed Windows UWP apps to uninstall:[/dim]\n")
 
     choices = []
     for item in debloat.DEBLOAT_LIST:
@@ -835,17 +835,17 @@ def handle_debloat_menu():
     if not selected_ids:
         return
 
-    confirm = questionary.confirm(f"⚠️ Are you sure you want to uninstall {len(selected_ids)} selected bloatware package(s)?", default=True).ask()
+    confirm = questionary.confirm(f"[!] Are you sure you want to uninstall {len(selected_ids)} selected bloatware package(s)?", default=True).ask()
     if not confirm:
         return
 
-    CONSOLE.print("\n[bold cyan]Removing Selected Bloatware Packages (Fast Batch Mode)...[/bold cyan]\n")
+    CONSOLE.print("\n[bold cyan]Removing selected bloatware packages...[/bold cyan]\n")
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
         console=CONSOLE
     ) as progress:
-        progress.add_task(f"[cyan]Removing {len(selected_ids)} package(s) in a single PowerShell session...[/cyan]", total=None)
+        progress.add_task(f"[cyan]Removing {len(selected_ids)} package(s) via PowerShell...[/cyan]", total=None)
         batch_results = debloat.uninstall_appx_packages_batch(selected_ids)
 
     results = []
@@ -861,7 +861,7 @@ def handle_debloat_menu():
     table.add_column("Status", width=15)
 
     for r in results:
-        status_str = "[green]✓ Removed[/green]" if r["success"] else "[yellow]ℹ Not Installed / Skipped[/yellow]"
+        status_str = "[green][✓] Removed[/green]" if r["success"] else "[yellow][-] Not Found / Skipped[/yellow]"
         table.add_row(r["name"], r["id"], status_str)
 
     CONSOLE.print(table)
@@ -871,12 +871,12 @@ def handle_debloat_menu():
 def handle_migration_menu(apps: List[Dict[str, Any]], installed_set: Set[str]):
     """Handle PC Setup Migration (Backup & Restore)."""
     print_banner()
-    CONSOLE.print("[bold cyan]=== 💾 PC Setup Migration (Backup & Restore) ===[/bold cyan]\n")
+    CONSOLE.print("[bold cyan]=== Setup Migration ===[/bold cyan]\n")
 
     choices = [
-        Choice("📤 Export Current PC Software Inventory to JSON", value="export"),
-        Choice("📥 Import & Batch-Install from Backup JSON", value="import"),
-        Choice("← Back", value="back")
+        Choice("Export installed software to JSON", value="export"),
+        Choice("Import & install from backup JSON", value="import"),
+        Choice("Back", value="back")
     ]
 
     action = questionary.select("Select Migration Action:", choices=choices, style=CUSTOM_STYLE).ask()
@@ -969,14 +969,14 @@ def handle_migration_menu(apps: List[Dict[str, Any]], installed_set: Set[str]):
 def handle_upgrade_dashboard():
     """Interactive dashboard for checking and upgrading outdated applications."""
     print_banner()
-    CONSOLE.print("[bold cyan]=== 📊 Interactive Upgrade Dashboard ===[/bold cyan]\n")
+    CONSOLE.print("[bold cyan]=== Package Upgrade Dashboard ===[/bold cyan]\n")
 
     scan_mode = questionary.select(
         "Select Upgrade Scan Mode:",
         choices=[
-            Choice("⚡ Quick Scan (Fast ~3-5s, standard versioned packages)", value="quick"),
-            Choice("🔍 Deep Scan (Thorough, probes packages with unknown versions)", value="deep"),
-            Choice("← Back", value="back")
+            Choice("Quick Scan (versioned packages, fast)", value="quick"),
+            Choice("Deep Scan (include unknown versions, thorough)", value="deep"),
+            Choice("Back", value="back")
         ],
         style=CUSTOM_STYLE
     ).ask()
@@ -1028,9 +1028,9 @@ def handle_upgrade_dashboard():
     CONSOLE.print(table)
 
     choices = [
-        Choice("🚀 Upgrade All Outdated Apps", value="all"),
-        Choice("🎯 Select Specific Apps to Upgrade", value="select"),
-        Choice("← Back", value="back")
+        Choice("Upgrade all outdated packages", value="all"),
+        Choice("Select specific packages to upgrade", value="select"),
+        Choice("Back", value="back")
     ]
 
     action = questionary.select("Upgrade options:", choices=choices, style=CUSTOM_STYLE).ask()
@@ -1057,13 +1057,13 @@ def handle_upgrade_dashboard():
 def handle_shell_booster_menu():
     """Handle PowerShell Profile & Starship quick optimizer."""
     print_banner()
-    CONSOLE.print("[bold cyan]=== ⚡ Terminal & PowerShell Quick-Booster ===[/bold cyan]\n")
+    CONSOLE.print("[bold cyan]=== Terminal & PowerShell Profile ===[/bold cyan]\n")
     CONSOLE.print(
         "This booster will automatically configure your PowerShell profile with:\n"
-        "  • [bold green]PSReadLine Predictive IntelliSense[/bold green] (Fish-shell style suggestions)\n"
-        "  • [bold green]Starship Prompt Integration[/bold green]\n"
-        "  • [bold green]UTF-8 Output Encoding[/bold green]\n"
-        "  • [bold green]Power-User Aliases[/bold green] (ll, grep, which, touch, reload-profile)\n"
+        "  - [bold green]PSReadLine Predictive IntelliSense[/bold green] (History-based auto-suggestions)\n"
+        "  - [bold green]Starship Prompt Integration[/bold green]\n"
+        "  - [bold green]UTF-8 Output Encoding[/bold green]\n"
+        "  - [bold green]Standard Aliases[/bold green] (ll, grep, which, touch, reload-profile)\n"
     )
 
     confirm = questionary.confirm("Apply modern PowerShell profile configuration?", default=True).ask()
@@ -1092,7 +1092,7 @@ def handle_shell_booster_menu():
 def handle_preflight_check():
     """System Pre-Flight Health & Disk Space Check."""
     print_banner()
-    CONSOLE.print("[bold cyan]=== 🩺 System Pre-Flight & Health Check ===[/bold cyan]\n")
+    CONSOLE.print("[bold cyan]=== Pre-Flight System Check ===[/bold cyan]\n")
 
     # 1. Disk Space Check
     try:
@@ -1105,7 +1105,7 @@ def handle_preflight_check():
         disk_status = "[yellow]Could not determine C:\\ disk usage[/yellow]"
 
     # 2. Admin Privileges
-    admin_str = "[bold green]✓ Elevated (Administrator)[/bold green]" if is_admin() else "[yellow]⚠ Standard User (Run as Admin recommended)[/yellow]"
+    admin_str = "[bold green][admin] Elevated[/bold green]" if is_admin() else "[yellow][user] Standard User (Admin recommended)[/yellow]"
 
     # 3. Winget CLI Health
     winget_path = shutil.which("winget")
@@ -1121,9 +1121,9 @@ def handle_preflight_check():
     # 4. Internet Connectivity
     try:
         socket.create_connection(("8.8.8.8", 53), timeout=3)
-        net_status = "[bold green]✓ Connected (Internet reachable)[/bold green]"
+        net_status = "[bold green]✓ Connected[/bold green]"
     except Exception:
-        net_status = "[bold red]✗ No Internet Connection detected[/bold red]"
+        net_status = "[bold red]✗ No Connection detected[/bold red]"
 
     # 5. Winget CDN Reachability
     try:
@@ -1131,20 +1131,20 @@ def handle_preflight_check():
         with urllib.request.urlopen(req, timeout=4) as response:
             cdn_status = "[bold green]✓ Reachable[/bold green]"
     except Exception:
-        cdn_status = "[yellow]⚠ CDN ping skipped or slow[/yellow]"
+        cdn_status = "[yellow][!] CDN ping skipped or slow[/yellow]"
 
     table = Table(show_header=True, header_style="bold cyan", title="System Health Summary")
     table.add_column("Component / Check", style="bold white", width=30)
     table.add_column("Status / Details", width=45)
 
-    table.add_row("🛡️ Privilege Level", admin_str)
-    table.add_row("💾 Drive C: Storage", disk_status)
-    table.add_row("📦 Winget CLI", winget_status)
-    table.add_row("🌐 Internet Connection", net_status)
-    table.add_row("🚀 Winget CDN Service", cdn_status)
+    table.add_row("Privilege Level", admin_str)
+    table.add_row("Drive C: Storage", disk_status)
+    table.add_row("Winget CLI", winget_status)
+    table.add_row("Internet Connection", net_status)
+    table.add_row("Winget CDN Service", cdn_status)
 
     CONSOLE.print(table)
-    CONSOLE.print("\n[dim]Everything is ready for optimal package installation and system configuration.[/dim]\n")
+    CONSOLE.print("\n[dim]System environment verified and ready for package installation.[/dim]\n")
     questionary.press_any_key_to_continue().ask()
 
 def handle_presets_menu(apps: List[Dict[str, Any]], installed_set: Set[str]):
@@ -1161,7 +1161,7 @@ def handle_presets_menu(apps: List[Dict[str, Any]], installed_set: Set[str]):
             title=f"{pdata['name']} - [dim]{pdata['description']}[/dim]",
             value=key
         ))
-    preset_choices.append(Choice("← Back", value="back"))
+    preset_choices.append(Choice("Back", value="back"))
 
     chosen_key = questionary.select("Select Persona Preset:", choices=preset_choices, style=CUSTOM_STYLE).ask()
     if chosen_key == "back" or chosen_key is None:
@@ -1185,9 +1185,9 @@ def handle_custom_profiles_menu(apps: List[Dict[str, Any]], installed_set: Set[s
     """Handle saving and loading custom user profiles."""
     profiles = load_custom_profiles()
     sub_choices = [
-        Choice("💾 Save New Profile from Checkbox Selection", value="save"),
-        Choice("📂 Load & Install Existing Profile", value="load"),
-        Choice("← Back", value="back")
+        Choice("Save selection as new profile", value="save"),
+        Choice("Load and install saved profile", value="load"),
+        Choice("Back", value="back")
     ]
 
     action = questionary.select("Custom Profiles:", choices=sub_choices, style=CUSTOM_STYLE).ask()
@@ -1215,7 +1215,7 @@ def handle_custom_profiles_menu(apps: List[Dict[str, Any]], installed_set: Set[s
             questionary.press_any_key_to_continue().ask()
             return
 
-        p_choices = [Choice(name, value=name) for name in profiles.keys()] + [Choice("← Back", value="back")]
+        p_choices = [Choice(name, value=name) for name in profiles.keys()] + [Choice("Back", value="back")]
         chosen_profile = questionary.select("Select Profile to Load:", choices=p_choices, style=CUSTOM_STYLE).ask()
 
         if chosen_profile and chosen_profile != "back":
@@ -1232,14 +1232,14 @@ def handle_custom_profiles_menu(apps: List[Dict[str, Any]], installed_set: Set[s
 def handle_tweaks_menu():
     """Handle Windows System & Explorer Tweaks with Rollback."""
     print_banner()
-    CONSOLE.print("[bold cyan]=== 🛠️ Windows System & Explorer Tweaks ===[/bold cyan]\n")
+    CONSOLE.print("[bold cyan]=== System & Explorer Tweaks ===[/bold cyan]\n")
 
     tweak_mode = questionary.select(
         "Tweaks Options:",
         choices=[
-            Choice("⚡ Apply Windows Optimizations & Tweaks", value="apply"),
-            Choice("↩️ Revert / Rollback Tweaks to Defaults", value="revert"),
-            Choice("← Back", value="back")
+            Choice("Apply selected tweaks", value="apply"),
+            Choice("Revert tweaks to defaults", value="revert"),
+            Choice("Back", value="back")
         ],
         style=CUSTOM_STYLE
     ).ask()
@@ -1309,7 +1309,7 @@ def handle_tweaks_menu():
 def add_new_app_interactive(apps: List[Dict[str, Any]]):
     """Prompt user to add a new app directly to apps.json."""
     print_banner()
-    CONSOLE.print("[bold yellow]=== ➕ Add New Application ===[/bold yellow]\n")
+    CONSOLE.print("[bold cyan]=== Add New Application ===[/bold cyan]\n")
 
     name = questionary.text("App Display Name (e.g. VLC Media Player):").ask()
     if not name:
@@ -1372,21 +1372,21 @@ def main_menu():
         CONSOLE.print(f"[dim]Loaded {total_apps} apps across {len(categories)} categories | Detected {len(installed_set)} installed packages.[/dim]\n")
 
         menu_choices = [
-            Choice("🚀 Select & Install Apps (Full Checkbox TUI)", value="select_all"),
-            Choice("🎯 Curated Persona Presets (Dev, Gamer, Creator, Minimalist...)", value="presets"),
-            Choice("📂 Filter & Select by Category", value="by_category"),
-            Choice("🔍 Live In-App Winget Search (Find & Install on the fly)", value="search"),
-            Choice("📊 Interactive Updates Dashboard (Installed vs Latest)", value="upgrade_dash"),
-            Choice("🧹 Windows Bloatware Remover (Debloater)", value="debloat"),
-            Choice("🛠️ Windows System & Explorer Tweaks (with Rollback)", value="tweaks"),
-            Choice("⚡ Boost PowerShell & Terminal (Starship, Aliases & IntelliSense)", value="shell_booster"),
-            Choice("💾 PC Setup Migration (Backup & Restore Software Inventory)", value="migration"),
-            Choice("🩺 System Pre-Flight & Health Check", value="preflight"),
-            Choice("💾 Custom Profiles (Save / Load Custom App Bundles)", value="custom_profiles"),
-            Choice("🔄 Refresh Installed Apps Cache (Force Rescan)", value="refresh_cache"),
-            Choice("➕ Add New App to apps.json", value="add_app"),
-            Choice("📝 Open apps.json in Default Text Editor", value="edit_json"),
-            Choice("❌ Exit", value="exit")
+            Choice("Install Applications", value="select_all"),
+            Choice("Persona Presets", value="presets"),
+            Choice("Filter by Category", value="by_category"),
+            Choice("Search Winget Packages", value="search"),
+            Choice("Upgrade Dashboard", value="upgrade_dash"),
+            Choice("Debloat Windows (UWP)", value="debloat"),
+            Choice("System & Explorer Tweaks", value="tweaks"),
+            Choice("Configure Terminal & PowerShell", value="shell_booster"),
+            Choice("Setup Migration (Export / Import)", value="migration"),
+            Choice("Pre-Flight System Check", value="preflight"),
+            Choice("Custom Profiles", value="custom_profiles"),
+            Choice("Refresh Installed Cache", value="refresh_cache"),
+            Choice("Add Custom Application", value="add_app"),
+            Choice("Open apps.json in Editor", value="edit_json"),
+            Choice("Exit", value="exit")
         ]
 
         action = questionary.select(
@@ -1418,14 +1418,14 @@ def main_menu():
             installed_set = scan_installed_apps()
 
         elif action == "by_category":
-            cat_choices = categories + ["← Back"]
+            cat_choices = categories + ["Back"]
             chosen_cat = questionary.select(
                 "Choose Category to Install:",
                 choices=cat_choices,
                 style=CUSTOM_STYLE
             ).ask()
 
-            if chosen_cat and chosen_cat != "← Back":
+            if chosen_cat and chosen_cat != "Back":
                 choices = build_choices(apps, filter_cat=chosen_cat, installed_set=installed_set)
                 selected = questionary.checkbox(
                     f"Select applications in [{chosen_cat}]:",

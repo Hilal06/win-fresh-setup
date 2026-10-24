@@ -22,7 +22,7 @@ LATEST_BACKUP_FILE = os.path.join(LOGS_DIR, "latest_tweaks_backup.json")
 TWEAKS_LIST = [
     {
         "id": "classic_context_menu",
-        "name": "📋 Restore Classic Right-Click Context Menu (Win 11)",
+        "name": "Restore Classic Context Menu (Win 11)",
         "description": "Brings back the Windows 10 full right-click context menu without 'Show more options'",
         "default": True,
         "actions": [
@@ -34,7 +34,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "dark_mode",
-        "name": "🌙 Enable Dark Mode (System & Apps)",
+        "name": "Enable Dark Mode (System & Apps)",
         "description": "Switch Windows interface and applications to Dark Theme",
         "default": True,
         "actions": [
@@ -48,7 +48,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "show_file_ext",
-        "name": "📄 Show File Name Extensions",
+        "name": "Show File Name Extensions",
         "description": "Always display file extensions (.txt, .exe, .py) in File Explorer",
         "default": True,
         "actions": [
@@ -60,7 +60,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "show_hidden_files",
-        "name": "👁️ Show Hidden Files and Folders",
+        "name": "Show Hidden Files and Folders",
         "description": "Reveal hidden system files in File Explorer",
         "default": True,
         "actions": [
@@ -72,7 +72,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "enable_end_task",
-        "name": "⚡ Enable 'End Task' on Taskbar Right-Click (Win 11)",
+        "name": "Enable 'End Task' on Taskbar Right-Click (Win 11)",
         "description": "Add instant End Task option when right-clicking taskbar items",
         "default": True,
         "actions": [
@@ -84,7 +84,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "disable_bing_search",
-        "name": "🔍 Disable Bing Web Search in Start Menu",
+        "name": "Disable Bing Web Search in Start Menu",
         "description": "Speed up Start Menu search to only index local files and apps",
         "default": True,
         "actions": [
@@ -98,7 +98,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "launch_to_this_pc",
-        "name": "💻 Open File Explorer to 'This PC'",
+        "name": "Open File Explorer to 'This PC'",
         "description": "Opens 'This PC' with drives listed instead of Home / Quick Access",
         "default": True,
         "actions": [
@@ -110,7 +110,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "disable_sticky_keys",
-        "name": "⌨️ Disable Sticky Keys Shortcut Popup",
+        "name": "Disable Sticky Keys Shortcut Popup",
         "description": "Prevents the annoying Sticky Keys dialog from popping up when pressing Shift 5 times",
         "default": True,
         "actions": [
@@ -124,7 +124,7 @@ TWEAKS_LIST = [
     },
     {
         "id": "taskbar_align_left",
-        "name": "📐 Align Taskbar to Left (Windows 11)",
+        "name": "Align Taskbar to Left (Windows 11)",
         "description": "Moves the Windows 11 Start button and icons to the bottom-left corner",
         "default": False,
         "actions": [

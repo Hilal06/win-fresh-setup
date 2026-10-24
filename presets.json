@@ -1,6 +1,6 @@
 {
   "developer": {
-    "name": "💻 Developer Pack",
+    "name": "Developer Pack",
     "description": "Essential coding, terminal, shell, and developer tooling",
     "app_ids": [
       "Microsoft.VisualStudioCode",
@@ -15,7 +15,7 @@
     ]
   },
   "gamer": {
-    "name": "🎮 Gamer Pack",
+    "name": "Gamer Pack",
     "description": "Gaming launchers, graphics tuning, controllers & voice chat",
     "app_ids": [
       "Valve.Steam",
@@ -28,7 +28,7 @@
     ]
   },
   "creator": {
-    "name": "🎬 Content Creator & Media",
+    "name": "Content Creator & Media",
     "description": "Streaming, recording, notes, audio enhancement & multimedia",
     "app_ids": [
       "OBSProject.OBSStudio",
@@ -41,7 +41,7 @@
     ]
   },
   "minimalist": {
-    "name": "⚡ Minimalist & Essentials",
+    "name": "Minimalist & Essentials",
     "description": "Lightweight daily driver: browser, archive, PDF & local file sharing",
     "app_ids": [
       "Mozilla.Firefox",
@@ -53,7 +53,7 @@
     ]
   },
   "power_user": {
-    "name": "🛠️ Power User & System Tuning",
+    "name": "Power User & System Tuning",
     "description": "Advanced customization, deep clean, package management & terminal utilities",
     "app_ids": [
       "Microsoft.WindowsTerminal",
