@@ -21,6 +21,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 import installer
+from rich.panel import Panel
 
 # 1. Simulate Elevated Administrator Session in memory (no UAC prompt pop-up)
 installer.is_admin = lambda: True
@@ -32,12 +33,12 @@ MOCK_INSTALLED = {
     "git.git",
     "openjs.nodejs.lts"
 }
-installer.scan_installed_apps = lambda force_refresh=False: set(MOCK_INSTALLED)
+installer.scan_installed_apps = lambda force_refresh=False, show_spinner=False: set(MOCK_INSTALLED)
 
 # 3. Simulated realistic Winget installation queue with live progress
 def simulated_winget_install(app, log_file_path):
     """Simulate rapid visual installation for recording demos."""
-    time.sleep(0.7)
+    time.sleep(0.6)
     with open(log_file_path, "a", encoding="utf-8") as f:
         f.write(f"Simulated install for {app['name']} ({app['id']})\n")
     return {"status": "SUCCESS", "message": "Installed successfully"}
@@ -46,4 +47,23 @@ installer.run_winget_install = simulated_winget_install
 
 if __name__ == "__main__":
     installer.ensure_dirs()
+    if len(sys.argv) > 1 and sys.argv[1] == "--elevation":
+        installer.is_admin = lambda: False
+        installer.print_banner()
+        installer.CONSOLE.print(
+            Panel(
+                "[bold yellow][!] Hak Akses Administrator Diwajibkan[/bold yellow]\n\n"
+                "Installer saat ini berjalan sebagai [bold cyan]Standard User[/bold cyan].\n\n"
+                "Fitur seperti instalasi paket, registry tweaks, debloater, dan shell booster "
+                "memerlukan hak akses [bold green]Administrator[/bold green] penuh agar dapat bekerja optimal.\n\n"
+                "[bold cyan][*] Membuka sesi Administrator via UAC... Silakan klik 'Yes' pada jendela konfirmasi.[/bold cyan]",
+                title="[bold yellow]Auto-Elevation[/bold yellow]",
+                border_style="yellow",
+                padding=(1, 2)
+            )
+        )
+        installer.CONSOLE.print("\n[bold cyan][*] Membuka jendela Administrator baru...[/bold cyan]")
+        time.sleep(10)
+        sys.exit(0)
+
     installer.main_menu()
